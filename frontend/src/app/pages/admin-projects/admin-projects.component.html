@@ -1,0 +1,75 @@
+<div class="d-flex">
+    <div class="col-md-5 mb-4 p-2">
+        <div class="card shadow-sm border-0 p-3">
+            <h4 class="mb-3">Add New Project</h4>
+
+            <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label class="form-label">Project Name</label>
+                    <input type="text" class="form-control" formControlName="name" placeholder="Enter project name">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" formControlName="description" rows="3"></textarea>
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Goal</label>
+                    <textarea class="form-control" formControlName="goal" rows="3"></textarea>
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Source Code</label>
+                    <input type="url" class="form-control" formControlName="source_code"
+                        placeholder="https://github.com/...">
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Live Demo</label>
+                    <input type="url" class="form-control" formControlName="live_demo" placeholder="https:///...">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100" [disabled]="projectForm.invalid || isSubmitting">
+                    {{ isSubmitting ? 'Saving...' : 'Add Project' }}
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-7 p-2">
+        <div class="card shadow-sm border-0 p-3">
+            <h4 class="mb-4">Your Projects</h4>
+
+            <div *ngIf="projects.length === 0" class="text-center py-4 text-muted">
+                No Projects found. Add one!
+            </div>
+
+            <div class="list-group list-group-flush">
+                <div *ngFor="let project of projects"
+                    class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">{{project.name}}</h5>
+                        <small class="text-muted">
+                            <a [href]="project.source_code" target="_blank">Code</a>
+                            <span *ngIf="project.live_demo"> | <a [href]="project.live_demo"
+                                    target="_blank">Demo</a></span>
+                        </small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-success" [routerLink]="['/projects', project.id]">
+                            View
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="deleteProject(project.id)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
