@@ -19,7 +19,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::with('techStacks')->get();
 
         return response()->json([
             'projects' => $projects
@@ -31,9 +31,15 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $data = $request->validated();
+        $project = Project::create(
+            $request->only(['name', 'description', 'goal', 'source_code', 'live_demo'])
+        );
 
-        $project = Project::create($data);
+        if ($request->has('tech_stack_ids')) {
+            $project->techStacks()->sync($request->tech_stack_ids);
+        }
+
+        $project->load('techStacks');
 
         return response()->json($project,201);
     }
@@ -43,7 +49,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return response()->json($project);
+        return response()->json($project->load('techStacks'));
     }
 
     /**
@@ -51,9 +57,15 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        $data = $request->validated();
-        $project->update($data);
+        $project->update(
+            $request->only(['name', 'description', 'goal', 'source_code', 'live_demo'])
+            );
 
+        if ($request->has('tech_stack_ids')) {
+            $project->techStacks()->sync($request->tech_stack_ids);
+        }
+
+        $project->load('techStacks');
         return response()->json($project);
     }
 

@@ -27,6 +27,8 @@ class StoreProjectRequest extends FormRequest
             'goal' => 'nullable|string|max:1000',
             'source_code' => 'required|url',
             'live_demo' => 'nullable|url',
+            'tech_stack_ids' => 'sometimes|array',
+            'tech_stack_ids.*' => 'exists:tech_stacks,id'
         ];
     }
 }

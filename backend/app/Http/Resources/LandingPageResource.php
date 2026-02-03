@@ -16,7 +16,8 @@ class LandingPageResource extends JsonResource
     {
         return [
             'about_me' => $this->about_me,
-            'skills' => $this->skills
+            'skills' => $this->skills,
+            'tech_stacks' => TechStackResource::collection($this->whenLoaded('techStacks'))
         ];
     }
 }

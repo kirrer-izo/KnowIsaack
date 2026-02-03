@@ -23,7 +23,9 @@ class UpdateLandingPageRequest extends FormRequest
     {
         return [
             'about_me' => 'required|max: 1000',
-            'skills' => 'required|max: 1000'
+            'skills' => 'required|max: 1000',
+            'tech_stack_ids' => 'sometimes|array',
+            'tech_stack_ids.*' => 'exists:tech_stacks,id'
         ];
     }
 }

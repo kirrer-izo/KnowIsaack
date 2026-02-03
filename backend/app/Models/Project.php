@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Project extends Model
 {
@@ -25,9 +26,9 @@ class Project extends Model
         return $this->hasMany(Challenge::class);
     }
 
-    public function techStacks(): MorphMany
+    public function techStacks(): MorphToMany
     {
-        return $this->morphMany(TechStack::class, 'stackable', 'tech_stackbales');
+        return $this->morphToMany(TechStack::class, 'stackable', 'tech_stackables');
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLandingPageRequest;
+use App\Http\Requests\UpdateLandingPageRequest;
 use App\Http\Resources\LandingPageResource;
 use App\Models\LandingPage;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 class LandingPageController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:sanctum')->except(['index,show']);
+        $this->middleware('auth:sanctum')->except(['index','show']);
     }
 
     /**
@@ -18,7 +19,7 @@ class LandingPageController extends Controller
      */
     public function index()
     {
-        return LandingPageResource::collection(LandingPage::all());
+        return LandingPageResource::collection(LandingPage::with('techStacks')->get());
     }
 
     /**
@@ -26,9 +27,15 @@ class LandingPageController extends Controller
      */
     public function store(StoreLandingPageRequest $request)
     {
-        $data = $request->validated();
+        $landingPage = LandingPage::create(
+            $request->only(['about_me', 'skills'])
+            );
+        
+        if ($request->has('tech_stack_ids')) {
+            $landingPage->techStacks()->sync($request->tech_stack_ids);
+        }
 
-        $landingPage = LandingPage::created($data);
+        $landingPage->load('techStacks');
 
         return response()->json($landingPage, 201);
     }
@@ -38,17 +45,22 @@ class LandingPageController extends Controller
      */
     public function show(string $id)
     {
-        return new LandingPageResource(LandingPage::findorFail($id));
+        return new LandingPageResource(LandingPage::findorFail($id)->load('techStacks'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateLandingPageRequest $request, string $id)
     {
         $landingPage = LandingPage::findorFail($id);
-        $data = $request->validated();
-        $landingPage->update($data);
+        $landingPage->update($request->only(['about_me', 'skills']));
+
+        if ($request->has('tech_stack_ids')) {
+            $landingPage->techStacks()->sync($request->tech_stack_ids);
+        }
+        
+        $landingPage->load('techStacks');
 
         return response()->json($landingPage, 200);
     }

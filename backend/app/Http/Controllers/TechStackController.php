@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTechStackRequest;
+use App\Http\Requests\UpdateTechStackRequest;
 use App\Http\Resources\TechStackResource;
 use App\Models\TechStack;
 use Illuminate\Http\Request;
@@ -10,14 +11,14 @@ use Illuminate\Http\Request;
 class TechStackController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:sanctum')->except(['index,show']);
+        $this->middleware('auth:sanctum')->except(['index','show']);
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        require TechStackResource::collection(TechStack::all());
+        return TechStackResource::collection(TechStack::all());
     }
 
     /**
@@ -43,7 +44,7 @@ class TechStackController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTechStackRequest $request, string $id)
     {
         $techStack = TechStack::findorFail($id);
         $data = $request->validated();

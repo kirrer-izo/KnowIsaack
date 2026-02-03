@@ -22,7 +22,7 @@ class UpdateTechStackRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required, max: 25'
+            'name' => 'required|max: 25'
         ];
     }
 }
