@@ -15,6 +15,7 @@ class LandingPageResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'about_me' => $this->about_me,
             'skills' => $this->skills,
             'tech_stacks' => TechStackResource::collection($this->whenLoaded('techStacks'))
