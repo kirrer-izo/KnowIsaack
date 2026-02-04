@@ -3,11 +3,13 @@ import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProjectService } from '../admin-projects/services/project';
 import { Router, RouterModule } from '@angular/router';
+import { ProjectForm } from './components/project-form/project-form';
+import { ProjectList } from './components/project-list/project-list';
 
 @Component({
   selector: 'app-admin-projects',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, ProjectForm, ProjectList],
   templateUrl: './admin-projects.component.html',
   styleUrl: './admin-projects.component.scss',
 })

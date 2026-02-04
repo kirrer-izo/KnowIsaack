@@ -1,26 +1,25 @@
-<div class="d-flex">
-        <div class="d-flex">
-      <div class="col-md-5 mb-4 p-2">
+<div class="row">
+    <div class="col-md-5 mb-4 p-2">
         <div class="card shadow-sm border-0 p-3">
-          <h4 class="mb-3">{{selectedProject ? 'Edit Project' : 'Add New Project'}}</h4>
-          <app-project-form
-            [project]="selectedProject"
-            [isSubmitting]="isSubmitting"
-            (save)="onSaveProject($event)">
-          </app-project-form>
-        </div>
-      </div>
-
-      <div class="col-md-7 p-2">
-        <div class="card shadow-sm border-0 p-3">
-          <h4 class="mb-4">Your Projects</h4>
-          <app-project-list
-            [projects]="projects"
-            (edit)="onEditProject($event)"
-            (view)="onViewProject($event)"
-            (delete)="deleteProject($event)">
-          </app-project-list>
-        </div>
-      </div>
+  <h4 class="mb-3">{{selectedProject ? 'Edit Project' : 'Add New Project'}}</h4>
+  <app-project-form
+    [project]="selectedProject"
+    [isSubmitting]="isSubmitting"
+    (save)="onSaveProject($event)">
+  </app-project-form>
+</div>
     </div>
+
+<div class="col-md-7 p-2">
+        <div class="card shadow-sm border-0 p-3">
+
+  <h4 class="mb-4">Your Projects</h4>
+  <app-project-list
+    [projects]="projects"
+    (edit)="onEditProject($event)"
+    (view)="onViewProject($event)"
+    (delete)="deleteProject($event)">
+  </app-project-list>
+</div>
+</div>
 </div>

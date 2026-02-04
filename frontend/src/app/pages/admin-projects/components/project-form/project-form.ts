@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-project-form',
-  imports: [],
+  standalone: true,
+  imports: [ReactiveFormsModule],
   templateUrl: './project-form.html',
   styleUrl: './project-form.scss',
 })
@@ -33,7 +34,7 @@ export class ProjectForm {
     }
   }
 
-  submit() {
+  onSubmit() {
     if (this.form.valid) {
       this.save.emit(this.form.value);
     }

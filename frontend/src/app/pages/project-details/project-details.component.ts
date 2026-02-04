@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ProjectService } from '../../services/project.service';
+import { ProjectService } from '../admin-projects/services/project';
 
 @Component({
   selector: 'app-project-details',
