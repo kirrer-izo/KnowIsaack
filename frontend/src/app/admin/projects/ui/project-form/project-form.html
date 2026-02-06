@@ -1,0 +1,102 @@
+<div class="project-form-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    
+    <div class="form-group">
+      <label class="form-label required">Project Name</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        formControlName="name" 
+        placeholder="Enter project name"
+        [class.is-invalid]="form.get('name')?.invalid && form.get('name')?.touched">
+      <div class="invalid-feedback" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+        Project name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea 
+        class="form-control" 
+        formControlName="description" 
+        rows="4"
+        placeholder="Describe your project..."></textarea>
+      <small class="form-text">Brief overview of what this project does</small>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Goal</label>
+      <textarea 
+        class="form-control" 
+        formControlName="goal" 
+        rows="3"
+        placeholder="What was the main goal or purpose of this project?"></textarea>
+      <small class="form-text">What you aimed to achieve or learn</small>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label required">Source Code URL</label>
+        <div class="input-with-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+          </svg>
+          <input 
+            type="url" 
+            class="form-control" 
+            formControlName="source_code" 
+            placeholder="https://github.com/username/repo"
+            [class.is-invalid]="form.get('source_code')?.invalid && form.get('source_code')?.touched">
+        </div>
+        <div class="invalid-feedback" *ngIf="form.get('source_code')?.invalid && form.get('source_code')?.touched">
+          Valid source code URL is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Live Demo URL</label>
+        <div class="input-with-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+            <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+          </svg>
+          <input 
+            type="url" 
+            class="form-control" 
+            formControlName="live_demo" 
+            placeholder="https://your-project.com">
+        </div>
+        <small class="form-text">Optional: Link to live deployment</small>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="techStacks.length > 0">
+      <label class="form-label">Tech Stack</label>
+      <div class="tech-stack-selection">
+        <div *ngFor="let tech of techStacks" class="tech-checkbox-item">
+          <input 
+            type="checkbox" 
+            [id]="'tech-' + tech.id" 
+            [value]="tech.id"
+            [checked]="isTechStackSelected(tech.id)"
+            (change)="onTechStackChange(tech.id, $event)">
+          <label [for]="'tech-' + tech.id" class="tech-label">{{ tech.name }}</label>
+        </div>
+      </div>
+      <small class="form-text">Select all technologies used in this project</small>
+    </div>
+
+    <div class="form-actions">
+      <button 
+        type="submit" 
+        class="btn btn-primary submit-button" 
+        [disabled]="form.invalid || isSubmitting">
+        <svg *ngIf="!isSubmitting" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+        </svg>
+        {{ isSubmitting ? 'Saving...' : (isEditMode ? 'Update Project' : 'Create Project') }}
+      </button>
+    </div>
+
+  </form>
+</div>

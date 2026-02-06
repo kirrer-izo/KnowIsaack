@@ -1,0 +1,12 @@
+<div class="list-page-container">
+
+  <app-project-list
+    [projects]="projects"
+    (view)="onView($event)"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+    (add)="onAdd()"
+  />
+
+</div>
+

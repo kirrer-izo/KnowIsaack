@@ -5,8 +5,9 @@ import { SoleProprietorCRMComponent } from './pages/sole-proprietor-crm/sole-pro
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { authGuard } from './services/auth-guard';
-import { AdminProjectsComponent } from './pages/admin-projects/admin-projects.component';
-import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
+import { ProjectList } from './admin/projects/ui/project-list/project-list';
+import { ProjectDetails } from './admin/projects/feature/project-details/project-details';
+import { ProjectForm } from './admin/projects/ui/project-form/project-form';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -18,8 +19,15 @@ export const routes: Routes = [
         component: DashboardComponent,
         canActivate: [authGuard],
         children: [
-            { path: 'projects', component: AdminProjectsComponent }
+            {
+            path: '',
+            loadChildren: () =>
+                import('./admin/admin.routes')
+                .then(m => m.ADMIN_ROUTES),
+            }
+
         ]
     },
-    { path: 'projects/:id', component: ProjectDetailsComponent}
+
+
 ]

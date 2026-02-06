@@ -21,9 +21,7 @@ class ProjectController extends Controller
     {
         $projects = Project::with('techStacks')->get();
 
-        return response()->json([
-            'projects' => $projects
-        ]);
+        return response()->json($projects->values());
     }
 
     /**
