@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Isaack Muchoki - Developer Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/main.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <i class="fa-solid fa-house"></i>
-                <span>home</span>
+                <span>kirrer</span>
             </div>
             <ul class="nav-menu">
                 <li><a href="#about">About</a></li>
@@ -27,17 +29,17 @@
 
     <!-- Hero Section -->
     <section id="about" class="hero-section">
-        <div class="container">
+        <div class="container section-card">
             <div class="hero-grid">
                 <div class="hero-content">
                     <span class="label">DEVELOPER PORTFOLIO</span>
                     <h1 class="hero-title">Hi, I'm<br>Isaack<br>Muchoki.</h1>
                     <p class="hero-subtitle">Software Developer & Computer Science Student</p>
                     <p class="hero-description">
-                        I am a Full-Stack Developer building scalable web applications with React and Laravel. 
-                        Currently finishing my degree at Kabarak University, I am open to roles where I can 
-                        contribute to production-grade software. I'm looking forward to working along side senior 
-                        developers to gain experience and create memorable products written in code that's 
+                        I am a Full-Stack Developer building scalable web applications with React and Laravel.
+                        Currently finishing my degree at Kabarak University, I am open to roles where I can
+                        contribute to production-grade software. I'm looking forward to working along side senior
+                        developers to gain experience and create memorable products written in code that's
                         maintainable and easy to understand.
                     </p>
                     <div class="social-links">
@@ -53,7 +55,7 @@
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="/assets/hero.png" alt="Isaack Muchoki">
+                    <img src="../assets/hero.png" alt="Isaack Muchoki">
                 </div>
             </div>
         </div>
@@ -61,27 +63,30 @@
 
     <!-- Skills Section -->
     <section id="skills" class="skills-section">
-        <div class="container">
-            <span class="label">TECHNICAL EXPERTISE</span>
-            <h2 class="section-title">My Skills</h2>
-            <p class="section-description">
-                My core stack focuses on the php ecosystem and backend infrastructure. I specialize 
-                in building full-stack applications with React and Laravel, managing data with MySQL, 
-                and containerizing environments with Docker for consistent deployment.
-            </p>
-            
+        <div class="container section-card skills-container">
+            <div class="skills-content">
+                <span class="label">TECHNICAL EXPERTISE</span>
+                <h2 class="section-title">My Skills</h2>
+                <p class="section-description">
+                    My core stack focuses on the php ecosystem and backend infrastructure. I specialize
+                    in building full-stack applications with React and Laravel, managing data with MySQL,
+                    and containerizing environments with Docker for consistent deployment.
+                </p>
+            </div>
+
             <div class="skills-grid">
                 <div class="skill-card">
                     <div class="skill-icon">
-                        <i class="fa-brands fa-react"></i>
+                        <i class="fa-brands fa-git-alt"></i>
                     </div>
-                    <p class="skill-name">React</p>
+                    <p class="skill-name">Git</p>
                 </div>
                 <div class="skill-card">
                     <div class="skill-icon">
-                        <i class="fa-solid fa-database"></i>
+                        <i class="fa-solid fa-code"></i>
+                        <!-- React often uses code icon if brand icon issues, but fa-react is better. Let's use fa-code based on screenshot looking like </> -->
                     </div>
-                    <p class="skill-name">MySQL</p>
+                    <p class="skill-name">React</p>
                 </div>
                 <div class="skill-card">
                     <div class="skill-icon">
@@ -91,9 +96,9 @@
                 </div>
                 <div class="skill-card">
                     <div class="skill-icon">
-                        <i class="fa-solid fa-shield-halved"></i>
+                        <i class="fa-solid fa-database"></i>
                     </div>
-                    <p class="skill-name">Security</p>
+                    <p class="skill-name">MySQL</p>
                 </div>
                 <div class="skill-card">
                     <div class="skill-icon">
@@ -113,27 +118,27 @@
 
     <!-- Projects Section -->
     <section id="projects" class="projects-section">
-        <div class="container">
-            <span class="label">PORTFOLIO - FULL-STACK DEVELOPMENT</span>
+        <div class="container section-card">
+            <span class="label">PORTFOLIO • FULL-STACK DEVELOPMENT</span>
             <h2 class="section-title">What I Have Worked On</h2>
             <p class="section-description">
                 Take a look at some of the applications I've dedicated my time to.
             </p>
 
             <!-- Project 1: Live Your Books - EXPANDED -->
-            <div class="project-card project-featured">
+            <div class="project-card">
                 <div class="project-image">
                     <div class="image-placeholder">
-                        <img src="/assets/project1.png" alt="Live Your Books">
+                        <img src="../assets/project1.png" alt="Live Your Books">
                     </div>
                     <p class="image-label">Application Picture</p>
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">Live Your Books</h3>
                     <p class="project-description">
-                        Live Your Books aims to bridge the gap between passive reading and the meaningful, 
-                        real world application of knowledge. It leverages artificial intelligence to simulate 
-                        mentorship from renowned thinkers and authors, guiding users towards continuous 
+                        Live Your Books aims to bridge the gap between passive reading and the meaningful,
+                        real world application of knowledge. It leverages artificial intelligence to simulate
+                        mentorship from renowned thinkers and authors, guiding users towards continuous
                         self-improvement.
                     </p>
                     <div class="tech-stack">
@@ -143,156 +148,12 @@
                         <span class="tech-tag">Tailwind</span>
                     </div>
                     <div class="project-buttons">
-                        <button class="btn-primary">View Full Project</button>
-                        <button class="btn-secondary">
+                        <a href="#" class="btn-primary">About Project</a>
+                        <a href="https://github.com/kirrer-izo/LiveYourBooks" class="btn-secondary">
                             <i class="fa-brands fa-github"></i>
                             Source Code
-                        </button>
+                        </a>
                     </div>
-                </div>
-            </div>
-
-            <!-- Live Your Books Subsection: Technical Challenges -->
-            <div class="project-subsection">
-                <div class="subsection-header">
-                    <span class="label">ENGINEERING DEEP DIVE</span>
-                    <h3 class="subsection-title">Technical Challenges & Solutions</h3>
-                    <p class="subsection-description">Overcoming engineering hurdles during development</p>
-                </div>
-
-                <div class="challenges-grid">
-                    <!-- Challenge 1: Data Security & Privacy -->
-                    <div class="challenge-card">
-                        <div class="challenge-icon">
-                            <i class="fa-solid fa-lock"></i>
-                        </div>
-                        <h4 class="challenge-title">Data Security & Privacy</h4>
-                        <p class="challenge-subtitle">Challenge: Protecting sensitive user journals</p>
-                        <p class="challenge-description">
-                            Implemented field-level encryption for all journal entries. This ensures that 
-                            user reflections remain private and secure at rest in the database.
-                        </p>
-                    </div>
-
-                    <!-- Challenge 2: AI Hallucination Management -->
-                    <div class="challenge-card">
-                        <div class="challenge-icon">
-                            <i class="fa-solid fa-brain"></i>
-                        </div>
-                        <h4 class="challenge-title">AI Hallucination Management</h4>
-                        <p class="challenge-subtitle">Challenge: Ensuring AI accuracy</p>
-                        <p class="challenge-description">
-                            Designed a transparent "limitations & risks" disclaimer model. This manages user 
-                            expectations regarding the accuracy of AI-generated advice.
-                        </p>
-                    </div>
-
-                    <!-- Challenge 3: Prompt Engineering -->
-                    <div class="challenge-card">
-                        <div class="challenge-icon">
-                            <i class="fa-solid fa-code"></i>
-                        </div>
-                        <h4 class="challenge-title">Prompt Engineering</h4>
-                        <p class="challenge-subtitle">Challenge: Inconsistent API responses</p>
-                        <p class="challenge-description">
-                            Refined system prompts to reduce API token consumption while maintaining formatting. 
-                            Engineered a custom parser to render AI outputs (lists, bolding) connectivity to the UI.
-                        </p>
-                    </div>
-
-                    <!-- Challenge 4: Resource Optimization -->
-                    <div class="challenge-card">
-                        <div class="challenge-icon">
-                            <i class="fa-solid fa-gauge-high"></i>
-                        </div>
-                        <h4 class="challenge-title">Resource Optimization</h4>
-                        <p class="challenge-subtitle">Challenge: Server storage limits</p>
-                        <p class="challenge-description">
-                            Pivoted from full file uploads to a file-based input system. This significantly 
-                            reduced storage costs while maintaining sufficient context for the AI.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Live Your Books Subsection: AI Features -->
-            <div class="project-subsection">
-                <div class="subsection-header">
-                    <span class="label">DATA DRIVEN INSIGHTS</span>
-                    <h3 class="subsection-title">AI-Powered Growth</h3>
-                    <p class="subsection-description">
-                        Turn raw activity into actionable direction. The AI analyzes your tasks, 
-                        habits, and journals to generate Weekly Summaries and Personalized Advice.
-                    </p>
-                </div>
-
-                <div class="ai-features-grid">
-                    <!-- Context-Aware Wisdom -->
-                    <div class="ai-feature-card">
-                        <div class="feature-icon">
-                            <i class="fa-solid fa-lightbulb"></i>
-                        </div>
-                        <h4 class="feature-title">Context-Aware Wisdom</h4>
-                        <p class="feature-subtitle">Personalized Guidance Engine</p>
-                        <p class="feature-description">
-                            The AI engine learns within the philosophy of your chosen mentor. 
-                            In this example, the "Buddhist Philosophy" persona frames your professional tasks 
-                            (Trading, Running) through the lens of "Right Effort" - transforming a to-do into a practice.
-                        </p>
-                    </div>
-
-                    <!-- Your Personalized Advice -->
-                    <div class="ai-feature-card">
-                        <div class="feature-icon">
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <h4 class="feature-title">Your Personalized Advice</h4>
-                        <p class="feature-subtitle">Advice from Buddhist Philosophers</p>
-                        <p class="feature-description">
-                            Greetings, seeker of wisdom. It is commendable that you turn your attention to cultivating growth 
-                            through practice and mindful engagement. Just as you dedicate time to "Trade for 2Dem" and "Streaming 
-                            Sessions" - do so with focused intention.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Live Your Books Subsection: AI Mentor -->
-            <div class="project-subsection">
-                <div class="subsection-header">
-                    <span class="label">INTERACTIVE LEARNING</span>
-                    <h3 class="subsection-title">AI Mentor Module</h3>
-                    <p class="subsection-description">
-                        Don't just read—interact. Select a specific book or mentor persona, 
-                        and the AI will emulate that tone and philosophy to answer your questions.
-                    </p>
-                </div>
-
-                <div class="mentor-showcase">
-                    <div class="mentor-description">
-                        <p>
-                            This RAG-powered module retrieves quotes directly from the source text, 
-                            allowing you to have deep, grounded conversations with your reading list.
-                        </p>
-                    </div>
-                    <div class="mentor-mockup">
-                        <img src="/assets/mentor-chat.png" alt="AI Mentor Chat Interface">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Live Your Books Subsection: Landing Page -->
-            <div class="project-subsection">
-                <div class="subsection-header">
-                    <span class="label">THE FINAL PROJECT</span>
-                    <h3 class="subsection-title">Landing Page Showcase</h3>
-                    <p class="subsection-description">
-                        Designed to convert visitors into active users by clearly communicating the value proposition
-                    </p>
-                </div>
-
-                <div class="landing-showcase">
-                    <img src="/assets/landing-showcase.png" alt="Live Your Books Landing Page and Dashboard">
                 </div>
             </div>
 
@@ -300,14 +161,14 @@
             <div class="project-card">
                 <div class="project-image">
                     <div class="image-placeholder">
-                        <img src="/assets/project2.png" alt="Sole Proprietor CRM">
+                        <img src="../assets/project2.png" alt="Sole Proprietor CRM">
                     </div>
                     <p class="image-label">Application Picture</p>
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">Sole Proprietor CRM</h3>
                     <p class="project-description">
-                        Collaborated in a team of three and built a customer relationship management web 
+                        Collaborated in a team of three and built a customer relationship management web
                         application, designed for sole proprietors to manage leads and invoices.
                     </p>
                     <div class="tech-stack">
@@ -349,4 +210,5 @@
         </div>
     </footer>
 </body>
+
 </html>
