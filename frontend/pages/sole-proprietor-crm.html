@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sole Proprietor CRM - Isaack Muchoki</title>
-    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
@@ -25,15 +27,15 @@
     </nav>
 
     <!-- Project Header Section -->
-    <section class="project-header">
+    <section class="project-header"> <!-- Removed project-header-left -->
         <div class="container">
-            <a href="../pages/home.html#projects" class="back-link">
+            <a href="#" class="back-link">
                 <i class="fa-solid fa-arrow-left"></i>
                 Back to Projects
             </a>
             <h1 class="project-main-title">Sole Proprietor CRM</h1>
             <p class="project-tagline">
-                A customer relationship management system designed for small business owners 
+                A customer relationship management system designed for small business owners
                 to manage leads, clients, and invoicing efficiently.
             </p>
         </div>
@@ -44,26 +46,33 @@
         <div class="container">
             <div class="overview-grid">
                 <div class="overview-card">
-                    <h3>Sole Proprietor CRM</h3>
+                    <h3><i class="fa-solid fa-users" style="color: var(--color-primary-600); margin-right: 8px;"></i>
+                        Sole Proprietor CRM</h3>
                     <p>
-                        Collaborated in a team of three and built a customer relationship management web 
+                        Collaborated in a team of three and built a customer relationship management web
                         application, designed for sole proprietors to manage leads and invoices.
                     </p>
                     <p>
-                        The application provides a centralized hub for tracking customer interactions, 
-                        managing sales pipelines, and generating professional invoices. Built with modern 
+                        The application provides a centralized hub for tracking customer interactions,
+                        managing sales pipelines, and generating professional invoices. Built with modern
                         technologies for scalability and ease of use.
                     </p>
                 </div>
                 <div class="overview-card">
-                    <h3>Project Purpose and Goal</h3>
+                    <h3><i class="fa-solid fa-bullseye" style="color: var(--color-primary-600); margin-right: 8px;"></i>
+                        Project Purpose and Goal</h3>
                     <p>
-                        My goal was to build a functional CRM that removes the friction between lead capture 
-                        and revenue. I wanted a system that keeps client data centralized and secure.
+                        My goal was to build a functional CRM that removes the friction between lead capture
+                        and revenue. I wanted a system that:
                     </p>
+                    <ul>
+                        <li>Keeps client data centralized and secure</li>
+                        <li>Automates invoice generation and tracking</li>
+                        <li>Offers a self-hosted, cost-effective alternative to SaaS tools</li>
+                    </ul>
                     <p>
-                        Automates invoice generation and tracking. Offers a self-hosted, cost-effective 
-                        alternative to SaaS tools like Pipedrive or HubSpot for small businesses.
+                        The result is a lightweight platform that manages the full client
+                        lifecycle—from first contact to closed deal.
                     </p>
                 </div>
             </div>
@@ -71,18 +80,21 @@
     </section>
 
     <!-- Dashboard Overview Section -->
-    <section class="dashboard-overview-section">
+    <section class="project-overview">
         <div class="container">
-            <span class="label">CENTRAL COMMAND</span>
-            <h2 class="section-title">Dashboard Overview</h2>
-            <p class="section-description">
-                A clean, intuitive dashboard that provides at-a-glance insights into your business metrics, 
-                recent activities, and pending tasks. All critical information is organized for quick access and decision-making.
-            </p>
-            
-            <div class="dashboard-showcase">
-                <div class="dashboard-mockup">
-                    <img src="/assets/crm-dashboard-overview.png" alt="CRM Dashboard Overview">
+            <div class="section-card">
+                <span class="label">CENTRAL COMMAND</span>
+                <h2 class="section-title">Dashboard Overview</h2>
+                <p class="section-description">
+                    A clean, intuitive dashboard that provides at-a-glance insights into your business metrics,
+                    recent activities, and pending tasks. All critical information is organized for quick access and
+                    decision-making.
+                </p>
+
+                <div class="app-showcase">
+                    <div class="app-window">
+                        <img src="/assets/crm-dashboard-overview.png" alt="CRM Dashboard Overview">
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,29 +103,27 @@
     <!-- Feature 2: Command Center Dashboard -->
     <section class="project-feature">
         <div class="container">
-            <span class="label">OPERATIONAL AWARENESS</span>
-            <h2 class="section-title">The Command Center</h2>
-            <p class="section-description">
-                Start every day with clarity. The dashboard aggregates real-time data from all active 
-                projects and invoices, giving freelancers an immediate snapshot of their business health 
-                without digging through database rows.
-            </p>
+            <div class="section-card">
+                <span class="label">OPERATIONAL AWARENESS</span>
+                <h2 class="section-title">The Command Center</h2>
+                <p class="section-description">
+                    Start every day with clarity. The dashboard aggregates real-time data from all active
+                    projects and invoices, giving freelancers an immediate snapshot of their business health
+                    without digging through database rows.
+                </p>
 
-            <div class="feature-grid">
-                <div class="feature-content">
-                    <h3>Dashboard Analytics</h3>
-                    <ul class="feature-list">
-                        <li><strong>Real-time stats:</strong> Total customers, projects, and tasks</li>
-                        <li><strong>Pending alerts:</strong> Overdue invoices and at-risk projects</li>
-                        <li><strong>Growth metrics:</strong> Monthly trends and year-over-year comparison</li>
-                        <li><strong>Quick insights:</strong> Last month growth, year growth</li>
-                        <li><strong>Visual charts:</strong> Line graphs showing business trajectory</li>
-                    </ul>
-                </div>
-                <div class="feature-showcase">
-                    <div class="mockup-box">
-                        <img src="/assets/crm-dashboard.png" alt="Command Center Dashboard">
-                        <p class="mockup-label">Real-time Business Dashboard</p>
+                <div class="feature-grid">
+                    <div class="feature-content">
+                        <h3>Dashboard Analytics</h3>
+                        <div class="feature-badges">
+                            <span class="feature-badge">Real-time Stats</span>
+                            <span class="feature-badge">Pending Alerts</span>
+                        </div>
+                    </div>
+                    <div class="app-showcase">
+                        <div class="app-window">
+                            <img src="/assets/crm-dashboard.png" alt="Command Center Dashboard">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -123,29 +133,28 @@
     <!-- Feature 3: Reactive Client Directory -->
     <section class="project-feature">
         <div class="container">
-            <span class="label">DATA MANAGEMENT</span>
-            <h2 class="section-title">Reactive Client Directory</h2>
-            <p class="section-description">
-                No more lost contacts. Built a reactive client directory featuring server-side filtering 
-                and instant search. The interface supports rapid sorting and status management, ensuring 
-                you can find any client record in milliseconds.
-            </p>
+            <div class="section-card">
+                <span class="label">DATA MANAGEMENT</span>
+                <h2 class="section-title">Reactive Client Directory</h2>
+                <p class="section-description">
+                    No more lost contacts. I engineered a reactive customer directory
+                    featuring server-side filtering and instant search. The interface
+                    supports rapid sorting and status management, ensuring you can find
+                    any client record in milliseconds.
+                </p>
 
-            <div class="feature-grid">
-                <div class="feature-content">
-                    <h3>Client Management Features</h3>
-                    <ul class="feature-list">
-                        <li><strong>Server-side search:</strong> Fast filtering and instant results</li>
-                        <li><strong>Sortable columns:</strong> Name, email, status, date, phone</li>
-                        <li><strong>Status indicators:</strong> Color-coded client states</li>
-                        <li><strong>Quick actions:</strong> Edit, delete, view client details</li>
-                        <li><strong>Export ready:</strong> Data formatted for analysis</li>
-                    </ul>
-                </div>
-                <div class="feature-showcase">
-                    <div class="mockup-box">
-                        <img src="/assets/crm-clients.png" alt="Client Directory">
-                        <p class="mockup-label">Reactive Client Directory</p>
+                <div class="feature-grid reverse-grid"> <!-- Added reverse-grid logic via CSS or Order -->
+                    <div class="app-showcase">
+                        <div class="app-window">
+                            <img src="/assets/crm-clients.png" alt="Client Directory">
+                        </div>
+                    </div>
+                    <div class="feature-content">
+                        <!-- badges -->
+                        <div class="feature-badges">
+                            <span class="feature-badge">Server-side Search</span>
+                            <span class="feature-badge">Instant Filters</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,32 +162,30 @@
     </section>
 
 
-        <!-- Feature 1: Integrative Financial Invoicing -->
+    <!-- Feature 1: Integrative Financial Invoicing -->
     <section class="project-feature">
         <div class="container">
-            <span class="label">FINANCIAL AUTOMATION</span>
-            <h2 class="section-title">Integrative Financial Invoicing</h2>
-            <p class="section-description">
-                Billing shouldn't be a headache. Built a tightly coupled invoicing system that pulls 
-                directly from client data to prevent errors. The module supports full CRUD operations, 
-                status tracking (SentPaid), and dynamic PDF generation for professional output.
-            </p>
+            <div class="section-card">
+                <span class="label">FINANCIAL AUTOMATION</span>
+                <h2 class="section-title">Integrated Invoicing</h2>
+                <p class="section-description">
+                    Billing shouldn't be a headache. I built a tightly coupled invoicing
+                    system that pulls directly from client data to prevent errors. The module
+                    supports full CRUD operations, status tracking (Sent/Paid), and
+                    dynamic PDF generation for professional output.
+                </p>
 
-            <div class="feature-grid">
-                <div class="feature-content">
-                    <h3>Invoice Management Features</h3>
-                    <ul class="feature-list">
-                        <li><strong>Auto-populated fields:</strong> Client info pulls from database</li>
-                        <li><strong>CRUD operations:</strong> Create, read, update, delete invoices</li>
-                        <li><strong>Status tracking:</strong> Draft, Sent, Paid states</li>
-                        <li><strong>PDF generation:</strong> Professional invoice output</li>
-                        <li><strong>Real-time sync:</strong> Updates reflect instantly</li>
-                    </ul>
-                </div>
-                <div class="feature-showcase">
-                    <div class="mockup-box">
-                        <img src="/assets/crm-invoicing.png" alt="Invoicing Interface">
-                        <p class="mockup-label">Invoice Management System</p>
+                <div class="feature-grid">
+                    <div class="feature-content">
+                        <div class="feature-badges">
+                            <span class="feature-badge">CRUD Ops</span>
+                            <span class="feature-badge">Relational Data</span>
+                        </div>
+                    </div>
+                    <div class="app-window">
+                        <div class="app-showcase">
+                            <img src="/assets/crm-invoicing.png" alt="Invoicing Interface">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -206,5 +213,32 @@
             <p class="footer-copyright">© 2024 Isaack Muchoki. Nairobi, Kenya</p>
         </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button onclick="topFunction()" id="backToTop" title="Go to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Get the button
+        let mybutton = document.getElementById("backToTop");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
+
 </html>

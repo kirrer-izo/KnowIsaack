@@ -75,10 +75,26 @@ body {
   background-color: var(--bg-page);
   color: var(--text-body);
   line-height: 1.5;
-  padding-bottom: 40px;
+  /* Removed padding-bottom to let footer sit flush */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/*========================================
+/* Ensure main content expands to push footer down */
+/* Assuming a wrapper or main tag usage, but structurally: */
+body>section,
+body>nav,
+body>div.container {
+  /* valid layout */
+}
+
+/* If there's no main wrapper, we rely on the flex direction column regarding footer */
+footer {
+  margin-top: auto;
+}
+
+/* ========================================
    TYPOGRAPHY
    ======================================== */
 
@@ -111,7 +127,7 @@ h3 {
 }
 
 p {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--text-body);
   margin-bottom: 16px;
@@ -145,7 +161,7 @@ img {
 
 /* 32px gaps between major sections */
 section {
-  margin-bottom: 32px;
+  margin-top: 32px;
 }
 
 /* Content Card */
@@ -168,6 +184,18 @@ section {
   text-transform: uppercase;
   margin-bottom: 16px;
   display: block;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
 }
 
 /* ========================================
@@ -308,7 +336,7 @@ section {
 .skill-icon {
   width: 80px;
   height: 80px;
-  background: white;
+  background: var(--bg-card);
   border: 1px solid #f3f4f6;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   border-radius: 2px;
@@ -372,7 +400,7 @@ section {
 }
 
 .image-placeholder {
-  background: white;
+  background: var(--bg-card);
   padding: 8px 16px;
   font-weight: 700;
   font-size: 14px;
@@ -418,7 +446,7 @@ section {
 
 .btn-primary {
   background-color: var(--color-primary-dark);
-  color: white;
+  color: var(--bg-card);
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 14px;
@@ -541,8 +569,192 @@ section {
 
 
 }
+
 @media (max-width: 600px) {
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ========================================
+   PROJECT DETAIL PAGE
+   ======================================== */
+
+/* Project Header Section */
+.project-header .container {
+  display: flex;
+  flex-direction: column;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 32px;
+  align-self: flex-start;
+}
+
+
+/* Back to Top Button */
+#backToTop {
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: var(--color-primary-600);
+  color: var(--bg-card);
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 18px;
+  box-shadow: var(--shadow-md);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Project Overview Section */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.overview-card {
+  background: var(--bg-card);
+  padding: 32px;
+  border-radius: 0px;
+  box-shadow: var(--shadow-sm);
+}
+
+.overview-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.overview-card h3 i {
+  color: var(--color-primary-600);
+}
+
+.overview-card p {
+  margin-bottom: 16px;
+}
+
+.overview-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* Landing Page Showcase Section */
+.showcase-section .section-card {
+  text-align: left;
+}
+
+.app-showcase {
+  margin-top: 48px;
+  justify-content: center;
+  background-color: #f8fafc;
+  padding: 32px;
+  border-radius: 8px;
+}
+
+.app-window {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  max-width: 800px;
+  width: 100%;
+}
+
+
+
+
+
+/* Challenges Section */
+.challenges-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.challenge-card {
+  background: var(--bg-card);
+  padding: 32px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-none);
+  box-shadow: var(--shadow-sm);
+}
+
+.challenge-badge {
+  width: 48px;
+  height: 48px;
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 20px;
+  margin-bottom: 24px;
+}
+
+.challenge-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.challenge-description {
+  color: var(--text-body);
+}
+
+
+/* Feature Badges CRM */
+.feature-badges {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.feature-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  color: var(--color-primary-600);
+  border: 1px solid var(--color-primary-600);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.feature-badge:hover {
+  background-color: var(--color-primary-50);
+}
+
+/* Feature Grid Adjustments */
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+
+.feature-grid.reverse-grid .feature-content {
+  order: 2;
+}
+
+.feature-grid.reverse-grid .feature-showcase {
+  order: 1;
+}
+
