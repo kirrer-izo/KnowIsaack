@@ -773,14 +773,15 @@ section {
    ======================================== */
 
 .glow-float-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  will-change: transform; 
+  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  will-change: transform;
   background: var(--bg-card);
   border-radius: 12px;
   overflow: hidden;
 }
 
-.glow-float-card:hover {
+.glow-float-card:hover,
+.hover-trigger:hover .glow-float-card {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05),
     0 0 15px var(--color-primary-300);
@@ -790,14 +791,41 @@ section {
   background-color: var(--bg-card);
   border: 1px solid var(--border-card);
   padding: 24px;
-  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   will-change: transform;
 }
 
-.simple-float-card:hover {
+.simple-float-card:hover,
+.hover-trigger:hover .simple-float-card {
   transform: translateY(-8px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
-  0, 8px, 10px, -6px rgba(0, 0, 0, 0.05);
+    0, 8px, 10px, -6px rgba(0, 0, 0, 0.05);
+}
+
+/* Staggered animation delays */
+.hover-trigger:hover .glow-float-card:nth-child(2),
+.hover-trigger:hover .simple-float-card:nth-child(2) {
+  transition-delay: 0.05s;
+}
+
+.hover-trigger:hover .glow-float-card:nth-child(3),
+.hover-trigger:hover .simple-float-card:nth-child(3) {
+  transition-delay: 0.1s;
+}
+
+.hover-trigger:hover .glow-float-card:nth-child(4),
+.hover-trigger:hover .simple-float-card:nth-child(4) {
+  transition-delay: 0.15s;
+}
+
+.hover-trigger:hover .glow-float-card:nth-child(5),
+.hover-trigger:hover .simple-float-card:nth-child(5) {
+  transition-delay: 0.2s;
+}
+
+.hover-trigger:hover .glow-float-card:nth-child(6),
+.hover-trigger:hover .simple-float-card:nth-child(6) {
+  transition-delay: 0.25s;
 }
 
 /* Buttons */
@@ -831,3 +859,31 @@ section {
   color: var(--color-primary-dark);
   transform: translateY(-3px);
 }
+
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px); /* Start 30px lower */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* End at natural position */
+  }
+}
+
+.reveal {
+  /* Ensure it's hidden before the animation starts */
+  opacity: 0; 
+  /* Apply the animation */
+  animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Stagger the appearance of different elements */
+.reveal:nth-child(1) { animation-delay: 0.1s; }
+.reveal:nth-child(2) { animation-delay: 0.3s; }
+.reveal:nth-child(3) { animation-delay: 0.5s; }
