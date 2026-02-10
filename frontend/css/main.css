@@ -25,7 +25,7 @@
 
   /* Sematic Tokens */
 
-  --color-accent: var(--color-primary-600);
+  --color-accent: var(--color-primary-500);
   --color-primary-dark: var(--color-primary-700);
 
   --bg-page: var(--color-neutral-200);
@@ -189,6 +189,8 @@ section {
 .text-center {
   text-align: center;
 }
+
+
 
 /* ========================================
    NAVIGATION BAR
@@ -377,6 +379,7 @@ section {
   border-radius: 8px;
   align-items: center;
 }
+
 /* Mac-like Traffic Lights - Centered */
 
 .image-placeholder {
@@ -438,7 +441,7 @@ section {
 }
 
 .btn-primary {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-accent);
   color: var(--bg-card);
   font-family: var(--font-family);
   font-weight: 700;
@@ -764,6 +767,67 @@ section {
   order: 2;
 }
 
-.feature-grid.reverse-grid .feature-showcase {
-  order: 1;
+
+/* ========================================
+   HOVER EFFECTS & INTERACTIONS
+   ======================================== */
+
+.glow-float-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform; 
+  background: var(--bg-card);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.glow-float-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05),
+    0 0 15px var(--color-primary-300);
+}
+
+.simple-float-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  padding: 24px;
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+  will-change: transform;
+}
+
+.simple-float-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+  0, 8px, 10px, -6px rgba(0, 0, 0, 0.05);
+}
+
+/* Buttons */
+.btn-primary {
+  transition: background-color 0.3s ease, transform 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  border-radius: 4px;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  transition: color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  color: var(--color-accent);
+}
+
+.social-icon {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-icon:hover {
+  color: var(--color-primary-dark);
+  transform: translateY(-3px);
 }
