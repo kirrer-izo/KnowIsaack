@@ -81,15 +81,7 @@ body {
   flex-direction: column;
 }
 
-/* Ensure main content expands to push footer down */
-/* Assuming a wrapper or main tag usage, but structurally: */
-body>section,
-body>nav,
-body>div.container {
-  /* valid layout */
-}
 
-/* If there's no main wrapper, we rely on the flex direction column regarding footer */
 footer {
   margin-top: auto;
 }
@@ -381,36 +373,37 @@ section {
 }
 
 .project-image {
-  background-color: #f1f5f9;
-  border-radius: var(--radius-none);
-  display: flex;
+  background-color: #f8fafc;
+  border-radius: 8px;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  height: 300px;
-  width: 100%;
-  position: relative;
-  background-image:
-    linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
-    linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
-    linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
+/* Mac-like Traffic Lights - Centered */
 
 .image-placeholder {
-  background: var(--bg-card);
-  padding: 8px 16px;
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--text-primary);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  max-width: var(--container-width);
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding-top: 50px;
 }
 
-.image-placeholder img {
-  display: none;
+.image-placeholder::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ffbd2e;
+  box-shadow: -24px 0 0 #ff5f56, 24px 0 0 #27c93f;
 }
+
 
 .project-title {
   margin-bottom: 16px;
@@ -654,22 +647,39 @@ section {
   text-align: left;
 }
 
-.app-showcase {
-  margin-top: 48px;
-  justify-content: center;
-  background-color: #f8fafc;
-  padding: 32px;
-  border-radius: 8px;
+.app-window {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  max-width: var(--container-width);
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding-top: 50px;
+  /* Space for the header */
 }
 
-.app-window {
-  background: var(--bg-card);
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: var(--shadow-lg);
-  max-width: 800px;
-  width: 100%;
+/* Mac-like Traffic Lights - Centered */
+.app-window::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ffbd2e;
+  box-shadow: -24px 0 0 #ff5f56, 24px 0 0 #27c93f;
 }
+
+.app-showcase {
+  background-color: #f8fafc;
+  border-radius: 8px;
+  align-items: center;
+}
+
 
 
 
@@ -757,4 +767,3 @@ section {
 .feature-grid.reverse-grid .feature-showcase {
   order: 1;
 }
-
