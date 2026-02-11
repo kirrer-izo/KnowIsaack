@@ -241,6 +241,27 @@ section {
   color: var(--text-body);
 }
 
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-menu a.active::after {
+  width: 100%;
+}
+
+.nav-menu a.active {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
 
 /* ========================================
    HERO SECTION

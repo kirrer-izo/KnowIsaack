@@ -206,6 +206,35 @@
             <p class="footer-copyright">© 2024 Isaack Muchoki. Nairobi, Kenya</p>
         </div>
     </footer>
+
+    <script>
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".nav-menu a");
+
+        const observerOptions = {
+            root: null,
+            rootMargin: "-20% 0px -70% 0px" // Adjust this (0.1 to 1.0) to change when the underline triggers
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // 1. Remove 'active' from all links
+                    navLinks.forEach((link) => link.classList.remove("active"));
+                    
+                    // 2. Add 'active' to the link matching the current section ID
+                    const id = entry.target.getAttribute("id");
+                    const activeLink = document.querySelector(`.nav-menu a[href="#${id}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add("active");
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Track all sections that have an ID
+        sections.forEach((section) => observer.observe(section));
+    </script>
 </body>
 
 </html>
