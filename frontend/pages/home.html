@@ -28,12 +28,12 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="about" class="hero-section reveal hover-trigger delay-200">
+    <section id="about" class="hero-section reveal delay-200">
         <div class="container section-card">
             <div class="hero-grid">
                 <div class="hero-content">
                     <span class="label">DEVELOPER PORTFOLIO</span>
-                    <h1 class="hero-title reveal">Hi, I'm<br>Isaack<br>Muchoki.</h1>
+                    <h1 class="hero-title reveal delay-300">Hi, I'm<br>Isaack<br>Muchoki.</h1>
                     <p class="hero-subtitle">Software Developer & Computer Science Student</p>
                     <p class="hero-description">
                         I am a Full-Stack Developer building scalable web applications with React and Laravel.
@@ -54,7 +54,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="hero-image reveal delay-med">
+                <div class="hero-image reveal delay-300">
                     <img src="../assets/Profilepic.png" alt="Isaack Muchoki" class="simple-float-card">
                 </div>
             </div>
@@ -127,7 +127,7 @@
             <!-- Project 1: Live Your Books - EXPANDED -->
             <div class="project-card hover-trigger">
                 <div class="project-image">
-                    <div class="image-placeholder glow-float-card reveal">
+                    <div class="image-placeholder glow-float-card reveal delay-1">
                         <img src="../assets/Live Your Books Application Screenshot.png" alt="Live Your Books">
                     </div>
                 </div>
@@ -158,7 +158,7 @@
             <!-- Project 2: Sole Proprietor CRM -->
             <div class="project-card hover-trigger">
                 <div class="project-image">
-                    <div class="image-placeholder glow-float-card reveal">
+                    <div class="image-placeholder glow-float-card reveal delay-1">
                         <img src="../assets/CRM Application screenshot.png" alt="Sole Proprietor CRM">
                     </div>
                 </div>
@@ -207,6 +207,30 @@
         </div>
     </footer>
 
+    
+    <section class="contact-section">
+        <div id="contactModal"  class="modal">
+        <div class="modal-content reveal">
+            <span class="close-btn">&times;</span>
+            <h2 class="section-title">Get in Touch</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Send Message</button>
+            </form>
+            <div id="formStatus"></div>
+        </div>
+    </div>
+    </section>
+
+
     <script>
 
         if (history.scrollRestoration) {
@@ -219,14 +243,14 @@
         const observerOptions = {
             root: null,
             rootMargin: "0px",
-            threshold: [0.1,0.4]
+            threshold: [0,0.4]
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
 
                 // Logic for Trigger Animations (Trigger at 10 % visibility)
-                if (entry.intersectionRatio > 0.1 && entry.target.classList.contains('reveal') && entry.isIntersecting) {
+                if (entry.target.classList.contains('reveal') && entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
 
                     // ONLY Unobserve if it's NOT a section
@@ -243,11 +267,11 @@
                     if (link) {
                         if (entry.intersectionRatio > 0.4) {
                         link.classList.add("active");
-                    }
-                    }else {
+                    } else {
                         link.classList.remove("active");
                     }
                 }
+            }
 
 
             });
@@ -257,6 +281,85 @@
 
         sections.forEach((section) => observer.observe(section));
         revealElements.forEach((el) => observer.observe(el));
+
+        //  FETCH API
+
+        const modal = document.getElementById("contactModal");
+        const contactBtn = document.querySelector(".nav-menu a[href='#contact']");
+        const closeBtn = document.querySelector(".close-btn");
+
+        //Open Modal
+        if (contactBtn) {
+            contactBtn.onclick = (e) => {
+                e.preventDefault();
+                modal.style.display = "block";
+            };
+        }
+
+        //Close Modal
+        if (closeBtn) {
+            closeBtn.onclick = () =>
+            {
+                modal.style.display = "none";
+            };
+        }
+
+        // Close Modal on Outside Click
+        window.onclick = (e) => {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        //Handle From Submission
+        contactForm = document.getElementById("contactForm");
+        if (contactForm) {
+        contactForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const formStatus = document.getElementById("formStatus");
+            const submitBtn = e.target.querySelector('button');
+
+            // Reset state and show "Sending"
+            submitBtn.disabled = true;
+            formStatus.style.display = "block";
+            formStatus.classList.remove('success', 'error');
+            formStatus.innerHTML = "Sending Email...";
+
+            try {
+                const response = await fetch('../../backend/send-email.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.text();
+
+                if (response.ok) {
+                    //  Success State
+                    formStatus.classList.add('success');
+                    formStatus.innerHTML = "Message Sent Succesfully";
+                    e.target.reset();
+
+                    setTimeout(() => {
+                        formStatus.style.display = "none";
+                        formStatus.classList.remove("success");
+                    }, 5000);
+                } else {
+                    // Server Error State
+                    formStatus.classList.add('error');
+                    formStatus.innerHTML =  result || "Oops! Something went wrong.";
+                }
+            } catch (error) {
+                // Network Error State
+                formStatus.classList.add('error');
+                formStatus.innerHTML = "Error Sending Message."
+            } finally {
+                submitBtn.disabled = false;
+            }
+        };
+        }
+
+
+
 
     </script>
 </body>
