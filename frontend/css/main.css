@@ -70,6 +70,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-family);
   background-color: var(--bg-page);
@@ -190,6 +194,11 @@ section {
   text-align: center;
 }
 
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
 
 
 /* ========================================
@@ -809,8 +818,7 @@ section {
 }
 
 .simple-float-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-card);
+  background-color: var(--bg-card);;
   padding: 24px;
   transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   will-change: transform;
@@ -900,11 +908,19 @@ section {
 .reveal {
   /* Ensure it's hidden before the animation starts */
   opacity: 0; 
-  /* Apply the animation */
+}
+
+.reveal.is-visible {
+    /* Apply the animation */
   animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* Stagger the appearance of different elements */
-.reveal:nth-child(1) { animation-delay: 0.1s; }
-.reveal:nth-child(2) { animation-delay: 0.3s; }
-.reveal:nth-child(3) { animation-delay: 0.5s; }
+/* .reveal:nth-child(1) { animation-delay: 0.05s; }
+.reveal:nth-child(2) { animation-delay: 0.15s; }
+.reveal:nth-child(3) { animation-delay: 0.25s; } */
+
+/* Optional: If items are NOT siblings, nth-child won't work correctly. 
+   You can add these utility classes to cards manually if they feel slow. */
+.delay-short {animation-delay: 0.1s;}
+.delay-med {animation-delay: 0.2s;}

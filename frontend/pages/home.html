@@ -28,7 +28,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="about" class="hero-section reveal">
+    <section id="about" class="hero-section reveal hover-trigger delay-200">
         <div class="container section-card">
             <div class="hero-grid">
                 <div class="hero-content">
@@ -42,7 +42,7 @@
                         developers to gain experience and create memorable products written in code that's
                         maintainable and easy to understand.
                     </p>
-                    <div class="social-links reveal">
+                    <div class="social-links reveal delay-300">
                         <a href="https://github.com/kirrer-izo" class="social-icon" aria-label="GitHub">
                             <i class="fa-brands fa-github"></i>
                         </a>
@@ -54,15 +54,15 @@
                         </a>
                     </div>
                 </div>
-                <div class="hero-image reveal">
-                    <img src="../assets/Profilepic.png" alt="Isaack Muchoki">
+                <div class="hero-image reveal delay-med">
+                    <img src="../assets/Profilepic.png" alt="Isaack Muchoki" class="simple-float-card">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="skills-section reveal">
+    <section id="skills" class="skills-section reveal hover-trigger delay-300">
         <div class="container section-card skills-container">
             <div class="skills-content">
                 <span class="label">TECHNICAL EXPERTISE</span>
@@ -74,7 +74,7 @@
                 </p>
             </div>
 
-            <div class="skills-grid hover-trigger reveal">
+            <div class="skills-grid reveal">
                 <div class="skill-card">
                     <div class="skill-icon glow-float-card">
                         <i class="fa-brands fa-git-alt"></i>
@@ -116,7 +116,7 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="projects-section reveal">
+    <section id="projects" class="projects-section reveal delay-500">
         <div class="container section-card">
             <span class="label">PORTFOLIO • FULL-STACK DEVELOPMENT</span>
             <h2 class="section-title">What I Have Worked On</h2>
@@ -208,32 +208,56 @@
     </footer>
 
     <script>
+
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
         const sections = document.querySelectorAll("section[id]");
+        const revealElements = document.querySelectorAll(".reveal");
         const navLinks = document.querySelectorAll(".nav-menu a");
 
         const observerOptions = {
             root: null,
-            rootMargin: "-20% 0px -70% 0px" // Adjust this (0.1 to 1.0) to change when the underline triggers
+            rootMargin: "0px",
+            threshold: [0.1,0.4]
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    // 1. Remove 'active' from all links
-                    navLinks.forEach((link) => link.classList.remove("active"));
-                    
-                    // 2. Add 'active' to the link matching the current section ID
-                    const id = entry.target.getAttribute("id");
-                    const activeLink = document.querySelector(`.nav-menu a[href="#${id}"]`);
-                    if (activeLink) {
-                        activeLink.classList.add("active");
+
+                // Logic for Trigger Animations (Trigger at 10 % visibility)
+                if (entry.intersectionRatio > 0.1 && entry.target.classList.contains('reveal') && entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+
+                    // ONLY Unobserve if it's NOT a section
+                    if (entry.target.tagName !== 'SECTION') {
+                        observer.unobserve(entry.target);
                     }
                 }
+
+                // Logic Update Navbar Links (Trigger at 40% visibility)
+
+                if (entry.target.tagName === 'SECTION') {
+                    const id = entry.target.getAttribute('id');
+                    const link = document.querySelector(`.nav-menu a[href="#${id}"]`);
+                    if (link) {
+                        if (entry.intersectionRatio > 0.4) {
+                        link.classList.add("active");
+                    }
+                    }else {
+                        link.classList.remove("active");
+                    }
+                }
+
+
             });
         }, observerOptions);
 
-        // Track all sections that have an ID
+        // Observer to watch everything
+
         sections.forEach((section) => observer.observe(section));
+        revealElements.forEach((el) => observer.observe(el));
+
     </script>
 </body>
 

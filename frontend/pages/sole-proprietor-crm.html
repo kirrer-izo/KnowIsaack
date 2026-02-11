@@ -27,7 +27,7 @@
     </nav>
 
     <!-- Project Header Section -->
-    <section class="project-header reveal">
+    <section id="project-header" class="project-header reveal">
         <div class="container">
             <a href="#" class="back-link">
                 <i class="fa-solid fa-arrow-left"></i>
@@ -42,10 +42,10 @@
     </section>
 
     <!-- Project Overview Section -->
-    <section class="project-overview reveal">
+    <section id="project-overview" class="project-overview reveal">
         <div class="container">
-            <div class="overview-grid hover-trigger reveal">
-                <div class="overview-card simple-float-card">
+            <div class="overview-grid reveal">
+                <div class="overview-card simple-float-card hover-trigger">
                     <h3><i class="fa-solid fa-users"></i>
                         Sole Proprietor CRM</h3>
                     <p>
@@ -58,7 +58,7 @@
                         technologies for scalability and ease of use.
                     </p>
                 </div>
-                <div class="overview-card simple-float-card reveal">
+                <div class="overview-card simple-float-card hover-trigger">
                     <h3><i class="fa-solid fa-bullseye"></i>
                         Project Purpose and Goal</h3>
                     <p>
@@ -80,7 +80,7 @@
     </section>
 
     <!-- Dashboard Overview Section -->
-    <section class="project-overview reveal">
+    <section id="project-feature-1" class="project-feature reveal">
         <div class="container">
             <div class="section-card hover-trigger">
                 <span class="label">CENTRAL COMMAND</span>
@@ -101,7 +101,7 @@
     </section>
 
     <!-- Feature 2: Command Center Dashboard -->
-    <section class="project-feature reveal">
+    <section id="project-feature-2" class="project-feature reveal">
         <div class="container">
             <div class="section-card hover-trigger">
                 <span class="label">OPERATIONAL AWARENESS</span>
@@ -131,7 +131,7 @@
     </section>
 
     <!-- Feature 3: Reactive Client Directory -->
-    <section class="project-feature reveal">
+    <section id="project-feature-3" class="project-feature reveal">
         <div class="container">
             <div class="section-card hover-trigger">
                 <span class="label">DATA MANAGEMENT</span>
@@ -163,7 +163,7 @@
 
 
     <!-- Feature 1: Integrative Financial Invoicing -->
-    <section class="project-feature reveal">
+    <section id="project-feature-4" class="project-feature reveal">
         <div class="container">
             <div class="section-card hover-trigger">
                 <span class="label">FINANCIAL AUTOMATION</span>
@@ -219,7 +219,11 @@
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
-    <script>
+<script>
+
+                if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
         // Get the button
         let mybutton = document.getElementById("backToTop");
 
@@ -238,6 +242,42 @@
         function topFunction() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+         
+
+
+        const sections = document.querySelectorAll("section[id]");
+        const revealElements = document.querySelectorAll(".reveal");
+
+        const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: [0]
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+
+                // Logic for Trigger Animations (Trigger at 10 % visibility)
+                if (entry.isIntersecting && entry.target.classList.contains('reveal') && entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+
+                    // ONLY Unobserve if it's NOT a section
+                    if (entry.target.tagName !== 'SECTION') {
+                        observer.unobserve(entry.target);
+                    }
+                }
+
+
+
+            });
+        }, observerOptions);
+
+        // Observer to watch everything
+
+        sections.forEach((section) => observer.observe(section));
+        revealElements.forEach((el) => observer.observe(el));
+
     </script>
 </body>
 
