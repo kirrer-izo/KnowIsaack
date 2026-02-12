@@ -22,8 +22,8 @@ COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
 # Copy application source
 COPY . /var/www/html/
 
-#Install PHPMailer using Composer
-RUN composer require phpmailer/phpmailer
+#Install the Resend PHP SDK using Composer
+RUN composer require resend/resend-php
 
 # Set permissions for the web user
 RUN chown -R www-data:www-data /var/www/html \
