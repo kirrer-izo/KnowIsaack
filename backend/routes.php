@@ -1,5 +1,8 @@
 <?php 
 
+use App\Controllers\ContactController;
+use App\Infrastructure\Mail\ResendMailer;
+
 $request = $_SERVER['REQUEST_URI'];
 
 //  Remove subdirectory from path if you are using one
@@ -19,7 +22,9 @@ switch ($path) {
         break;
     case '/api/contact':
         // This handles your fetch request from the contact modal
-        require __DIR__ . '/send-email.php';
+        $mailer = new ResendMailer();
+        $controller = new ContactController($mailer);
+        $controller->handleRequest();
         break;
 
     default: 
