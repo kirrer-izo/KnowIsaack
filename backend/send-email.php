@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail->Body    = "<strong>Name:</strong> $name<br>
                       <strong>Email:</strong> $email<br><br>
                       <strong>Message:</strong><br>$message";
-
+    $mail->SMTPDebug = 3;
     $mail->send();
     http_response_code(200);
     echo "Thank you! Your message has been sent.";
