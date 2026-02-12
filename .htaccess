@@ -1,0 +1,20 @@
+RewriteEngine On
+# Send all requests to routes.php unless the file actually exists (like images or css)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Handle assets: If request starts with /css, rewrite to frontend/css
+RewriteRule ^css/(.*)$ frontend/css/$1 [L]
+
+# Handle assets: If request starts with /js, rewrite to frontend/js
+RewriteRule ^js/(.*)$ frontend/js/$1 [L]
+
+# Handle assets: If request starts with /assets, rewrite to frontend/assets
+RewriteRule ^assets/(.*)$ frontend/assets/$1 [L]
+
+# Send all other requests to backend/routes.php unless the file actually exists
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
+
+# Explicitly route the root directory to the router
+RewriteRule ^$ index.php [L]

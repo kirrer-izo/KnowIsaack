@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  portfolio:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor # This tells Docker: "Don't overwrite this folder with the host contents"
+    env_file:
+      - .env #This tells Docker to load variables from your .env file
