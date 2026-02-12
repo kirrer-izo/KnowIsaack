@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = strip_tags(trim($_POST["message"]));
 
     // Initialize Resend with API key from environment variable
-    $resend = Resend::client(getenv('RESEND_API'));
+    $resend = Resend::client(getenv('RESEND_API_KEY'));
 
     try {
         $resend->emails->send([
@@ -18,9 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'to' => 'isaackmuchoki55@gmail.com',
         'subject' => 'New Portfolio Message from '. $name,
         'reply_to' => $email,
-        'html' => '<strong>Name:</strong> $name<br>
-                       <strong>Email:</strong> $email<br><br>
-                       <strong>Message:</strong><br>$message',
+        'html' => '<strong>Name: </strong>' . $name . '<br>' . 
+                      '<strong>Email: </strong>' . $email . '<br><br>' . 
+                      '<strong>Message:</strong><br>' . $message,
         ]);
 
         http_response_code(200);
