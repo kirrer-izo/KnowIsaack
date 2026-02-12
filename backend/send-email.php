@@ -1,6 +1,5 @@
 <?php 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use Resend;
 // Autoload Composer dependencies
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -10,38 +9,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
     $message = strip_tags(trim($_POST["message"]));
 
-    $mail = new PHPMailer(true);
+    // Initialize Resend with API key from environment variable
+    $resend = Resend::client(getenv('RESEND_API'));
 
     try {
-        // Server settings
-       $mail->isSMTP();
-       $mail->Host = 'smtp.gmail.com';
-       $mail->SMTPAuth = true;
-       $mail->Username = getenv('SMTP_USER');
-       $mail->Password = getenv('SMTP_PASS');
-       $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-       $mail->Port = 587;
+        $resend->emails->send([
+        'from' => 'Portfolio <onboarding@resend.dev> ',
+        'to' => 'isaackmuchoki55@gmail.com',
+        'subject' => 'New Portfolio Message from '. $name,
+        'reply_to' => $email,
+        'html' => '<strong>Name:</strong> $name<br>
+                       <strong>Email:</strong> $email<br><br>
+                       <strong>Message:</strong><br>$message',
+        ]);
 
-    //    Recipients
-    $mail->setFrom(getenv('SMTP_USER'), 'Portfolio Contact Form');
-    $mail->addAddress(getenv('SMTP_USER')); // Deliver to yourself
-    $mail->addReplyTo($email, $name);
+        http_response_code(200);
+        echo "Thank you for your message! I'll get back to you soon.";
 
-    // Content
-    $mail->isHTML(true);
-    $mail->Subject = "New Portfolio Message from $name";
-    $mail->Body    = "<strong>Name:</strong> $name<br>
-                      <strong>Email:</strong> $email<br><br>
-                      <strong>Message:</strong><br>$message";
-
-    $mail->send();
-    http_response_code(200);
-    echo "Thank you! Your message has been sent.";
-        
     } catch (Exception $e) {
         http_response_code(500);
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        echo "There was an error sending your message: " . $e->getMessage();
     }
+
+
 
 }  else {
         http_response_code(403);
