@@ -212,16 +212,23 @@
         <div id="contactModal"  class="modal">
         <div class="modal-content reveal">
             <span class="close-btn">&times;</span>
-            <h2 class="section-title">Get in Touch</h2>
+            <h2 class="section-title">Let's Build Something Together</h2>
+            <p class="section-description">Have an idea you'd like to discuss? Send me a message and let's create something amazing.</p>
             <form id="contactForm">
                 <div class="form-group">
-                    <input type="text" name="name" placeholder="Your Name" required>
+                     <label class="label" for="name">Name:</label>
+                    <input id="name" type="text" name="name" placeholder="Your Name" required>
+                    <span class="error" id="nameError"></span>
                 </div>
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="Your Email" required>
+                     <label class="label" for="email">Email:</label>
+                    <input id="email" type="email" name="email" placeholder="Your Email" required>
+                    <span class="error" id="emailError"></span>
                 </div>
                 <div class="form-group">
-                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                     <label class="label" for="message">Message:</label>
+                    <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                    <span class="error" id="messageError"></span>
                 </div>
                 <button type="submit" class="btn-primary">Send Message</button>
             </form>

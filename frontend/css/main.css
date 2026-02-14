@@ -194,12 +194,29 @@ section {
   text-align: center;
 }
 
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-.delay-1 { animation-delay: 1s; }
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-1 {
+  animation-delay: 1s;
+}
 
 
 /* ========================================
@@ -509,103 +526,187 @@ section {
    ======================================== */
 
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 2000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px); /* Refactor UI glassmorphism */
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  overflow-y: auto;
 }
 
 .modal-content {
-    background-color: #fff;
-    margin: 10% auto;
-    padding: 40px;
-    border-radius: 12px;
-    max-width: 500px;
-    position: relative;
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 40px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
 }
 
 .modal-content .section-title {
-    padding: 10px;
-    font-size: 24px;
-    color: var(--color-neutral-900);
-    font-weight: 700;
+  padding: 10px;
+  font-size: 24px;
+  color: var(--color-neutral-900);
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    margin: 20px auto;
+    /* Even smaller top margin on mobile */
+    padding: 24px;
+    /* Slightly less padding */
+  }
 }
 
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 /* Inputs and Textarea Styling */
-.form-group input, 
+.form-group input,
 .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1.5px solid var(--color-neutral-200); /* Soft border */
-    border-radius: 8px;
-    font-size: 16px;
-    font-family: inherit;
-    color: #334155;
-    background-color: #f8fafc;
-    transition: all 0.3s ease;
+  width: 100%;
+  padding: 10px;
+  border: 1.5px solid var(--color-neutral-200);
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #334155;
+  background-color: #f8fafc;
+  transition: all 0.3s ease;
 }
 
 /* Focus State: This is the "Industry Standard" feel */
-.form-group input:focus, 
+.form-group input:focus,
 .form-group textarea:focus {
-    outline: none;
-    background-color: --bg-card;
-    border-color: var(--color-accent); /* Your theme color */
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); /* Subtle glow */
+  outline: none;
+  background-color: --bg-card;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
 /* Close Button Styling */
 .close-btn {
-    position: absolute;
-    top: 20px;
-    right: 24px;
-    font-size: 28px;
-    color: var(--color-primary-dark);
-    cursor: pointer;
-    transition: color 0.2s ease;
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 28px;
+  color: var(--color-primary-dark);
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
 
 .close-btn:hover {
-    color: #ef4444; /* Subtle red feedback */
+  color: #ef4444;
+  /* Subtle red feedback */
 }
 
 .btn-primary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    filter: grayscale(0.5);
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.error {
+  color: red;
+  font-size: smaller;
+  display: block;
+  margin-top: var(--spacing-sm);
+  animation: fadeIn 0.3s ease;
 }
 
 #formStatus {
-    margin-top: 20px;
-    font-size: 14px;
-    text-align: center;
-    padding: 12px;
-    border-radius: 8px;
-    display: none; /* Hidden until triggered by JS */
+  display: none;
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  animation: fadeIn 0.3s ease;
 }
 
-/* Status variants for your fetch results */
 #formStatus.success {
-    display: block;
-    background-color: #f0fdf4;
-    color: #166534;
-    border: 1px solid #bbf7d0;
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
 }
 
 #formStatus.error {
-    display: block;
-    background-color: #fef2f2;
-    color: #991b1b;
-    border: 1px solid #fecaca;
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* Default "Sending" state (blue) */
+#formStatus:not(.success):not(.error) {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+
+
+span.error {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+
+.form-group input.error,
+.form-group textarea.error {
+  border-color: #dc2626;
+  animation: shake 0.3s;
+}
+
+.form-group input.error:focus,
+.form-group textarea.error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+  border-color: #dc2626;
+}
+
+.form-group message {
+  padding: 10px;
+  margin: var(--spacing-md);
+  border-radius: 4px;
+}
+
+.form-group message.success {
+  background-color: var(--bg-card);
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.form-group message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Animation for error messages */
+
+.error {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 
@@ -925,7 +1026,8 @@ section {
 }
 
 .simple-float-card {
-  background-color: var(--bg-card);;
+  background-color: var(--bg-card);
+  ;
   padding: 24px;
   transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   will-change: transform;
@@ -1004,21 +1106,24 @@ section {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px); /* Start 30px lower */
+    transform: translateY(30px);
+    /* Start 30px lower */
   }
+
   to {
     opacity: 1;
-    transform: translateY(0); /* End at natural position */
+    transform: translateY(0);
+    /* End at natural position */
   }
 }
 
 .reveal {
   /* Ensure it's hidden before the animation starts */
-  opacity: 0; 
+  opacity: 0;
 }
 
 .reveal.is-visible {
-    /* Apply the animation */
+  /* Apply the animation */
   animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
@@ -1029,5 +1134,10 @@ section {
 
 /* Optional: If items are NOT siblings, nth-child won't work correctly. 
    You can add these utility classes to cards manually if they feel slow. */
-.delay-short {animation-delay: 0.1s;}
-.delay-med {animation-delay: 0.2s;}
+.delay-short {
+  animation-delay: 0.1s;
+}
+
+.delay-med {
+  animation-delay: 0.2s;
+}
