@@ -16,11 +16,44 @@ class ContactController {
     {
         header('Content-Type: application/json');
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
         // Sanitize Inputs
         $name = strip_tags(trim($_POST["name"]));
         $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
         $message = strip_tags(trim($_POST["message"]));  
         
+        
+        // Validate inputs
+
+        $errors = [];
+        if (empty($name)) {
+           
+            $errors['name'] = "Name is required";
+        }
+        if (!empty($name) && strlen($name) < 3) {
+            $errors['name'] = "Name must be at least 3 characters long";
+        }
+        if (empty($email)) {
+            $errors['email'] = "Email is required";
+        }
+        if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = "Invalid email format";
+        }
+        if (empty($message)) {
+            $errors['message'] = "Message is required";
+        }
+        if (!empty($message) && strlen($message) < 10) {
+            $errors['message'] = "Message must be at least 10 characters long";
+        }
+
+
+
+        if (!empty($errors)) {
+            http_response_code(400);
+            echo json_encode(['errors' => $errors]);
+            return;
+        }
+
         $isSent = $this->mailer->sendEmail(
                 'isaackmuchoki55@gmail.com',
                 'New Portfolio Message from ' . $name,
