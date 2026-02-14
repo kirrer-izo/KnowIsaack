@@ -26,6 +26,10 @@ switch ($path) {
         $controller = new ContactController($mailer);
         $controller->handleRequest();
         break;
+    case '/ping';
+        http_response_code(200);
+        echo 'PONG'; 
+        exit;
 
     default: 
         http_response_code(404);
