@@ -141,9 +141,10 @@ ul {
 }
 
 img {
-  max-width: 100%;
   height: auto;
+  width: auto;
   display: block;
+  max-height: 40vh;
 }
 
 /* ========================================
@@ -369,7 +370,6 @@ section {
    ======================================== */
 
 .skills-container {
-  display: grid;
   grid-template-columns: 0.8fr 1.2fr;
   gap: 64px;
   align-items: start;
@@ -419,6 +419,60 @@ section {
   color: var(--text-secondary);
   font-weight: 500;
 }
+
+.skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .skill-card {
+      position: relative;
+      padding: 30px 20px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      text-align: center;
+      overflow: hidden;
+      cursor: default;
+      transition: border-color 0.3s;
+    }
+
+    .skill-card:hover {
+      border-color: #555;
+    }
+
+    /* The gradient overlay that follows the mouse */
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: radial-gradient(
+        200px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(59, 130, 246, 0.15),
+        transparent 60%
+      );
+      pointer-events: none;
+      transition: opacity 0.5s;
+    }
+
+    .skill-card:hover::before {
+      opacity: 1;
+    }
+
+    .skill-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .skill-name {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+    }
 
 /* ========================================
    PROJECTS SECTION
@@ -891,7 +945,8 @@ span.error {
   border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
   max-width: var(--container-width);
-  width: 100%;
+  width: fit-content;
+  margin: 0 auto;
   overflow: hidden;
   position: relative;
   padding-top: 50px;
@@ -917,7 +972,10 @@ span.error {
 .app-showcase {
   background-color: #f8fafc;
   border-radius: 8px;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  width: fit-content;
 }
 
 /* Challenges Section */
