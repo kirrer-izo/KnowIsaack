@@ -55,7 +55,7 @@
 
   --shadow-card: 0px 25px 50px 0px rgba(0, 0, 0, 0.05),
     0px 4px 10px 0px rgba(0, 0, 0, 0.08);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-sm: var(--shadow-sm);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
 }
@@ -229,7 +229,7 @@ section {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
 }
 
 .nav-container {
@@ -380,7 +380,7 @@ section {
   height: 80px;
   background: var(--bg-card);
   border: 1px solid #f3f4f6;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-md);
   border-radius: 2px;
   display: flex;
   align-items: center;
@@ -434,7 +434,6 @@ section {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
   max-width: var(--container-width);
   width: 100%;
   overflow: hidden;
@@ -453,6 +452,7 @@ section {
   border-radius: 50%;
   background-color: #ffbd2e;
   box-shadow: -24px 0 0 #ff5f56, 24px 0 0 #27c93f;
+  transform: translateY(-70px);
 }
 
 
@@ -555,14 +555,6 @@ section {
   font-weight: 700;
 }
 
-@media (max-width: 600px) {
-  .modal-content {
-    margin: 20px auto;
-    /* Even smaller top margin on mobile */
-    padding: 24px;
-    /* Slightly less padding */
-  }
-}
 
 .form-group {
   margin-bottom: 20px;
@@ -618,7 +610,6 @@ section {
   font-size: smaller;
   display: block;
   margin-top: var(--spacing-sm);
-  animation: fadeIn 0.3s ease;
 }
 
 #formStatus {
@@ -650,8 +641,6 @@ section {
   color: #1e40af;
   border: 1px solid #bfdbfe;
 }
-
-
 
 span.error {
   color: #dc2626;
@@ -690,26 +679,6 @@ span.error {
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
-
-/* Animation for error messages */
-
-.error {
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
 
 
 /* ========================================
@@ -809,6 +778,16 @@ span.error {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+@media (max-width: 600px) {
+  .modal-content {
+    margin: 20px auto;
+    /* Even smaller top margin on mobile */
+    padding: 24px;
+    /* Slightly less padding */
+  }
+}
+
 
 /* ========================================
    PROJECT DETAIL PAGE
@@ -1117,9 +1096,23 @@ span.error {
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 .reveal {
   /* Ensure it's hidden before the animation starts */
   opacity: 0;
+  animation-fill-mode: backwards;
 }
 
 .reveal.is-visible {
@@ -1127,17 +1120,12 @@ span.error {
   animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Stagger the appearance of different elements */
-/* .reveal:nth-child(1) { animation-delay: 0.05s; }
-.reveal:nth-child(2) { animation-delay: 0.15s; }
-.reveal:nth-child(3) { animation-delay: 0.25s; } */
-
-/* Optional: If items are NOT siblings, nth-child won't work correctly. 
-   You can add these utility classes to cards manually if they feel slow. */
-.delay-short {
-  animation-delay: 0.1s;
+/* Animation for error messages */
+.error {
+  animation: fadeIn 0.3s ease;
 }
 
-.delay-med {
-  animation-delay: 0.2s;
+#formStatus {
+  animation: fadeIn 0.3s ease;
 }
+
