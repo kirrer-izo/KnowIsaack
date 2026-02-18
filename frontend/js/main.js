@@ -237,3 +237,33 @@ function displayServiceErrors(errors) {
     }
   }
 }
+
+
+// Mouse tracking 
+const cards = document.querySelectorAll('.skill-card, .project-card');
+
+cards.forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    // Get card's position and size relative to the viewport
+    const rect = card.getBoundingClientRect();
+
+    // Calculate mouse position relative to the card
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Convert to percentage so that it works at any card size
+    const xPercent = (x / rect.width) * 100;
+    const yPercent = (y / rect.height) * 100;
+
+    // Feed into CSS variables on that specific card
+    card.style.setProperty('--mouse-x', `${xPercent}%`);
+    card.style.setProperty('--mouse-y', `${yPercent}%`);
+
+  });
+});
+
+// Reset when the mouse leaves
+card.addEventListener('mouseleave', () => {
+  card.style.setProperty('--mouse-x', '50%');
+  card.style.setProperty('--mouse-y', '50%');
+});
