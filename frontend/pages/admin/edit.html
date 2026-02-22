@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Project — Isaack Muchoki</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ── Admin Navbar ─────────────────────────────────────────────────────── */
+    .admin-navbar {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-card);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .admin-nav-inner {
+      max-width: var(--container-width);
+      margin: 0 auto;
+      height: 70px;
+      padding: 0 var(--spacing-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .admin-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text-primary);
+    }
+
+    .admin-logo i { color: var(--color-accent); }
+
+    .admin-badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--color-primary-100);
+      color: var(--color-accent);
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-left: var(--spacing-sm);
+    }
+
+    .btn-logout {
+      font-size: 13px;
+      color: var(--text-muted);
+      background: none;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-logout:hover { color: red; border-color: red; }
+
+    /* ── Main Layout ──────────────────────────────────────────────────────── */
+    .admin-main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: var(--spacing-xl) var(--spacing-lg);
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .page-header h1 {
+      font-size: 32px;
+      margin-bottom: 0;
+    }
+
+    .back-btn {
+      color: var(--text-muted);
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .back-btn:hover { color: var(--color-accent); }
+
+    /* ── Form Card ────────────────────────────────────────────────────────── */
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: var(--spacing-xl);
+    }
+
+    .form-group {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: var(--spacing-sm);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="url"],
+    .form-group textarea {
+      width: 100%;
+      padding: var(--spacing-md);
+      border: 1.5px solid var(--color-neutral-200);
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text-primary);
+      background: var(--bg-card);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-hint {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── Tag Input ────────────────────────────────────────────────────────── */
+    .tag-input-wrapper {
+      border: 1.5px solid var(--color-neutral-200);
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      cursor: text;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-height: 50px;
+      align-items: center;
+    }
+
+    .tag-input-wrapper:focus-within {
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .tag-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--color-primary-100);
+      color: var(--color-accent);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .tag-remove {
+      background: none;
+      border: none;
+      color: var(--color-accent);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 0;
+      line-height: 1;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    .tag-remove:hover { opacity: 1; }
+
+    .tag-text-input {
+      border: none;
+      outline: none;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-primary);
+      flex: 1;
+      min-width: 140px;
+      background: transparent;
+      padding: 4px 0;
+    }
+
+    /* ── Checkbox ─────────────────────────────────────────────────────────── */
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--color-accent);
+      cursor: pointer;
+    }
+
+    .checkbox-row label {
+      margin-bottom: 0;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 15px;
+      color: var(--text-body);
+      cursor: pointer;
+    }
+
+    /* ── Form Actions ─────────────────────────────────────────────────────── */
+    .form-actions {
+      display: flex;
+      gap: var(--spacing-md);
+      align-items: center;
+      margin-top: var(--spacing-lg);
+      padding-top: var(--spacing-lg);
+      border-top: 1px solid var(--border-card);
+    }
+
+    .btn-cancel {
+      color: var(--text-muted);
+      background: none;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: var(--spacing-md);
+      height: 48px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font-family);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel:hover {
+      border-color: var(--text-muted);
+      color: var(--text-primary);
+    }
+
+    /* ── Toast ────────────────────────────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+      z-index: 9999;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .toast.success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+    .toast.error   { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+  </style>
+</head>
+<body>
+
+  <!-- Admin Navbar -->
+  <nav class="admin-navbar">
+    <div class="admin-nav-inner">
+      <div style="display:flex;align-items:center">
+        <div class="admin-logo">
+          <i class="fa-solid fa-layer-group"></i>
+          kirrer
+        </div>
+        <span class="admin-badge">Admin</span>
+      </div>
+      <a href="/portfolio/auth/logout" class="btn-logout">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+
+    <div class="page-header">
+      <a href="/portfolio/admin" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      <h1 id="pageTitle">Add Project</h1>
+    </div>
+
+    <div class="form-card">
+      <form id="projectForm">
+        <input type="hidden" id="projectId">
+
+        <!-- Title -->
+        <div class="form-group">
+          <label for="title">Project Title *</label>
+          <input type="text" id="title" placeholder="e.g. Live Your Books" required>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label for="description">Description *</label>
+          <textarea id="description" placeholder="Describe what the project does and why you built it..." required></textarea>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="form-group">
+          <label>Tech Stack *</label>
+          <div class="tag-input-wrapper" id="tagWrapper">
+            <input type="text" class="tag-text-input" id="tagInput" placeholder="Type a technology and press Enter...">
+          </div>
+          <span class="form-hint">Press Enter or comma after each technology — e.g. React, Laravel, MySQL</span>
+        </div>
+
+        <!-- GitHub URL -->
+        <div class="form-group">
+          <label for="githubUrl">GitHub URL</label>
+          <input type="url" id="githubUrl" placeholder="https://github.com/kirrer-izo/...">
+        </div>
+
+        <!-- Live URL -->
+        <div class="form-group">
+          <label for="liveUrl">Live URL</label>
+          <input type="url" id="liveUrl" placeholder="https://yourproject.com">
+        </div>
+
+        <!-- Detail Page URL -->
+        <div class="form-group">
+          <label for="detailUrl">Detail Page URL</label>
+          <input type="text" id="detailUrl" placeholder="/live-your-books">
+          <span class="form-hint">Internal path to this project's detail page on your portfolio</span>
+        </div>
+
+        <!-- Featured -->
+        <div class="form-group">
+          <div class="checkbox-row">
+            <input type="checkbox" id="featured">
+            <label for="featured">Feature this project on the homepage</label>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="submitBtn">
+            <i class="fa-solid fa-floppy-disk"></i>&nbsp; Save Project
+          </button>
+          <a href="/portfolio/admin" class="btn-cancel">
+            <i class="fa-solid fa-xmark"></i> Cancel
+          </a>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ── State ────────────────────────────────────────────────────────────────
+    let techStack = [];
+
+    // ── Auth Check ───────────────────────────────────────────────────────────
+    async function checkSession() {
+      try {
+        const res = await fetch('/portfolio/api/session');
+        if (res.status === 401) {
+          window.location.href = '/portfolio/auth/login';
+          return false;
+        }
+        return true;
+      } catch {
+        window.location.href = '/portfolio/auth/login';
+        return false;
+      }
+    }
+
+    // ── Tag Input ────────────────────────────────────────────────────────────
+    const tagInput   = document.getElementById('tagInput');
+    const tagWrapper = document.getElementById('tagWrapper');
+
+    tagWrapper.addEventListener('click', () => tagInput.focus());
+
+    tagInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ',') {
+        e.preventDefault();
+        addTag(tagInput.value.trim().replace(/,/g, ''));
+      }
+      // Backspace on empty input removes last tag
+      if (e.key === 'Backspace' && tagInput.value === '' && techStack.length > 0) {
+        removeTag(techStack[techStack.length - 1]);
+      }
+    });
+
+    function addTag(value) {
+      if (!value || techStack.includes(value)) return;
+      techStack.push(value);
+      renderTags();
+      tagInput.value = '';
+    }
+
+    function removeTag(value) {
+      techStack = techStack.filter(t => t !== value);
+      renderTags();
+    }
+
+    function renderTags() {
+      tagWrapper.querySelectorAll('.tag-item').forEach(el => el.remove());
+      techStack.forEach(tag => {
+        const el = document.createElement('span');
+        el.className = 'tag-item';
+        el.innerHTML = `${tag}<button type="button" class="tag-remove" onclick="removeTag('${tag.replace(/'/g, "\\'")}')">×</button>`;
+        tagWrapper.insertBefore(el, tagInput);
+      });
+    }
+
+    // ── Load project for editing ──────────────────────────────────────────────
+    async function loadProjectForEdit(id) {
+      try {
+        const res  = await fetch('/portfolio/api/projects');
+        const data = await res.json();
+        const project = (data.projects ?? []).find(p => p.id === id);
+
+        if (!project) {
+          showToast('Project not found.', 'error');
+          return;
+        }
+
+        document.getElementById('pageTitle').textContent   = 'Edit Project';
+        document.getElementById('projectId').value         = project.id;
+        document.getElementById('title').value             = project.title;
+        document.getElementById('description').value       = project.description;
+        document.getElementById('githubUrl').value         = project.github_url  ?? '';
+        document.getElementById('liveUrl').value           = project.live_url    ?? '';
+        document.getElementById('detailUrl').value         = project.detail_url  ?? '';
+        document.getElementById('featured').checked        = project.featured    ?? false;
+
+        techStack = project.tech_stack ?? [];
+        renderTags();
+      } catch {
+        showToast('Failed to load project.', 'error');
+      }
+    }
+
+    // ── Form Submission ───────────────────────────────────────────────────────
+    document.getElementById('projectForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (techStack.length === 0) {
+        showToast('Please add at least one technology.', 'error');
+        return;
+      }
+
+      const id        = document.getElementById('projectId').value;
+      const submitBtn = document.getElementById('submitBtn');
+
+      submitBtn.disabled  = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Saving...';
+
+      const payload = {
+        title:       document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(),
+        tech_stack:  techStack,
+        github_url:  document.getElementById('githubUrl').value.trim(),
+        live_url:    document.getElementById('liveUrl').value.trim(),
+        detail_url:  document.getElementById('detailUrl').value.trim(),
+        featured:    document.getElementById('featured').checked,
+      };
+
+      // Only include id if editing an existing project
+      if (id) payload.id = id;
+
+      try {
+        const res  = await fetch('/portfolio/api/projects', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload),
+        });
+        const data = await res.json();
+
+        if (data.status === 'success') {
+          showToast('Project saved!', 'success');
+          setTimeout(() => { window.location.href = '/portfolio/admin'; }, 1200);
+        } else {
+          showToast(data.message ?? 'Save failed.', 'error');
+        }
+      } catch {
+        showToast('Network error. Please try again.', 'error');
+      } finally {
+        submitBtn.disabled  = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i>&nbsp; Save Project';
+      }
+    });
+
+    // ── Toast ─────────────────────────────────────────────────────────────────
+    function showToast(message, type = 'success') {
+      const toast         = document.getElementById('toast');
+      toast.textContent   = message;
+      toast.className     = `toast ${type}`;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3500);
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    (async () => {
+      const ok = await checkSession();
+      if (!ok) return;
+
+      const id = new URLSearchParams(window.location.search).get('id');
+      if (id) await loadProjectForEdit(id);
+    })();
+  </script>
+</body>
+</html>

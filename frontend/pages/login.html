@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Isaack Muchoki</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: hsl(var(--background));
+    }
+
+    .login-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: var(--spacing-xl);
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    .login-card .label {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .login-card h1 {
+      font-size: 32px;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .login-card p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .btn-github {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: var(--spacing-md);
+      height: 48px;
+      background-color: #24292e;
+      color: white;
+      font-family: var(--font-family);
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-github:hover {
+      background-color: #1a1e22;
+      transform: translateY(-1px);
+      color: white;
+    }
+
+    .btn-github:active {
+      transform: translateY(0);
+    }
+
+    .btn-github i {
+      font-size: 20px;
+    }
+
+    .login-error {
+      background-color: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius-sm);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      font-size: 14px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .login-error.visible {
+      display: block;
+    }
+
+    .login-divider {
+      margin: var(--spacing-lg) 0 var(--spacing-md);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .back-to-portfolio {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .back-to-portfolio:hover {
+      color: var(--color-accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <div class="login-wrapper">
+    <div class="login-card reveal is-visible">
+
+      <span class="label">PORTFOLIO ADMIN</span>
+      <h1>Welcome Back <span class="color-accent">Isaack</span></h1>
+      <p>Sign in with GitHub to manage your portfolio projects.</p>
+
+      <!-- Error message shown on failed login -->
+      <div class="login-error" id="loginError"></div>
+
+      <a href="/portfolio/auth/authorize" class="btn-github">
+        <i class="fa-brands fa-github"></i>
+        Continue with GitHub
+      </a>
+
+      <p class="login-divider">——</p>
+
+      <a href="/portfolio/" class="back-to-portfolio">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to portfolio
+      </a>
+
+    </div>
+  </div>
+
+  <script>
+    // Show error message from query param if redirected back with error
+    const params   = new URLSearchParams(window.location.search);
+    const error    = params.get('error');
+    const errorEl  = document.getElementById('loginError');
+
+    const messages = {
+      unauthorized: 'Access denied. This admin panel is restricted to the site owner.',
+      oauth_failed: 'GitHub login failed. Please try again.',
+    };
+
+    if (error && messages[error]) {
+      errorEl.textContent = messages[error];
+      errorEl.classList.add('visible');
+    }
+  </script>
+</body>
+</html>
