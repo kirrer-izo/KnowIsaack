@@ -6,11 +6,16 @@ use App\Controllers\AuthController;
 use App\Controllers\ProjectsController;
 use App\Controllers\PublicProjectsController;
 
+session_start();
+
 $request = $_SERVER['REQUEST_URI'];
 
 //  Remove subdirectory from path if you are using one
 $base_path = '/portfolio';
 $path = str_replace($base_path, '', $request);
+
+// Strips ?code=xxx&state=yyy
+$path = strtok($path, '?');
 
 switch ($path) {
     case '/':
@@ -31,10 +36,10 @@ switch ($path) {
     
     // Admin Pages
     case '/admin':
-        require __DIR__. '/../frontend/pages/admin/index.hmtl';
+        require __DIR__. '/../frontend/pages/admin/index.html';
         break;
     case '/admin/edit':
-        require __DIR__ . '/../frontend/pages/admin/edit.hmtl';
+        require __DIR__ . '/../frontend/pages/admin/edit.html';
         break;
 
         // API
