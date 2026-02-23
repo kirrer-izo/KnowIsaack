@@ -2,180 +2,155 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sole Proprietor CRM - Isaack Muchoki</title>
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sole Proprietor CRM - Isaack Muchoki</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-               <a href="/"> <i class="fa-solid fa-house"></i></a></i>
-                <span>home</span>
+
+  <!-- SHARED: Navbar injected by components.js -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- Project Header -->
+  <section id="project-header" class="project-header reveal">
+    <div class="container">
+      <a href="/#projects" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Projects
+      </a>
+      <h1 class="project-main-title">Sole Proprietor CRM</h1>
+      <p class="project-tagline">
+        A customer relationship management system designed for small business owners the likes of freelancers
+        to manage leads, clients, and invoicing efficiently.
+      </p>
+    </div>
+  </section>
+
+  <!-- Project Overview -->
+  <section id="project-overview" class="project-overview reveal">
+    <div class="container">
+      <div class="overview-grid reveal">
+        <div class="overview-card simple-float-card hover-trigger">
+          <h3>
+            <i class="fa-solid fa-users"></i>
+            Sole Proprietor CRM
+          </h3>
+          <p>
+            Sole Proprietor CRM is a streamlined, efficient, and self-hosted Customer Relationship
+            Management (CRM) tailored specifically for sole proprietors and freelancers.<br><br>
+            Unlike bloated enterprise solutions, this CRM focuses on: organizing client interactions,
+            tracking customer projects and tasks to be done by the business owner.
+          </p>
+        </div>
+        <div class="overview-card simple-float-card hover-trigger">
+          <h3>
+            <i class="fa-solid fa-bullseye"></i>
+            Project Purpose and Goal
+          </h3>
+          <p>
+            My goal was to build a functional CRM meant for sole-proprietors and freelancers to manage
+            their customers, tasks and projects.<br><br>
+            The result is a lightweight platform that manages customers, tasks and projects.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Overview -->
+  <section class="project-feature-dashboard reveal max-height">
+    <div class="container">
+      <div class="section-card hover-trigger">
+        <span class="label">MODULES OVERVIEW</span>
+        <h2 class="section-title">Dashboard Overview</h2>
+        <p>
+          A clean dashboard that provides at-a-glance insights into the user's business metrics,
+          recent activities, and pending tasks. All critical information is organized for quick access.
+        </p>
+        <div class="app-showcase">
+          <div class="app-window glow-float-card reveal">
+            <img src="../assets/CRMDashboard.png" alt="CRM Dashboard Overview">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 1: Analysis Center -->
+  <section id="project-feature-1" class="project-feature reveal max-height">
+    <div class="container">
+      <div class="section-card hover-trigger">
+        <div class="description">
+          <span class="label">OPERATIONAL AWARENESS</span>
+          <h2 class="section-title">The Analysis Center</h2>
+          <p>
+            Start every day with clarity. The analysis module aggregates real-time data of all customers,
+            active projects, and tasks. It gives freelancers an immediate snapshot of their business
+            health without digging through database rows.
+          </p>
+          <div class="feature-grid">
+            <div class="feature-content">
+              <div class="feature-badges">
+                <span class="feature-badge">Real-time Stats</span>
+                <span class="feature-badge">Monthly Trends</span>
+              </div>
             </div>
-            <ul class="nav-menu">
-                <li><a href="/#about">About</a></li>
-                <li><a href="/#skills">Skills</a></li>
-                <li><a href="/#projects">Projects</a></li>
-                <li><a href="/#contact">Contact me</a></li>
-            </ul>
+          </div>
         </div>
-    </nav>
-
-    <!-- Project Header Section -->
-    <section id="project-header" class="project-header reveal">
-        <div class="container">
-            <a href="/#projects" class="back-link">
-                <i class="fa-solid fa-arrow-left"></i>
-                Back to Projects
-            </a>
-            <h1 class="project-main-title">Sole Proprietor CRM</h1>
-            <p class="project-tagline">
-                A customer relationship management system designed for small business owners the likes of freelancers
-                to manage leads, clients, and invoicing efficiently.
-            </p>
+        <div class="app-showcase">
+          <div class="app-window glow-float-card reveal">
+            <img src="../assets/CommandCenter.png" alt="Command Center Dashboard">
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Project Overview Section -->
-    <section id="project-overview" class="project-overview reveal">
-        <div class="container">
-            <div class="overview-grid reveal">
-                <div class="overview-card simple-float-card hover-trigger">
-                    <h3><i class="fa-solid fa-users"></i>
-                        Sole Proprietor CRM</h3>
-                    <p>
-                        Sole Proprietor CRM is a streamlined, efficient, and self-hosted Customer Relationship Management(CRM) tailored speciffically for sole proprietors and freelancers. <br>
-                        <br>
-                        Unlike bloated enterprise solutions, this CRM focuses on: organizing client interactions, tracking customer projects and tasks to be done by the business owner. <br>
-                        <br>
-
-                    </p>
-                </div>
-                <div class="overview-card simple-float-card hover-trigger">
-                    <h3><i class="fa-solid fa-bullseye"></i>
-                        Project Purpose and Goal</h3>
-                    <p>
-                       My goal was to build a functional CRM that was meant for sole-proprietors and freelances to manage their customers, tasks and projects. <br>
-                       <br>
-                       The result is a lightweight platform that manages customers, tasks and projects.
-                    </p>
-                </div>
+  <!-- Feature 2: Customer Module -->
+  <section id="project-feature-2" class="project-feature reveal max-height">
+    <div class="container">
+      <div class="section-card hover-trigger">
+        <div class="description">
+          <span class="label">CUSTOMER MANAGEMENT</span>
+          <h2 class="section-title">Customer Module</h2>
+          <p>
+            No more lost contacts. The customers module stores the business customer's information
+            (their name, email, phone number, customer type and status). It also features filtering
+            and instant search.
+          </p>
+          <div class="feature-grid">
+            <div class="feature-content">
+              <div class="feature-badges">
+                <span class="feature-badge">Customer Table</span>
+                <span class="feature-badge">Instant Filters</span>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
-
-    <!-- Dashboard Overview Section -->
-    <section class="project-feature-dashboard reveal max-height">
-        <div class="container">
-            <div class="section-card hover-trigger">
-                    <span class="label">MODULES OVERVIEW</span>
-                    <h2 class="section-title">Dashboard Overview</h2>
-                    <p>
-                        A clean, dashboard that provides at-a-glance insights into the users business metrics, recent activities, and pending tasks. All critical information is organized for quick access.
-                    </p>
-
-                <div class="app-showcase">
-                    <div class="app-window glow-float-card reveal">
-                        <img src="../assets/CRMDashboard.png" alt="CRM Dashboard Overview">
-                    </div>
-                </div>
-            </div>
+        <div class="app-showcase">
+          <div class="app-window glow-float-card reveal">
+            <img src="../assets/Customer List.png" alt="Client Directory">
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Feature 2: Command Center Dashboard -->
-    <section id="project-feature-1" class="project-feature reveal max-height">
-        <div class="container">
-            <div class="section-card hover-trigger">
-                <div class="description">
-                    <span class="label">OPERATIONAL AWARENESS</span>
-                    <h2 class="section-title">The Analysis Center</h2>
-                    <p>
-                        Start every day with clarity. The analysis module aggregates real-time data of all customers, active projects, and tasks. It gives freelancers an immediate snapshot of their business health without digging through database rows.
-                    </p>
+  <!-- SHARED: Footer injected by components.js -->
+  <div id="footer-placeholder"></div>
 
-                <div class="feature-grid">
-                    <div class="feature-content">
-                        <div class="feature-badges">
-                            <span class="feature-badge">Real-time Stats</span>
-                            <span class="feature-badge">Monthly Trends</span>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                    <div class="app-showcase">
-                        <div class="app-window glow-float-card reveal">
-                            <img src="../assets/CommandCenter.png" alt="Command Center Dashboard">
-                        </div>
-                    </div>
-            </div>
-        </div>
-    </section>
+  <!-- Back to Top Button -->
+  <button onclick="topFunction()" id="backToTop" title="Go to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
 
-    <!-- Feature 3: Reactive Client Directory -->
-    <section id="project-feature-2" class="project-feature reveal max-height">
-        <div class="container">
-            <div class="section-card hover-trigger">
-                <div class="description">
-                    <span class="label">CUSTOMER MANAGEMENT</span>
-                    <h2 class="section-title">Customer Module</h2>
-                    <p>
-                        No more lost contacts. The customers module stores the business customers information ( Their name, email, phone number and customer type and status). It also features filtering and instant search. 
-                    </p>
-    
-                    <div class="feature-grid"> 
-                            <div class="feature-content">
-                            <!-- badges -->
-                            <div class="feature-badges">
-                                <span class="feature-badge">CustomerTable</span>
-                                <span class="feature-badge">Instant Filters</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    <div class="app-showcase">
-                        <div class="app-window glow-float-card reveal">
-                            <img src="../assets/Customer List.png" alt="Client Directory">
-                        </div>
-                    </div>
-            </div>
-        </div>
-    </section>
+  <script src="../js/component.js"></script>
+  <script src="../js//main.js"></script>
+  <script src="../js/project-page.js"></script>
 
-    <!-- Footer -->
-    <footer id="contact" class="footer">
-        <div class="container">
-            <h3 class="footer-title">Building memorable digital experiences.</h3>
-            <a href="mailto:isaackmuchoki55@gmail.com" class="footer-email">
-                isaackmuchoki55@gmail.com
-            </a>
-            <div class="footer-social">
-                <a href="https://github.com/kirrer-izo" class="social-icon" aria-label="GitHub">
-                    <i class="fa-brands fa-github"></i>
-                </a>
-                <a href="https://discord.com/invite/aJh572WK" class="social-icon" aria-label="Discord">
-                    <i class="fa-brands fa-discord"></i>
-                </a>
-                <a href="mailto:isaackmuchoki55@gmail.com" class="social-icon" aria-label="Email">
-                    <i class="fa-solid fa-envelope"></i>
-                </a>
-            </div>
-            <p class="footer-copyright">© 2026 Isaack Muchoki. Nairobi, Kenya</p>
-        </div>
-    </footer>
-
-    <!-- Back to Top Button -->
-    <button onclick="topFunction()" id="backToTop" title="Go to top">
-        <i class="fa-solid fa-arrow-up"></i>
-    </button>
-
-<script src="../js/main.js"></script>
-<script src="../js/project-page.js"></script>
 </body>
 
 </html>
