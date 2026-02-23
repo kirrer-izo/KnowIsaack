@@ -249,66 +249,8 @@
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
-    <script>
-
-                if (history.scrollRestoration) {
-            history.scrollRestoration = 'manual';
-        }
-        // Get the button
-        let mybutton = document.getElementById("backToTop");
-
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function () { scrollFunction() };
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                mybutton.style.display = "block";
-            } else {
-                mybutton.style.display = "none";
-            }
-        }
-
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-         
-
-
-        const sections = document.querySelectorAll("section[id]");
-        const revealElements = document.querySelectorAll(".reveal");
-
-        const observerOptions = {
-            root: null,
-            rootMargin: "0px",
-            threshold: [0]
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-
-                // Logic for Trigger Animations (Trigger at 10 % visibility)
-                if (entry.isIntersecting && entry.target.classList.contains('reveal') && entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-
-                    // ONLY Unobserve if it's NOT a section
-                    if (entry.target.tagName !== 'SECTION') {
-                        observer.unobserve(entry.target);
-                    }
-                }
-
-
-
-            });
-        }, observerOptions);
-
-        // Observer to watch everything
-
-        sections.forEach((section) => observer.observe(section));
-        revealElements.forEach((el) => observer.observe(el));
-
-    </script>
+<script src="../js/main.js"></script>
+<script src="../js/project-page.js"></script>
 </body>
 
 </html>
