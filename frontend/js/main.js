@@ -103,7 +103,6 @@ cards.forEach(card => {
 //  FETCH API
 
 const modal = document.getElementById("contactModal");
-const contactBtn = document.querySelector(".nav-menu a[href='#contact']");
 const closeBtn = document.querySelector(".close-btn");
 
 //Open Modal
@@ -120,15 +119,17 @@ function closeModal() {
   }
 }
 
-if (contactBtn) {
-  contactBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    openModal();
-  });
-}
-
+document.addEventListener("components:loaded", () => {
+    const contactBtn = document.querySelector(".nav-menu a[href='#contact']");
+    if (contactBtn) {
+        contactBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            openModal();
+        });
+    }
+});
 if (closeBtn) {
-    closeBtn.addEventListener("click", closeModal());
+    closeBtn.addEventListener("click", closeModal);
 }
 
 // Close Modal on Outside Click
@@ -163,13 +164,14 @@ async function handleFormSubmit(e) {
   e.preventDefault();
   clearErrors();
 
-  if (!validateContactForm) {
+   const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+  if (!validateContactForm()) {
     return;
   }
 
-   // Get Form Data
-    const formData = new FormData(contactForm);
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    // Get Form Data
+   const formData = new FormData(contactForm);
 
     setSubmittingState(submitBtn, true);
 
@@ -226,10 +228,9 @@ function showFormStatus(className, html) {
 }
 
 function hideFormStatus() {
-  formStatus.style.direction = "none";
+  formStatus.style.display = "none";
   formStatus.className = "";
 }
-
 //  --- Validation ---
 function validateContactForm() {
   const name = document.getElementById("name").value.trim();
@@ -279,6 +280,7 @@ function validateContactForm() {
 function showError(fieldId, message) {
   const input = document.getElementById(fieldId);
   const span = document.getElementById(fieldId + "Error");
+   console.log('showError called:', fieldId, message, !!input, !!span);
   input.classList.add("error");
   span.textContent = message;
 }
@@ -295,11 +297,13 @@ function removeFieldError(fieldId) {
 }
 
 function clearErrors() {
-  document.querySelectorAll(".error").forEach((el) => {
+    // Only clear error class from inputs and textareas
+  document.querySelectorAll("input.error, textarea.error").forEach((el) => {
     el.classList.remove("error");
-    if (el.tagName !== "INPUT" && el.tagName !== "TEXTAREA") {
-      el.textContent = "";
-    }
+  });
+  // Clear error span text separately
+  document.querySelectorAll(".error-text").forEach((el) => {
+    el.textContent = "";
   });
 }
 
