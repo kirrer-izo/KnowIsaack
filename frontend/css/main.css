@@ -1,7 +1,7 @@
 :root {
-  /* Color Palette */
+  /* ── Color Palette ── */
 
-  /* Primary Colors */
+  /* Primary */
   --color-primary-900: #000033;
   --color-primary-800: #001a66;
   --color-primary-700: #0033cc;
@@ -12,7 +12,7 @@
   --color-primary-200: #b3d9ff;
   --color-primary-100: #e6f2ff;
 
-  /* Neutral Colors */
+  /* Neutral */
   --color-neutral-900: #0f172a;
   --color-neutral-800: #1e293b;
   --color-neutral-700: #334155;
@@ -23,7 +23,7 @@
   --color-neutral-200: #e2e8f0;
   --color-neutral-100: #f1f5f9;
 
-  /* Sematic Tokens */
+  /* ── Semantic Tokens ── */
 
   --glow-secondary: 217 80% 65%;
   --background: 210 40% 98%;
@@ -64,7 +64,7 @@
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* ======================================== 
+/* ========================================
    RESET & BASE STYLES
    ======================================== */
 
@@ -156,7 +156,6 @@ img {
   margin: auto;
 }
 
-/* Color accent */
 .color-accent {
   color: var(--color-accent);
 }
@@ -166,7 +165,6 @@ section {
   display: flex;
 }
 
-/* Content Card */
 .section-card {
   padding: var(--spacing-lg);
   margin: auto;
@@ -189,59 +187,27 @@ section {
    UTILITY CLASSES
    ======================================== */
 
-.text-left {
-  text-align: left;
-}
+.text-left  { text-align: left; }
+.text-center { text-align: center; }
 
-.text-center {
-  text-align: center;
-}
+/* Animation delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-1   { animation-delay: 1s; }
 
-.delay-100 {
-  animation-delay: 100ms;
-}
-
-.delay-200 {
-  animation-delay: 200ms;
-}
-
-.delay-300 {
-  animation-delay: 300ms;
-}
-
-.delay-400 {
-  animation-delay: 400ms;
-}
-
-.delay-500 {
-  animation-delay: 500ms;
-}
-
-.delay-1 {
-  animation-delay: 1s;
-}
-
+/* Background mesh gradient overlay */
 .mesh-gradient {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(
-      at 20% 20%,
-      hsl(var(--color-accent) / 0.04) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      at 80% 80%,
-      hsl(var(--glow-secondary) / 0.03) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      at 50% 50%,
-      hsl(var(--color-accent) / 0.02) 0%,
-      transparent 70%
-    );
+    radial-gradient(at 20% 20%, hsl(var(--color-accent) / 0.04) 0%, transparent 50%),
+    radial-gradient(at 80% 80%, hsl(var(--glow-secondary) / 0.03) 0%, transparent 50%),
+    radial-gradient(at 50% 50%, hsl(var(--color-accent) / 0.02) 0%, transparent 70%);
 }
 
 .page {
@@ -296,7 +262,7 @@ section {
   padding: var(--spacing-sm);
   border: 2px solid var(--text-primary);
   border-radius: var(--radius-sm);
-  transition: color 0.3 ease;
+  transition: color 0.3s ease; /* BUG FIX: was missing 's' unit */
 }
 
 .logo i:hover {
@@ -326,20 +292,17 @@ section {
   transform: translateX(-50%);
 }
 
-.nav-menu a:hover::after {
-  width: 100%;
-}
-
-.nav-menu a:hover {
-  color: var(--color-primary-dark);
-}
-
+.nav-menu a:hover::after,
 .nav-menu a.active::after {
   width: 100%;
 }
 
+.nav-menu a:hover,
 .nav-menu a.active {
   color: var(--color-primary-dark);
+}
+
+.nav-menu a.active {
   font-weight: 600;
 }
 
@@ -391,7 +354,6 @@ section {
   height: 320px;
   border-radius: var(--radius-circle);
   object-fit: cover;
-  padding: 0px;
 }
 
 /* ========================================
@@ -407,6 +369,7 @@ section {
 .skills-content {
   padding-top: var(--spacing-md);
 }
+
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(150px, 1fr));
@@ -429,7 +392,7 @@ section {
   align-items: center;
 }
 
-/* The gradient overlay that follows the mouse */
+/* Gradient overlay that follows the mouse */
 .skill-card::before {
   content: "";
   position: absolute;
@@ -440,7 +403,6 @@ section {
     rgba(59, 130, 246, 0.15),
     transparent 60%
   );
-
   pointer-events: none;
   transition: opacity 0.5s;
 }
@@ -453,10 +415,6 @@ section {
   display: inline-block;
   font-size: 32px;
   margin-bottom: var(--spacing-md);
-  transition: transform 0.3s ea;
-}
-
-.skill-card .skill-icon {
   animation: float 5s ease-in-out infinite;
 }
 
@@ -474,6 +432,7 @@ section {
 .project-overview {
   padding: var(--spacing-xl);
 }
+
 .projects-container {
   display: flex;
   flex-wrap: wrap;
@@ -484,19 +443,21 @@ section {
 .section-description {
   padding: var(--spacing-md);
 }
+
 .project-card {
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: var(--spacing-md);
   background: var(--bg-card);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-neutral-200);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   flex: 1 1 calc(50% - 24px);
   position: relative;
 }
 
+/* Gradient overlay that follows the mouse */
 .project-card::before {
   content: "";
   position: absolute;
@@ -507,7 +468,6 @@ section {
     rgba(59, 130, 246, 0.15),
     transparent 60%
   );
-
   pointer-events: none;
   border-radius: inherit;
   transition: opacity 0.5s;
@@ -537,7 +497,7 @@ section {
 
 .tech-tag {
   background-color: var(--bg-card);
-  border: 1px var(--border-card);
+  border: 1px solid var(--border-card); /* BUG FIX: was missing 'solid' keyword */
   color: #2563eb;
   font-size: 12px;
   font-weight: 600;
@@ -570,9 +530,7 @@ section {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  transition:
-    background-color 0.3s ease,
-    transform 0.3s;
+  transition: background-color 0.3s ease, transform 0.3s;
 }
 
 .btn-secondary {
@@ -589,10 +547,11 @@ section {
   align-items: center;
   gap: 8px;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 /* ========================================
-   CONTACT MODAL SECTION
+   CONTACT MODAL
    ======================================== */
 
 .modal {
@@ -629,7 +588,6 @@ section {
   margin-bottom: var(--spacing-md);
 }
 
-/* Inputs and Textarea Styling */
 .form-group input,
 .form-group textarea {
   width: 100%;
@@ -643,16 +601,36 @@ section {
   transition: all 0.3s ease;
 }
 
-/* Focus State: This is the "Industry Standard" feel */
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  background-color: --bg-card;
+  background-color: var(--bg-card); /* BUG FIX: was missing var() wrapper */
   border-color: var(--color-accent);
   box-shadow: var(--shadow-md);
 }
 
-/* Close Button Styling */
+/* Error states */
+.form-group input.error,
+.form-group textarea.error {
+  border-color: red;
+  animation: shake 0.3s;
+}
+
+.form-group input.error:focus,
+.form-group textarea.error:focus {
+  box-shadow: var(--shadow-md);
+  border-color: red;
+}
+
+span.error {
+  color: red;
+  font-size: 12px;
+  margin-top: var(--spacing-sm);
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Close Button */
 .close-btn {
   position: absolute;
   top: 20px;
@@ -665,7 +643,6 @@ section {
 
 .close-btn:hover {
   color: red;
-  /* Subtle red feedback */
 }
 
 .btn-primary:disabled {
@@ -674,13 +651,7 @@ section {
   filter: grayscale(0.5);
 }
 
-.error {
-  color: red;
-  font-size: smaller;
-  display: block;
-  margin-top: var(--spacing-sm);
-}
-
+/* Form Status Feedback */
 #formStatus {
   display: none;
   margin-top: var(--spacing-md);
@@ -704,48 +675,11 @@ section {
   border: 1px solid #fecaca;
 }
 
-/* Default "Sending" state (blue) */
+/* Default "Sending" state */
 #formStatus:not(.success):not(.error) {
   background-color: #dbeafe;
   color: #1e40af;
   border: 1px solid #bfdbfe;
-}
-
-span.error {
-  color: red;
-  font-size: 12px;
-  margin-top: var(--spacing-sm);
-  display: block;
-}
-
-.form-group input.error,
-.form-group textarea.error {
-  border-color: red;
-  animation: shake 0.3s;
-}
-
-.form-group input.error:focus,
-.form-group textarea.error:focus {
-  box-shadow: var(--shadow-md);
-  border-color: red;
-}
-
-.form-group message {
-  padding: var(--spacing-sm);
-  margin: var(--spacing-md);
-  border-radius: var(--radius-sm);
-}
-
-.form-group message.success {
-  background-color: var(--bg-card);
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.form-group message.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
 }
 
 /* ========================================
@@ -785,13 +719,10 @@ span.error {
   color: var(--text-footer);
 }
 
-
-
 /* ========================================
-   PROJECT DETAIL PAGE
+   PROJECT DETAIL PAGES
    ======================================== */
 
-/* Project Header Section */
 .project-header .container {
   display: flex;
   flex-direction: column;
@@ -826,12 +757,10 @@ span.error {
   border-radius: var(--radius-circle);
   font-size: 18px;
   box-shadow: var(--shadow-md);
-  transition:
-    background-color 0.3s,
-    transform 0.2s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-/* Project Overview Section */
+/* Overview Grid */
 .overview-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -866,14 +795,10 @@ span.error {
   margin-bottom: 0;
 }
 
-/* Landing Page Showcase Section */
-.showcase-section .section-card {
-  text-align: left;
-}
-
+/* App Window / Showcase */
 .app-window {
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-neutral-200);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   max-width: var(--container-width);
@@ -882,10 +807,9 @@ span.error {
   overflow: hidden;
   position: relative;
   padding-top: var(--spacing-xl);
-  /* Space for the header */
 }
 
-/* Mac-like Traffic Lights - Centered */
+/* Mac-like Traffic Lights */
 .app-window::before {
   content: "";
   position: absolute;
@@ -896,9 +820,7 @@ span.error {
   height: 12px;
   border-radius: var(--radius-circle);
   background-color: #ffbd2e;
-  box-shadow:
-    -24px 0 0 #ff5f56,
-    24px 0 0 #27c93f;
+  box-shadow: -24px 0 0 #ff5f56, 24px 0 0 #27c93f;
 }
 
 .app-showcase {
@@ -910,9 +832,21 @@ span.error {
   width: fit-content;
   margin: 0 auto;
   margin-top: var(--spacing-xl);
+  flex: 1;
 }
 
-/* Challenges Section */
+.app-window {
+  width: 100%;
+}
+
+.app-window img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Challenges Grid */
 .challenges-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -939,7 +873,7 @@ span.error {
   color: var(--text-body);
 }
 
-/* Feature Badges CRM */
+/* Feature Badges */
 .feature-badges {
   display: flex;
   gap: 16px;
@@ -961,27 +895,25 @@ span.error {
 }
 
 .feature-badge:hover {
-  background-color: var(--color-primary-50);
+  background-color: var(--color-primary-100);
 }
 
-/* Feature Grid Adjustments */
 .feature-grid {
   align-items: center;
 }
 
 /* ========================================
-   Live Your DETAIL PAGE
+   PROJECT FEATURE SECTIONS (Live Your Books)
    ======================================== */
 
-/* AI Mentor */
-.project-feature{
+.project-feature {
   margin-bottom: var(--spacing-xl);
   padding: var(--spacing-xl);
 }
+
 .description-title {
   display: block;
   margin-top: var(--spacing-xl);
-  padding-left: 0px;
   padding-top: var(--spacing-md);
   font-size: 15px;
   color: var(--color-accent);
@@ -1013,7 +945,7 @@ span.error {
 }
 
 .description-list li span {
-    font-style: italic;
+  font-style: italic;
 }
 
 .project-feature .container .section-card {
@@ -1026,26 +958,7 @@ span.error {
   flex: 1;
 }
 
-.app-showcase {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.app-window {
-  width: 100%;
-}
-
-.app-window img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* AI Features */
-
+/* Reverse layout for feature 3 */
 #project-feature-3 .section-card {
   flex-direction: row-reverse;
 }
@@ -1065,10 +978,10 @@ span.error {
 
 .features-list {
   display: flex;
-  flex-direction: wrap;
+  flex-wrap: wrap;
   gap: 8px;
   list-style: none;
-  padding: 0px;
+  padding: 0;
 }
 
 .features-list li {
@@ -1079,7 +992,6 @@ span.error {
   font-size: 14px;
   color: var(--color-accent);
 }
-
 
 /* ========================================
    HOVER EFFECTS & INTERACTIONS
@@ -1115,41 +1027,29 @@ span.error {
 .simple-float-card:hover,
 .hover-trigger:hover .simple-float-card {
   transform: translateY(-8px);
+  /* BUG FIX: was malformed with commas instead of spaces for multi-value shadow */
   box-shadow:
     0 10px 25px -5px rgba(0, 0, 0, 0.1),
-    0,
-    8px,
-    10px,
-    -6px rgba(0, 0, 0, 0.05);
+    0 8px 10px -6px rgba(0, 0, 0, 0.05);
 }
 
-/* Staggered animation delays */
+/* Staggered hover delays */
 .hover-trigger:hover .glow-float-card:nth-child(2),
-.hover-trigger:hover .simple-float-card:nth-child(2) {
-  transition-delay: 0.05s;
-}
+.hover-trigger:hover .simple-float-card:nth-child(2) { transition-delay: 0.05s; }
 
 .hover-trigger:hover .glow-float-card:nth-child(3),
-.hover-trigger:hover .simple-float-card:nth-child(3) {
-  transition-delay: 0.1s;
-}
+.hover-trigger:hover .simple-float-card:nth-child(3) { transition-delay: 0.1s; }
 
 .hover-trigger:hover .glow-float-card:nth-child(4),
-.hover-trigger:hover .simple-float-card:nth-child(4) {
-  transition-delay: 0.15s;
-}
+.hover-trigger:hover .simple-float-card:nth-child(4) { transition-delay: 0.15s; }
 
 .hover-trigger:hover .glow-float-card:nth-child(5),
-.hover-trigger:hover .simple-float-card:nth-child(5) {
-  transition-delay: 0.2s;
-}
+.hover-trigger:hover .simple-float-card:nth-child(5) { transition-delay: 0.2s; }
 
 .hover-trigger:hover .glow-float-card:nth-child(6),
-.hover-trigger:hover .simple-float-card:nth-child(6) {
-  transition-delay: 0.25s;
-}
+.hover-trigger:hover .simple-float-card:nth-child(6) { transition-delay: 0.25s; }
 
-/* Buttons */
+/* Button hover states */
 .btn-primary:hover {
   background-color: var(--color-primary-dark);
   border-radius: var(--radius-sm);
@@ -1160,18 +1060,12 @@ span.error {
   transform: translateY(0);
 }
 
-.btn-secondary {
-  transition: color 0.2s ease;
-}
-
 .btn-secondary:hover {
   color: var(--color-accent);
 }
 
 .social-icon {
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .social-icon:hover {
@@ -1187,13 +1081,10 @@ span.error {
   from {
     opacity: 0;
     transform: translateY(30px);
-    /* Start 30px lower */
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
-    /* End at natural position */
   }
 }
 
@@ -1202,52 +1093,34 @@ span.error {
     opacity: 0;
     transform: translateY(-5px);
   }
-
   to {
     opacity: 1;
-    transform: translateY(0px);
+    transform: translateY(0);
   }
 }
 
 @keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  25% {
-    transform: translateY(-6px);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-  75% {
-    transform: translateY(0px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+  0%   { transform: translateY(0px); }
+  25%  { transform: translateY(-6px); }
+  50%  { transform: translateY(-6px); }
+  75%  { transform: translateY(0px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-4px); }
+  75%       { transform: translateX(4px); }
 }
 
 .reveal {
-  /* Ensure it's hidden before the animation starts */
   opacity: 0;
   animation-fill-mode: forwards;
 }
 
 .reveal.is-visible {
-  /* Apply the animation */
   animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-
-/* Animation for error messages */
-.error {
-  animation: fadeIn 0.3s ease;
-}
-
-#formStatus {
-  animation: fadeIn 0.3s ease;
-}
-
-
 
 /* ========================================
    RESPONSIVE
@@ -1296,40 +1169,33 @@ span.error {
     gap: 40px;
   }
 
+  /* BUG FIX: was declared twice back-to-back */
   .skills-grid {
     width: 100%;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .modal-content {
     margin: var(--spacing-md) auto;
     padding: var(--spacing-lg);
   }
-  
+
   .overview-grid {
     grid-template-columns: 1fr;
   }
 
-  .project-feature .container .section-card {
-    flex-direction: column;;
-  }
-
+  .project-feature .container .section-card,
   #project-feature-3 .section-card {
     flex-direction: column;
   }
 
-  .description, .app-showcase {
+  .description,
+  .app-showcase {
     width: 100%;
-    flex:unset;
+    flex: unset;
   }
 
-  .app-window image {
+  .app-window img {
     width: 100%;
-  };
-
-
+  }
 }
