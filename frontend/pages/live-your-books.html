@@ -2,313 +2,228 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Your Books - Isaack Muchoki</title>
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Your Books - Isaack Muchoki</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-               <a href="/"> <i class="fa-solid fa-house"></i></a></i>
-                <span>home</span>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="/#about">About</a></li>
-                <li><a href="/#skills">Skills</a></li>
-                <li><a href="/#projects">Projects</a></li>
-                <li><a href="/#contact">Contact me</a></li>
+
+  <!-- SHARED: Navbar injected by components.js -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- Project Header -->
+  <section id="project-header" class="project-header reveal">
+    <div class="container">
+      <a href="/#projects" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Projects
+      </a>
+      <h1 class="project-main-title">Live Your Books</h1>
+      <p class="project-tagline">
+        Live Your Books is a self-improvement web application that helps users apply the lessons learned from
+        books into their daily lives through interactive journaling and progress tracking.
+      </p>
+    </div>
+  </section>
+
+  <!-- Project Overview -->
+  <section id="project-overview" class="project-overview reveal delay-200">
+    <div class="container">
+      <div class="overview-grid">
+        <div class="overview-card simple-float-card hover-trigger">
+          <h3>
+            <i class="fa-solid fa-book-open"></i>
+            Live Your Books
+          </h3>
+          <p>
+            Live Your Books leverages artificial intelligence to stimulate mentorship from renowned thinkers
+            and authors, guiding users towards continuous self-improvement. The project aims to bridge the
+            gap between passive reading and the meaningful, real world application of knowledge.<br><br>
+            The Modules are namely; Books, Task Generator, Habit Tracker, Journaling, AI Mentor, and AI
+            Features (which includes: weekly growth summary, personalized advice, habit suggestions, and
+            routine builder).
+          </p>
+        </div>
+        <div class="overview-card simple-float-card hover-trigger">
+          <h3>
+            <i class="fa-solid fa-bullseye"></i>
+            Project Purpose and Goal
+          </h3>
+          <p>
+            My goal was to develop a self-improvement web application that helps users apply lessons from
+            books into their daily lives through journaling and progress tracking.<br><br>
+            I intended to bridge the gap between theory and practice, through modules like the AI Mentor
+            that enables users to chat with the AI on the selected book and the AI would emulate the persona
+            of the selected mentor. There is also the AI Features module which enhances the user journey
+            through personalized tasks tailored to the user.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 1: Dashboard Overview -->
+  <section id="project-feature-1" class="project-feature-dashboard reveal delay-300 max-height">
+    <div class="container">
+      <div class="section-card hover-trigger">
+        <div>
+          <span class="label">MODULES OVERVIEW</span>
+          <h2 class="section-title">Dashboard Overview</h2>
+          <p>
+            On the Dashboard the user is able to see an overview of all modules. The user can monitor
+            a list of all books, active tasks, habits and journal entries. There are also sections
+            displaying the five most recent items of books, habits and recent tasks.
+          </p>
+        </div>
+        <div class="app-showcase">
+          <div class="app-window glow-float-card reveal delay-400">
+            <img src="../assets/Landing page.png" alt="Live Your Books Dashboard">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 2: AI Mentor Chat -->
+  <section id="project-feature-2" class="project-feature reveal delay-300">
+    <div class="container">
+      <div class="section-card hover-trigger">
+        <div class="description">
+          <span class="label">MENTOR CHAT</span>
+          <h2 class="section-title">AI Mentor Chat</h2>
+          <p>
+            Don't just read. The mentor chat enables users to select a specific book or mentor persona,
+            and the AI will emulate what was selected to answer your questions. This enables users to
+            have deep, grounded conversations with their reading list.
+          </p>
+          <span class="description-title">Screenshot Description</span>
+          <ul class="description-list">
+            <li><span>I requested the AI for Actionable steps from its Chapter one</span></li>
+            <li><span>In the provided screenshot I chose the book Atomic Habits.</span></li>
+          </ul>
+        </div>
+        <div class="app-showcase">
+          <div class="app-window glow-float-card reveal delay-500">
+            <img src="../assets/AI Mentor Chat.png" alt="AI Mentor Chat Interface">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 3: AI-Powered Growth -->
+  <section id="project-feature-3" class="project-feature reveal delay-300">
+    <div class="container">
+      <div class="section-card hover-trigger">
+        <div class="description">
+          <span class="label">DATA DRIVEN INSIGHTS</span>
+          <h2 class="section-title">AI Features</h2>
+          <p>
+            Turn raw activity into actionable direction. The AI analyses the users tasks, habits, books
+            and journals to generate weekly progress and personalized advice. The user selects the book
+            or mentor the AI should emulate and provide their intended goals and waits for the AI to
+            generate habits or personalized advice.
+          </p>
+          <div class="available-features">
+            <p class="heading">Available Features</p>
+            <ul class="features-list">
+              <li>Weekly Progress</li>
+              <li>Personalized Advice</li>
+              <li>Habit Suggestion</li>
+              <li>Routine Builder</li>
             </ul>
+          </div>
         </div>
-    </nav>
+        <div class="app-showcase">
+          <div class="app-window glow-float-card reveal delay-500">
+            <img src="../assets/AIPoweredGrowth.png" alt="AI Personalized Advice">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Project Header Section -->
-    <section id="project-header" class="project-header reveal">
-        <div class="container">
-            <a href="/#projects" class="back-link">
-                <i class="fa-solid fa-arrow-left"></i>
-                Back to Projects
-            </a>
-            <h1 class="project-main-title">Live Your Books</h1>
-            <p class="project-tagline">
-                Live Your Books is a self-improvement web application that helps users apply the lessons learned from
-                books into their daily lives through interactive journaling and progress tracking.
+  <!-- Feature 4: Technical Challenges -->
+  <section id="project-feature-4" class="project-challenges reveal delay-300">
+    <div class="container">
+      <div class="section-card hover-trigger">
+        <span class="label">ENGINEERING DEEP DIVE</span>
+        <h2 class="section-title">Technical Challenges & Solutions</h2>
+        <p>Overcoming engineering hurdles during development</p>
+
+        <div class="challenges-grid">
+          <!-- Challenge 1: Data Security -->
+          <div class="challenge-card reveal delay-500 glow-float-card hover-trigger">
+            <div class="code-badge">
+              <svg width="64px" height="64px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><style>.a{fill:none;stroke:#0066ff;stroke-linecap:round;stroke-linejoin:round;}</style></defs><path class="a" d="M22.2,4.86,6.69,11.25V27C6.69,35.44,24,43.5,24,43.5S41.31,35.44,41.31,27V11.25L25.8,4.86A4.68,4.68,0,0,0,22.2,4.86Z"></path><polygon class="a" points="30.45 20.7 24 20.7 24 11.78 17.69 25 24.14 25 24.14 33.92 30.45 20.7"></polygon></svg>
+            </div>
+            <h3>Data Security & Privacy</h3>
+            <p class="challenge-label">Challenge: Protecting sensitive user data</p>
+            <p class="challenge-description">
+              Sensitive data like journal entries and user passwords are stored in the database encrypted.
             </p>
-        </div>
-    </section>
+          </div>
 
-    <!-- Project Overview Section -->
-    <section id="project-overview" class="project-overview reveal delay-200">
-        <div class="container">
-            <div class="overview-grid">
-                <div class="overview-card simple-float-card hover-trigger">
-                    <h3>
-                        <i class="fa-solid fa-book-open"></i>
-                        Live Your Books
-                    </h3>
-                    <p>
-                        Live Your Books leverages artificial intelligence to stimulate mentorship from renowned thinkers and authors, guiding users towards continuous self-improvement. The project aims to bridge the gap between passive reading and the meaningful, real world application of knowledge. <br> <br>
-
-                        The Modules are namely; Books, Task Generator, Habit Tracker, Journaling, AI Mentor, and AI Features (which includes: weekly growth summary, personalized advice, habit suggestions, and routine builder)
-                    </p>
-                </div>
-                <div class="overview-card simple-float-card hover-trigger">
-                    <h3>
-                        <i class="fa-solid fa-bullseye"></i>
-                        Project Purpose and Goal
-                    </h3>
-                    <p>
-                        My goal was to develop a self-improvement web application that helps users apply lessons from books into their daily lives through journaling and progress tracking.
-                        <br> <br>
-
-                        I intended to bridge the gap between theory and practice, through modules like the AI Mentor that enables users to chat with the AI on the selected book and the AI would emulate the persona of the selected mentor.
-                        There is also the AI Features module which enhances the user journey through personalized tasks tailored to the user.
-                    </p>
-                </div>
+          <!-- Challenge 2: AI Hallucination -->
+          <div class="challenge-card reveal delay-500 glow-float-card hover-trigger">
+            <div class="code-badge">
+                <svg width="64px" height="64px" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M97.8357 54.6682C177.199 59.5311 213.038 52.9891 238.043 52.9891C261.298 52.9891 272.24 129.465 262.683 152.048C253.672 173.341 100.331 174.196 93.1919 165.763C84.9363 156.008 89.7095 115.275 89.7095 101.301" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M98.3318 190.694C-10.6597 291.485 121.25 273.498 148.233 295.083" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M98.3301 190.694C99.7917 213.702 101.164 265.697 100.263 272.898" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M208.308 136.239C208.308 131.959 208.308 127.678 208.308 123.396" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M177.299 137.271C177.035 133.883 177.3 126.121 177.3 123.396" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M203.398 241.72C352.097 239.921 374.881 226.73 312.524 341.851" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M285.55 345.448C196.81 341.85 136.851 374.229 178.223 264.504" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M180.018 345.448C160.77 331.385 139.302 320.213 120.658 304.675" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M218.395 190.156C219.024 205.562 219.594 220.898 219.594 236.324" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M218.395 190.156C225.896 202.037 232.97 209.77 241.777 230.327" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M80.1174 119.041C75.5996 120.222 71.0489 119.99 66.4414 120.41" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M59.5935 109.469C59.6539 117.756 59.5918 125.915 58.9102 134.086" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M277.741 115.622C281.155 115.268 284.589 114.823 287.997 114.255" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M291.412 104.682C292.382 110.109 292.095 115.612 292.095 121.093" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M225.768 116.466C203.362 113.993 181.657 115.175 160.124 118.568" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
             </div>
-        </div>
-    </section>
-    <!-- Landing Page Showcase Section -->
-    <section id="project-feature-1" class="project-feature-dashboard reveal delay-300 max-height">
-        <div class="container">
-            <div class="section-card hover-trigger">
-                <div>
-                    <span class="label">MODULES OVERVIEW</span>
-                    <h2 class="section-title">Dashboard Overview</h2>
-                    <p>
-                        On the Dashboard the user is able to see an overview of all modules. The user can monitor a list of all books, active tasks, habits and journal entries.
-                        There are also sections displaying the five most recent items of books, habits and recent tasks.
-                    </p>
-                </div>
-                <div class="app-showcase">
-                    <div class="app-window glow-float-card reveal delay-400">
-                        <img src="../assets/Landing page.png" alt="Live Your Books Dashboard">
-                    </div>
-                </div>
+            <h3>AI Hallucination Management</h3>
+            <p class="challenge-label">Challenge: Ensuring AI reliability</p>
+            <p class="challenge-description">
+              An AI disclaimer modal appears when the user first tries to use any AI feature,
+              managing expectations regarding AI accuracy.
+            </p>
+          </div>
+
+          <!-- Challenge 3: Prompt Engineering -->
+          <div class="challenge-card reveal delay-500 glow-float-card hover-trigger">
+            <div class="code-badge">
+                <svg fill="#0066ff" height="64px" width="64px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.999 511.999" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M504.642,207.408l-44.917-4.491c-4.868-18.741-12.299-36.659-22.152-53.415l28.603-34.96 c2.657-3.248,2.423-7.983-0.546-10.95L408.409,46.37c-2.967-2.967-7.702-3.205-10.951-0.546l-34.96,28.603 c-16.757-9.853-34.673-17.285-53.415-22.152l-4.491-44.917c-0.418-4.178-3.933-7.359-8.13-7.359h-80.923 c-4.198,0-7.712,3.181-8.13,7.356l-4.491,44.917c-18.741,4.868-36.658,12.3-53.415,22.152l-34.96-28.603 c-3.25-2.658-7.982-2.423-10.951,0.546l-57.223,57.224c-2.969,2.969-3.203,7.702-0.546,10.95l28.603,34.96 c-9.853,16.755-17.284,34.673-22.152,53.415l-44.917,4.491C3.181,207.826,0,211.341,0,215.538v80.924 c0,4.197,3.181,7.713,7.358,8.13l44.917,4.491c4.868,18.741,12.299,36.659,22.152,53.415l-28.603,34.96 c-2.657,3.248-2.423,7.983,0.546,10.95l57.222,57.222c2.969,2.969,7.701,3.205,10.951,0.546l34.96-28.603 c16.757,9.853,34.673,17.285,53.415,22.152l4.491,44.917c0.418,4.175,3.932,7.356,8.13,7.356h80.923 c4.198,0,7.712-3.181,8.13-7.356l4.491-44.917c18.741-4.868,36.658-12.3,53.415-22.152l34.96,28.603 c3.247,2.657,7.982,2.422,10.951-0.546l57.222-57.222c2.969-2.969,3.203-7.702,0.546-10.95l-28.603-34.96 c9.853-16.755,17.284-34.673,22.152-53.415l44.917-4.491c4.177-0.417,7.358-3.933,7.358-8.13v-80.924 C512,211.341,508.819,207.826,504.642,207.408z M495.66,289.068l-43.308,4.331c-3.487,0.349-6.364,2.882-7.149,6.299 c-4.817,20.948-13.072,40.855-24.536,59.166c-1.859,2.971-1.617,6.797,0.602,9.509l27.579,33.709l-46.766,46.765l-33.708-27.58 c-2.711-2.221-6.538-2.462-9.509-0.601c-18.313,11.463-38.219,19.72-59.167,24.537c-3.416,0.785-5.95,3.661-6.299,7.149 l-4.332,43.308h-66.136l-4.331-43.308c-0.349-3.487-2.882-6.364-6.299-7.149c-20.947-4.817-40.854-13.072-59.167-24.537 c-2.97-1.861-6.797-1.617-9.509,0.601l-33.708,27.58l-46.766-46.765l27.579-33.709c2.219-2.713,2.462-6.538,0.602-9.509 c-11.463-18.311-19.72-38.217-24.536-59.167c-0.786-3.416-3.662-5.95-7.149-6.299l-43.308-4.331v-66.136l43.308-4.331 c3.487-0.349,6.364-2.882,7.149-6.299c4.817-20.948,13.072-40.855,24.536-59.167c1.86-2.971,1.617-6.797-0.602-9.509 l-27.579-33.709l46.766-46.765l33.708,27.58c2.711,2.22,6.539,2.462,9.509,0.601c18.313-11.463,38.219-19.72,59.167-24.537 c3.416-0.785,5.95-3.661,6.299-7.149l4.332-43.306h66.136l4.331,43.308c0.349,3.487,2.882,6.364,6.299,7.149 c20.947,4.817,40.854,13.072,59.166,24.537c2.971,1.861,6.797,1.618,9.509-0.601l33.708-27.581l46.766,46.765l-27.579,33.709 c-2.219,2.713-2.462,6.538-0.602,9.509c11.463,18.311,19.72,38.217,24.536,59.167c0.786,3.416,3.662,5.95,7.149,6.299 l43.307,4.331V289.068z"></path> </g> </g> <g> <g> <path d="M256.002,77.89c-44.587,0-87.251,16.556-120.134,46.619c-32.668,29.866-52.966,70.484-57.154,114.373 c-0.429,4.491,2.865,8.481,7.356,8.91c4.516,0.431,8.481-2.865,8.91-7.358c7.955-83.35,77.179-146.204,161.022-146.204 c89.2,0,161.77,72.57,161.77,161.77s-72.57,161.77-161.77,161.77c-83.845,0-153.069-62.856-161.022-146.208 c-0.429-4.492-4.435-7.785-8.909-7.358c-4.493,0.429-7.786,4.417-7.358,8.91c4.188,43.889,24.484,84.509,57.152,114.376 c32.885,30.063,75.549,46.62,120.136,46.62c98.21,0,178.111-79.9,178.111-178.111S354.213,77.89,256.002,77.89z"></path> </g> </g> <g> <g> <path d="M256,110.571c-80.19,0-145.43,65.24-145.43,145.43S175.81,401.43,256,401.43s145.43-65.24,145.43-145.43 S336.19,110.571,256,110.571z M313.146,371.729c-14.93,7.402-31.485,11.997-48.976,13.095v-70.111c0-4.512-3.657-8.17-8.17-8.17 c-4.513,0-8.17,3.658-8.17,8.17v70.111c-17.491-1.098-34.046-5.693-48.976-13.095v-81.504h0h114.291V371.729z M283.609,224.908 l24.488,48.976H203.903l24.488-48.976H283.609z M236.561,208.569v-0.001L256,169.692l19.439,38.877H236.561z M329.486,362.07 v-80.015c0-0.306-0.02-0.607-0.052-0.903c-0.008-0.073-0.023-0.145-0.034-0.218c-0.032-0.229-0.069-0.454-0.119-0.675 c-0.019-0.08-0.04-0.159-0.061-0.239c-0.056-0.215-0.117-0.426-0.188-0.633c-0.027-0.08-0.057-0.157-0.086-0.235 c-0.08-0.208-0.167-0.411-0.263-0.611c-0.022-0.046-0.037-0.094-0.06-0.139l-65.316-130.633c-1.385-2.768-4.213-4.516-7.307-4.516 c-3.095,0-5.924,1.748-7.307,4.516l-65.316,130.633c-0.023,0.046-0.038,0.094-0.06,0.139c-0.095,0.199-0.182,0.402-0.261,0.609 c-0.029,0.078-0.059,0.157-0.086,0.236c-0.072,0.207-0.134,0.418-0.188,0.633c-0.021,0.079-0.044,0.158-0.061,0.239 c-0.05,0.222-0.087,0.448-0.119,0.675c-0.01,0.073-0.025,0.145-0.034,0.218c-0.033,0.297-0.052,0.598-0.052,0.903v80.015 c-33.576-23.333-55.604-62.173-55.604-106.068c0-71.18,57.909-129.089,129.089-129.089s129.089,57.909,129.089,129.089 C385.089,299.895,363.061,338.735,329.486,362.07z"></path> </g> </g> </g></svg>
+
             </div>
-        </div>
-    </section>
+            <h3>Prompt Engineering</h3>
+            <p class="challenge-label">Challenge: Inconsistent API responses</p>
+            <p class="challenge-description">
+              Carefully engineered system prompts and output constraints were used to
+              improve consistency and relevance of AI-generated content.
+            </p>
+          </div>
 
-    <!-- AI Mentor Module Section -->
-    <section id="project-feature-2" class="project-feature reveal delay-300 ">
-        <div class="container">
-            <div class="section-card hover-trigger">
-                <div class="description">
-                    <span class="label">MENTOR CHAT</span>
-                    <h2 class="section-title">AI Mentor Chat</h2>
-    
-                    <p>
-                        Don't just read. The mentor chat enables users to select a specific book or mentor persona, and the AI will emulate what was selected to answer your questions. This enables users to have a deep, grounded conversations with their reading list.
-                    </p>
-    
-                    <span class="description-title">Screenshot Description</span>
-                        <ul class="description-list">
-                            <li><span>I requested the AI for Actionable steps from its Chapter one</span></li>
-                            <li><span>In the provided screenshot I chose the book Atomic Habits.</span></li>
-                        </ul>
-                </div>
+          <!-- Challenge 4: Resource Optimization -->
+          <div class="challenge-card reveal delay-500 glow-float-card hover-trigger">
+            <div class="code-badge">
+                <svg fill="#0066ff" height="64px" width="64px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M417.684,64.135c-4.465,0-8.084,3.62-8.084,8.084v1.078c0,4.465,3.62,8.084,8.084,8.084s8.084-3.62,8.084-8.084v-1.078 C425.768,67.754,422.149,64.135,417.684,64.135z"></path> <path d="M322.406,345.554c-19.994,0-36.261,16.267-36.261,36.261s16.267,36.261,36.261,36.261s36.261-16.266,36.261-36.261 C358.668,361.82,342.401,345.554,322.406,345.554z M322.406,401.908c-11.079,0-20.093-9.013-20.093-20.093 c0-11.079,9.013-20.093,20.093-20.093c11.08,0,20.093,9.013,20.093,20.093C342.5,392.894,333.486,401.908,322.406,401.908z"></path> <path d="M450.021,64.135c-4.465,0-8.084,3.62-8.084,8.084v1.078c0,4.465,3.62,8.084,8.084,8.084c4.465,0,8.084-3.62,8.084-8.084 v-1.078C458.105,67.754,454.486,64.135,450.021,64.135z"></path> <path d="M460.8,32.337H210.189v-2.695C210.189,13.297,196.893,0,180.547,0H94.316C77.971,0,64.674,13.297,64.674,29.642v2.695 H51.2c-28.231,0-51.2,22.969-51.2,51.2v323.368c0,28.231,22.969,51.2,51.2,51.2h168.543c11.237,8.146,26.68,9.451,39.454,2.075 l7.534-4.35c6.009,4.531,12.507,8.288,19.414,11.226v8.682c0,19.995,16.266,36.261,36.261,36.261s36.261-16.266,36.261-36.261 v-8.682c6.908-2.937,13.406-6.694,19.414-11.226l7.534,4.35c12.775,7.376,28.216,6.07,39.453-2.075h35.73 c28.231,0,51.2-22.969,51.2-51.2V83.537C512,55.306,489.031,32.337,460.8,32.337z M80.842,29.642 c0-7.43,6.044-13.474,13.474-13.474h86.232c7.43,0,13.474,6.044,13.474,13.474v67.368H80.842V29.642z M16.168,83.537 c0-19.316,15.716-35.032,35.032-35.032h13.474v48.505H16.168V83.537z M421.148,438.823c-5.54,9.594-17.853,12.894-27.448,7.354 l-12.324-7.115c-2.967-1.714-6.695-1.37-9.298,0.859c-7.181,6.145-15.319,10.85-24.189,13.986c-3.23,1.141-5.39,4.196-5.39,7.622 v14.209c0,11.08-9.013,20.093-20.093,20.093c-11.079,0-20.093-9.013-20.093-20.093v-14.209c0-3.427-2.16-6.48-5.389-7.622 c-8.87-3.135-17.008-7.841-24.189-13.986c-1.5-1.284-3.373-1.942-5.258-1.942c-1.387,0-2.782,0.357-4.041,1.083l-12.324,7.115 c-7.467,4.312-16.579,3.269-22.865-1.927c-0.234-0.23-0.482-0.445-0.743-0.646c-1.482-1.354-2.784-2.953-3.839-4.783 c-5.539-9.594-2.24-21.908,7.354-27.448l12.312-7.108c2.964-1.711,4.529-5.104,3.907-8.47c-0.848-4.594-1.279-9.298-1.279-13.983 c0-4.686,0.43-9.39,1.279-13.982c0.622-3.366-0.943-6.758-3.907-8.47l-12.312-7.108c-9.594-5.54-12.894-17.853-7.354-27.448 c2.684-4.648,7.017-7.972,12.201-9.362c5.187-1.387,10.6-0.676,15.248,2.007l12.324,7.115c2.969,1.714,6.695,1.37,9.298-0.859 c7.181-6.145,15.319-10.85,24.189-13.986c3.23-1.143,5.389-4.196,5.389-7.622v-14.209c0-11.08,9.013-20.093,20.093-20.093 s20.093,9.013,20.093,20.093v14.209c0,3.426,2.159,6.48,5.389,7.622c8.871,3.136,17.009,7.842,24.189,13.986 c2.604,2.228,6.331,2.572,9.298,0.859l12.324-7.115c4.649-2.683,10.061-3.395,15.247-2.007c5.185,1.389,9.517,4.714,12.201,9.362 s3.396,10.062,2.007,15.247c-1.389,5.185-4.715,9.518-9.363,12.201l-12.311,7.108c-2.964,1.711-4.529,5.104-3.907,8.469 c0.849,4.596,1.279,9.3,1.279,13.984c0,4.682-0.43,9.387-1.279,13.985c-0.621,3.365,0.943,6.758,3.907,8.469l12.311,7.108 c4.648,2.684,7.973,7.017,9.363,12.201C424.544,428.761,423.831,434.175,421.148,438.823z M495.832,406.905 c0,19.316-15.716,35.032-35.032,35.032h-23.256c2.804-7.154,3.254-14.985,1.229-22.545c-2.507-9.356-8.507-17.175-16.895-22.018 l-7.532-4.349c0.449-3.719,0.677-7.471,0.677-11.21s-0.226-7.491-0.677-11.209l7.532-4.349 c8.388-4.843,14.389-12.663,16.895-22.018c2.506-9.355,1.22-19.128-3.623-27.515c-4.843-8.388-12.663-14.389-22.018-16.895 c-9.356-2.508-19.128-1.22-27.515,3.623l-7.534,4.349c-6.008-4.531-12.506-8.288-19.414-11.225v-8.684 c0-19.995-16.266-36.261-36.261-36.261c-19.994,0-36.261,16.267-36.261,36.261v8.682c-6.908,2.938-13.406,6.695-19.414,11.226 l-7.534-4.349c-17.315-9.997-39.536-4.043-49.535,13.272c-9.996,17.315-4.043,39.537,13.272,49.535l7.532,4.349 c-0.449,3.717-0.676,7.469-0.676,11.209c0,3.741,0.226,7.492,0.677,11.21l-7.532,4.349 c-15.696,9.063-22.056,28.171-15.662,44.563H51.2c-19.316-0.001-35.032-15.717-35.032-35.033V113.179h479.663V406.905z M495.832,97.011H210.189V48.505H460.8c19.316,0,35.032,15.716,35.032,35.032V97.011z"></path> <path d="M211.806,167.074h237.137c4.465,0,8.084-3.62,8.084-8.084c0-4.465-3.62-8.084-8.084-8.084H211.806 c-4.465,0-8.084,3.62-8.084,8.084C203.722,163.454,207.342,167.074,211.806,167.074z"></path> <path d="M82.459,404.211h97.01c4.465,0,8.084-3.62,8.084-8.084c0-4.465-3.62-8.084-8.084-8.084h-97.01 c-7.43,0-13.474-6.044-13.474-13.474V234.442c0-7.43,6.044-13.474,13.474-13.474h344.926c7.43,0,13.474,6.044,13.474,13.474 v53.895c0,4.465,3.62,8.084,8.084,8.084c4.465,0,8.084-3.62,8.084-8.084v-53.895c0-16.345-13.297-29.642-29.642-29.642H82.459 c-16.345,0-29.642,13.297-29.642,29.642v140.126C52.817,390.914,66.114,404.211,82.459,404.211z"></path> <path d="M60.901,167.074h75.453c4.465,0,8.084-3.62,8.084-8.084c0-4.465-3.62-8.084-8.084-8.084H60.901 c-4.465,0-8.084,3.62-8.084,8.084C52.817,163.454,56.436,167.074,60.901,167.074z"></path> <path d="M322.406,317.376c-35.532,0-64.439,28.907-64.439,64.439s28.907,64.439,64.439,64.439 c35.532,0,64.439-28.907,64.439-64.439S357.938,317.376,322.406,317.376z M322.406,430.084c-26.616,0-48.27-21.654-48.27-48.27 c0-26.617,21.654-48.27,48.27-48.27c26.616,0,48.27,21.654,48.27,48.27C370.676,408.43,349.022,430.084,322.406,430.084z"></path> <path d="M385.347,64.135c-4.465,0-8.084,3.62-8.084,8.084v1.078c0,4.465,3.62,8.084,8.084,8.084c4.465,0,8.084-3.62,8.084-8.084 v-1.078C393.432,67.754,389.812,64.135,385.347,64.135z"></path> </g> </g> </g> </g></svg>
 
-                <div class="app-showcase">
-                    <div class="app-window glow-float-card reveal delay-500">
-                        <img src="../assets/AI Mentor Chat.png" alt="AI Mentor Chat Interface">
-                    </div>
-                </div>
             </div>
+            <h3>Resource Optimization</h3>
+            <p class="challenge-label">Challenge: Storage limits</p>
+            <p class="challenge-description">
+              Pivoted from full file uploads to a name input system. This significantly reduced
+              storage usage while maintaining sufficient context for the AI.
+            </p>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- AI-Powered Growth Section -->
-    <section id="project-feature-3" class="project-feature reveal delay-300">
-        <div class="container">
-            <div class="section-card hover-trigger">
-                    <div class="description">
-                        <span class="label">DATA DRIVEN INSIGHTS</span>
-                        <h2 class="section-title">AI-Features</h2>
-                        <p>
-                            Turn raw activity into actionable direction. The AI analyses the users tasks, habits, books and journals to generate weekly progress and personalized advice. The user selects the book or mentor the AI should emulate and provide his intended goals and waits for the AI to generate habits or personalized advice (depends on what user wants).
-                        </p>
-            
-                        <div class="available-features">
-                            <p class="heading">Available Features</p>
-                            <ul class="features-list">
-                                <li>Weekly progress</li>
-                                <li>Personalized Advice</li>
-                                <li>Habit Suggestion</li>
-                                <li>Routine Builder</li>
-                            </ul>
-                        </div>
-                  
-                    </div>
+  <!-- SHARED: Footer injected by components.js -->
+  <div id="footer-placeholder"></div>
 
-                <div class="app-showcase">
-                    <div class="app-window glow-float-card reveal delay-500">
-                        <img src="../assets/AIPoweredGrowth.png" alt="AI Personalized Advice">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Back to Top Button -->
+  <button onclick="topFunction()" id="backToTop" title="Go to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
 
-    <!-- Technical Challenges Section -->
-    <section id="project-feature-4" class="project-challenges reveal delay-300">
-        <div class="container">
-            <div class="section-card hover-trigger">
-                <span class="label">ENGINEERING DEEP DIVE</span>
-                <h2 class="section-title">Technical Challenges & Solutions</h2>
-                <p>Overcoming engineering hurdles during development</p>
+  <script src="../js//component.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/project-page.js"></script>
 
-                <div class="challenges-grid">
-                    <!-- Challenge 1: Data Security -->
-                    <div class="challenge-card reveal delay-500 glow-float-card hover-trigger">
-                        <div class="code-badge">
-                            <svg width="64px" height="64px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style>.a{fill:none;stroke:#0066ff;stroke-linecap:round;stroke-linejoin:round;}</style></defs><path class="a" d="M22.2,4.86,6.69,11.25V27C6.69,35.44,24,43.5,24,43.5S41.31,35.44,41.31,27V11.25L25.8,4.86A4.68,4.68,0,0,0,22.2,4.86Z"></path><polygon class="a" points="30.45 20.7 24 20.7 24 11.78 17.69 25 24.14 25 24.14 33.92 30.45 20.7"></polygon></g></svg>
-                        </div>
-                        <h3>Data Security & Privacy</h3>
-                        <p class="challenge-label">Challenge: Protecting sensitive user data</p>
-                        <p class="challenge-description">
-                            I made sure that sensitive data like journal entries and users passwords
-                            were stores in the database while encrypted.
-                        </p>
-                    </div>
-
-                    <!-- Challenge 2: AI Hallucination -->
-                    <div class="challenge-card reveal delay-500 glow-float-card hover-trigger">
-                        <div class="code-badge ">
-                            <svg width="64px" height="64px" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M97.8357 54.6682C177.199 59.5311 213.038 52.9891 238.043 52.9891C261.298 52.9891 272.24 129.465 262.683 152.048C253.672 173.341 100.331 174.196 93.1919 165.763C84.9363 156.008 89.7095 115.275 89.7095 101.301" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M98.3318 190.694C-10.6597 291.485 121.25 273.498 148.233 295.083" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M98.3301 190.694C99.7917 213.702 101.164 265.697 100.263 272.898" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M208.308 136.239C208.308 131.959 208.308 127.678 208.308 123.396" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M177.299 137.271C177.035 133.883 177.3 126.121 177.3 123.396" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M203.398 241.72C352.097 239.921 374.881 226.73 312.524 341.851" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M285.55 345.448C196.81 341.85 136.851 374.229 178.223 264.504" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M180.018 345.448C160.77 331.385 139.302 320.213 120.658 304.675" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M218.395 190.156C219.024 205.562 219.594 220.898 219.594 236.324" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M218.395 190.156C225.896 202.037 232.97 209.77 241.777 230.327" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M80.1174 119.041C75.5996 120.222 71.0489 119.99 66.4414 120.41" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M59.5935 109.469C59.6539 117.756 59.5918 125.915 58.9102 134.086" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M277.741 115.622C281.155 115.268 284.589 114.823 287.997 114.255" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M291.412 104.682C292.382 110.109 292.095 115.612 292.095 121.093" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M225.768 116.466C203.362 113.993 181.657 115.175 160.124 118.568" stroke="#0066ff" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                        </div>
-                        <h3>AI Hallucination Management</h3>
-                        <p class="challenge-label">Challenge: Ensuring AI reliability</p>
-                        <p class="challenge-description">
-                            There is an AI disclaimer model that appears when user first tries to use
-                            any AI feature. This manages users expectations regarding AI accuracy
-                        </p>
-                    </div>
-
-                    <!-- Challenge 3: Prompt Engineering -->
-                    <div class="challenge-card reveal delay-500 glow-float-card hover-trigger">
-                        <div class="code-badge">
-                            <svg fill="#0066ff" height="64px" width="64px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.999 511.999" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M504.642,207.408l-44.917-4.491c-4.868-18.741-12.299-36.659-22.152-53.415l28.603-34.96 c2.657-3.248,2.423-7.983-0.546-10.95L408.409,46.37c-2.967-2.967-7.702-3.205-10.951-0.546l-34.96,28.603 c-16.757-9.853-34.673-17.285-53.415-22.152l-4.491-44.917c-0.418-4.178-3.933-7.359-8.13-7.359h-80.923 c-4.198,0-7.712,3.181-8.13,7.356l-4.491,44.917c-18.741,4.868-36.658,12.3-53.415,22.152l-34.96-28.603 c-3.25-2.658-7.982-2.423-10.951,0.546l-57.223,57.224c-2.969,2.969-3.203,7.702-0.546,10.95l28.603,34.96 c-9.853,16.755-17.284,34.673-22.152,53.415l-44.917,4.491C3.181,207.826,0,211.341,0,215.538v80.924 c0,4.197,3.181,7.713,7.358,8.13l44.917,4.491c4.868,18.741,12.299,36.659,22.152,53.415l-28.603,34.96 c-2.657,3.248-2.423,7.983,0.546,10.95l57.222,57.222c2.969,2.969,7.701,3.205,10.951,0.546l34.96-28.603 c16.757,9.853,34.673,17.285,53.415,22.152l4.491,44.917c0.418,4.175,3.932,7.356,8.13,7.356h80.923 c4.198,0,7.712-3.181,8.13-7.356l4.491-44.917c18.741-4.868,36.658-12.3,53.415-22.152l34.96,28.603 c3.247,2.657,7.982,2.422,10.951-0.546l57.222-57.222c2.969-2.969,3.203-7.702,0.546-10.95l-28.603-34.96 c9.853-16.755,17.284-34.673,22.152-53.415l44.917-4.491c4.177-0.417,7.358-3.933,7.358-8.13v-80.924 C512,211.341,508.819,207.826,504.642,207.408z M495.66,289.068l-43.308,4.331c-3.487,0.349-6.364,2.882-7.149,6.299 c-4.817,20.948-13.072,40.855-24.536,59.166c-1.859,2.971-1.617,6.797,0.602,9.509l27.579,33.709l-46.766,46.765l-33.708-27.58 c-2.711-2.221-6.538-2.462-9.509-0.601c-18.313,11.463-38.219,19.72-59.167,24.537c-3.416,0.785-5.95,3.661-6.299,7.149 l-4.332,43.308h-66.136l-4.331-43.308c-0.349-3.487-2.882-6.364-6.299-7.149c-20.947-4.817-40.854-13.072-59.167-24.537 c-2.97-1.861-6.797-1.617-9.509,0.601l-33.708,27.58l-46.766-46.765l27.579-33.709c2.219-2.713,2.462-6.538,0.602-9.509 c-11.463-18.311-19.72-38.217-24.536-59.167c-0.786-3.416-3.662-5.95-7.149-6.299l-43.308-4.331v-66.136l43.308-4.331 c3.487-0.349,6.364-2.882,7.149-6.299c4.817-20.948,13.072-40.855,24.536-59.167c1.86-2.971,1.617-6.797-0.602-9.509 l-27.579-33.709l46.766-46.765l33.708,27.58c2.711,2.22,6.539,2.462,9.509,0.601c18.313-11.463,38.219-19.72,59.167-24.537 c3.416-0.785,5.95-3.661,6.299-7.149l4.332-43.306h66.136l4.331,43.308c0.349,3.487,2.882,6.364,6.299,7.149 c20.947,4.817,40.854,13.072,59.166,24.537c2.971,1.861,6.797,1.618,9.509-0.601l33.708-27.581l46.766,46.765l-27.579,33.709 c-2.219,2.713-2.462,6.538-0.602,9.509c11.463,18.311,19.72,38.217,24.536,59.167c0.786,3.416,3.662,5.95,7.149,6.299 l43.307,4.331V289.068z"></path> </g> </g> <g> <g> <path d="M256.002,77.89c-44.587,0-87.251,16.556-120.134,46.619c-32.668,29.866-52.966,70.484-57.154,114.373 c-0.429,4.491,2.865,8.481,7.356,8.91c4.516,0.431,8.481-2.865,8.91-7.358c7.955-83.35,77.179-146.204,161.022-146.204 c89.2,0,161.77,72.57,161.77,161.77s-72.57,161.77-161.77,161.77c-83.845,0-153.069-62.856-161.022-146.208 c-0.429-4.492-4.435-7.785-8.909-7.358c-4.493,0.429-7.786,4.417-7.358,8.91c4.188,43.889,24.484,84.509,57.152,114.376 c32.885,30.063,75.549,46.62,120.136,46.62c98.21,0,178.111-79.9,178.111-178.111S354.213,77.89,256.002,77.89z"></path> </g> </g> <g> <g> <path d="M256,110.571c-80.19,0-145.43,65.24-145.43,145.43S175.81,401.43,256,401.43s145.43-65.24,145.43-145.43 S336.19,110.571,256,110.571z M313.146,371.729c-14.93,7.402-31.485,11.997-48.976,13.095v-70.111c0-4.512-3.657-8.17-8.17-8.17 c-4.513,0-8.17,3.658-8.17,8.17v70.111c-17.491-1.098-34.046-5.693-48.976-13.095v-81.504h0h114.291V371.729z M283.609,224.908 l24.488,48.976H203.903l24.488-48.976H283.609z M236.561,208.569v-0.001L256,169.692l19.439,38.877H236.561z M329.486,362.07 v-80.015c0-0.306-0.02-0.607-0.052-0.903c-0.008-0.073-0.023-0.145-0.034-0.218c-0.032-0.229-0.069-0.454-0.119-0.675 c-0.019-0.08-0.04-0.159-0.061-0.239c-0.056-0.215-0.117-0.426-0.188-0.633c-0.027-0.08-0.057-0.157-0.086-0.235 c-0.08-0.208-0.167-0.411-0.263-0.611c-0.022-0.046-0.037-0.094-0.06-0.139l-65.316-130.633c-1.385-2.768-4.213-4.516-7.307-4.516 c-3.095,0-5.924,1.748-7.307,4.516l-65.316,130.633c-0.023,0.046-0.038,0.094-0.06,0.139c-0.095,0.199-0.182,0.402-0.261,0.609 c-0.029,0.078-0.059,0.157-0.086,0.236c-0.072,0.207-0.134,0.418-0.188,0.633c-0.021,0.079-0.044,0.158-0.061,0.239 c-0.05,0.222-0.087,0.448-0.119,0.675c-0.01,0.073-0.025,0.145-0.034,0.218c-0.033,0.297-0.052,0.598-0.052,0.903v80.015 c-33.576-23.333-55.604-62.173-55.604-106.068c0-71.18,57.909-129.089,129.089-129.089s129.089,57.909,129.089,129.089 C385.089,299.895,363.061,338.735,329.486,362.07z"></path> </g> </g> </g></svg>
-                        </div>
-                        <h3>Prompt Engineering</h3>
-                        <p class="challenge-label">Challenge: Inconsistent API responses</p>
-                        <p class="challenge-description">
-                            There is an AI disclaimer model that appears when user first tries to use
-                            any AI feature. This manages users expectations regarding AI accuracy
-                        </p>
-                    </div>
-
-                    <!-- Challenge 4: Resource Optimization -->
-                    <div class="challenge-card reveal delay-500 glow-float-card hover-trigger">
-                        <div class="code-badge">
-                            <svg fill="#0066ff" height="64px" width="64px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M417.684,64.135c-4.465,0-8.084,3.62-8.084,8.084v1.078c0,4.465,3.62,8.084,8.084,8.084s8.084-3.62,8.084-8.084v-1.078 C425.768,67.754,422.149,64.135,417.684,64.135z"></path> <path d="M322.406,345.554c-19.994,0-36.261,16.267-36.261,36.261s16.267,36.261,36.261,36.261s36.261-16.266,36.261-36.261 C358.668,361.82,342.401,345.554,322.406,345.554z M322.406,401.908c-11.079,0-20.093-9.013-20.093-20.093 c0-11.079,9.013-20.093,20.093-20.093c11.08,0,20.093,9.013,20.093,20.093C342.5,392.894,333.486,401.908,322.406,401.908z"></path> <path d="M450.021,64.135c-4.465,0-8.084,3.62-8.084,8.084v1.078c0,4.465,3.62,8.084,8.084,8.084c4.465,0,8.084-3.62,8.084-8.084 v-1.078C458.105,67.754,454.486,64.135,450.021,64.135z"></path> <path d="M460.8,32.337H210.189v-2.695C210.189,13.297,196.893,0,180.547,0H94.316C77.971,0,64.674,13.297,64.674,29.642v2.695 H51.2c-28.231,0-51.2,22.969-51.2,51.2v323.368c0,28.231,22.969,51.2,51.2,51.2h168.543c11.237,8.146,26.68,9.451,39.454,2.075 l7.534-4.35c6.009,4.531,12.507,8.288,19.414,11.226v8.682c0,19.995,16.266,36.261,36.261,36.261s36.261-16.266,36.261-36.261 v-8.682c6.908-2.937,13.406-6.694,19.414-11.226l7.534,4.35c12.775,7.376,28.216,6.07,39.453-2.075h35.73 c28.231,0,51.2-22.969,51.2-51.2V83.537C512,55.306,489.031,32.337,460.8,32.337z M80.842,29.642 c0-7.43,6.044-13.474,13.474-13.474h86.232c7.43,0,13.474,6.044,13.474,13.474v67.368H80.842V29.642z M16.168,83.537 c0-19.316,15.716-35.032,35.032-35.032h13.474v48.505H16.168V83.537z M421.148,438.823c-5.54,9.594-17.853,12.894-27.448,7.354 l-12.324-7.115c-2.967-1.714-6.695-1.37-9.298,0.859c-7.181,6.145-15.319,10.85-24.189,13.986c-3.23,1.141-5.39,4.196-5.39,7.622 v14.209c0,11.08-9.013,20.093-20.093,20.093c-11.079,0-20.093-9.013-20.093-20.093v-14.209c0-3.427-2.16-6.48-5.389-7.622 c-8.87-3.135-17.008-7.841-24.189-13.986c-1.5-1.284-3.373-1.942-5.258-1.942c-1.387,0-2.782,0.357-4.041,1.083l-12.324,7.115 c-7.467,4.312-16.579,3.269-22.865-1.927c-0.234-0.23-0.482-0.445-0.743-0.646c-1.482-1.354-2.784-2.953-3.839-4.783 c-5.539-9.594-2.24-21.908,7.354-27.448l12.312-7.108c2.964-1.711,4.529-5.104,3.907-8.47c-0.848-4.594-1.279-9.298-1.279-13.983 c0-4.686,0.43-9.39,1.279-13.982c0.622-3.366-0.943-6.758-3.907-8.47l-12.312-7.108c-9.594-5.54-12.894-17.853-7.354-27.448 c2.684-4.648,7.017-7.972,12.201-9.362c5.187-1.387,10.6-0.676,15.248,2.007l12.324,7.115c2.969,1.714,6.695,1.37,9.298-0.859 c7.181-6.145,15.319-10.85,24.189-13.986c3.23-1.143,5.389-4.196,5.389-7.622v-14.209c0-11.08,9.013-20.093,20.093-20.093 s20.093,9.013,20.093,20.093v14.209c0,3.426,2.159,6.48,5.389,7.622c8.871,3.136,17.009,7.842,24.189,13.986 c2.604,2.228,6.331,2.572,9.298,0.859l12.324-7.115c4.649-2.683,10.061-3.395,15.247-2.007c5.185,1.389,9.517,4.714,12.201,9.362 s3.396,10.062,2.007,15.247c-1.389,5.185-4.715,9.518-9.363,12.201l-12.311,7.108c-2.964,1.711-4.529,5.104-3.907,8.469 c0.849,4.596,1.279,9.3,1.279,13.984c0,4.682-0.43,9.387-1.279,13.985c-0.621,3.365,0.943,6.758,3.907,8.469l12.311,7.108 c4.648,2.684,7.973,7.017,9.363,12.201C424.544,428.761,423.831,434.175,421.148,438.823z M495.832,406.905 c0,19.316-15.716,35.032-35.032,35.032h-23.256c2.804-7.154,3.254-14.985,1.229-22.545c-2.507-9.356-8.507-17.175-16.895-22.018 l-7.532-4.349c0.449-3.719,0.677-7.471,0.677-11.21s-0.226-7.491-0.677-11.209l7.532-4.349 c8.388-4.843,14.389-12.663,16.895-22.018c2.506-9.355,1.22-19.128-3.623-27.515c-4.843-8.388-12.663-14.389-22.018-16.895 c-9.356-2.508-19.128-1.22-27.515,3.623l-7.534,4.349c-6.008-4.531-12.506-8.288-19.414-11.225v-8.684 c0-19.995-16.266-36.261-36.261-36.261c-19.994,0-36.261,16.267-36.261,36.261v8.682c-6.908,2.938-13.406,6.695-19.414,11.226 l-7.534-4.349c-17.315-9.997-39.536-4.043-49.535,13.272c-9.996,17.315-4.043,39.537,13.272,49.535l7.532,4.349 c-0.449,3.717-0.676,7.469-0.676,11.209c0,3.741,0.226,7.492,0.677,11.21l-7.532,4.349 c-15.696,9.063-22.056,28.171-15.662,44.563H51.2c-19.316-0.001-35.032-15.717-35.032-35.033V113.179h479.663V406.905z M495.832,97.011H210.189V48.505H460.8c19.316,0,35.032,15.716,35.032,35.032V97.011z"></path> <path d="M211.806,167.074h237.137c4.465,0,8.084-3.62,8.084-8.084c0-4.465-3.62-8.084-8.084-8.084H211.806 c-4.465,0-8.084,3.62-8.084,8.084C203.722,163.454,207.342,167.074,211.806,167.074z"></path> <path d="M82.459,404.211h97.01c4.465,0,8.084-3.62,8.084-8.084c0-4.465-3.62-8.084-8.084-8.084h-97.01 c-7.43,0-13.474-6.044-13.474-13.474V234.442c0-7.43,6.044-13.474,13.474-13.474h344.926c7.43,0,13.474,6.044,13.474,13.474 v53.895c0,4.465,3.62,8.084,8.084,8.084c4.465,0,8.084-3.62,8.084-8.084v-53.895c0-16.345-13.297-29.642-29.642-29.642H82.459 c-16.345,0-29.642,13.297-29.642,29.642v140.126C52.817,390.914,66.114,404.211,82.459,404.211z"></path> <path d="M60.901,167.074h75.453c4.465,0,8.084-3.62,8.084-8.084c0-4.465-3.62-8.084-8.084-8.084H60.901 c-4.465,0-8.084,3.62-8.084,8.084C52.817,163.454,56.436,167.074,60.901,167.074z"></path> <path d="M322.406,317.376c-35.532,0-64.439,28.907-64.439,64.439s28.907,64.439,64.439,64.439 c35.532,0,64.439-28.907,64.439-64.439S357.938,317.376,322.406,317.376z M322.406,430.084c-26.616,0-48.27-21.654-48.27-48.27 c0-26.617,21.654-48.27,48.27-48.27c26.616,0,48.27,21.654,48.27,48.27C370.676,408.43,349.022,430.084,322.406,430.084z"></path> <path d="M385.347,64.135c-4.465,0-8.084,3.62-8.084,8.084v1.078c0,4.465,3.62,8.084,8.084,8.084c4.465,0,8.084-3.62,8.084-8.084 v-1.078C393.432,67.754,389.812,64.135,385.347,64.135z"></path> </g> </g> </g> </g></svg>
-                        </div>
-                        <h3>Resource Optimization</h3>
-                        <p class="challenge-label">Challenge: Storage limits</p>
-                        <p class="challenge-description">
-                            Pivoted from full file uploads to name input system.
-                            This significantly reduced storage count while maintaining sufficient
-                            context for
-                            the AI.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-
-    <!-- Footer (Reused) -->
-    <footer id="contact" class="footer">
-        <div class="container">
-            <h3 class="footer-title">Building memorable digital experiences.</h3>
-            <a href="mailto:isaackmuchoki55@gmail.com" class="footer-email">
-                isaackmuchoki55@gmail.com
-            </a>
-            <div class="footer-social">
-                <a href="https://github.com/kirrer-izo" class="social-icon" aria-label="GitHub">
-                    <i class="fa-brands fa-github"></i>
-                </a>
-                <a href="https://discord.com/invite/aJh572WK" class="social-icon" aria-label="Discord">
-                    <i class="fa-brands fa-discord"></i>
-                </a>
-                <a href="mailto:isaackmuchoki55@gmail.com" class="social-icon" aria-label="Email">
-                    <i class="fa-solid fa-envelope"></i>
-                </a>
-            </div>
-            <p class="footer-copyright">© 2026 Isaack Muchoki. Nairobi, Kenya</p>
-        </div>
-    </footer>
-    <!-- Back to Top Button -->
-    <button onclick="topFunction()" id="backToTop" title="Go to top">
-        <i class="fa-solid fa-arrow-up"></i>
-    </button>
-
-    <script>
-
-                if (history.scrollRestoration) {
-            history.scrollRestoration = 'manual';
-        }
-        // Get the button
-        let mybutton = document.getElementById("backToTop");
-
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function () { scrollFunction() };
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                mybutton.style.display = "block";
-            } else {
-                mybutton.style.display = "none";
-            }
-        }
-
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-         
-
-
-        const sections = document.querySelectorAll("section[id]");
-        const revealElements = document.querySelectorAll(".reveal");
-
-        const observerOptions = {
-            root: null,
-            rootMargin: "0px",
-            threshold: [0]
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-
-                // Logic for Trigger Animations (Trigger at 10 % visibility)
-                if (entry.isIntersecting && entry.target.classList.contains('reveal') && entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-
-                    // ONLY Unobserve if it's NOT a section
-                    if (entry.target.tagName !== 'SECTION') {
-                        observer.unobserve(entry.target);
-                    }
-                }
-
-
-
-            });
-        }, observerOptions);
-
-        // Observer to watch everything
-
-        sections.forEach((section) => observer.observe(section));
-        revealElements.forEach((el) => observer.observe(el));
-
-    </script>
 </body>
 
 </html>
