@@ -32,8 +32,6 @@ const animationObserver = new IntersectionObserver(
   entries.forEach((entry) => {
     if (entry.isIntersecting && entry.target.classList.contains("reveal")) {
       entry.target.classList.add("is-visible");
-    } else {
-      entry.target.classList.remove("is-visible");
     }
   });
 }, animationObserverOptions);
@@ -163,14 +161,14 @@ cards.forEach(card => {
 //  FETCH API
 
 const modal = document.getElementById("contactModal");
-const closeBtn = document.querySelector(".close-btn");
+const closeBtn = document.getElementById('modalCloseBtn');
 
 //Open Modal
 function openModal() {
   if (modal) {
 function openModal() {
   if (modal) {
-    modal.style.display = "block";
+    modal.classList.add ("is-open");
   }
   }
 }
@@ -180,7 +178,7 @@ function closeModal() {
   if (modal) {
 function closeModal() {
   if (modal) {
-    modal.style.display = "none";
+    modal.classList.remove("is-open");
   }
 }
 

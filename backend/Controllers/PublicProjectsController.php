@@ -17,7 +17,7 @@ public function handleRequest(): void {
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER     => [
-            'Authorization: Bearer ' . GITHUB_PAT,
+            'Authorization: Bearer ' . GITHUB_PERSONAL_ACCESS_TOKEN,
             'User-Agent: portfolio-admin',
             'Accept: application/vnd.github+json',
         ],
