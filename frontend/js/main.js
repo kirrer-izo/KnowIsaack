@@ -1,16 +1,9 @@
 // ============================
 // SCROLL RESTORATION
 // ============================
-// ============================
-// SCROLL RESTORATION
-// ============================
 if (history.scrollRestoration) {
   history.scrollRestoration = "manual";
 }
-
-//======================================
-// REVEAL ANIMATION OBSERVER
-// ======================================
 
 //======================================
 // REVEAL ANIMATION OBSERVER
@@ -27,23 +20,16 @@ const animationObserverOptions = {
 
 const animationObserver = new IntersectionObserver(
   (entries) => {
-const animationObserver = new IntersectionObserver(
-  (entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting && entry.target.classList.contains("reveal")) {
       entry.target.classList.add("is-visible");
+    } else {
+      entry.target.classList.remove("is-visible");
     }
   });
 }, animationObserverOptions);
 
 revealElements.forEach((el) => animationObserver.observe(el));
-revealElements.forEach((el) => animationObserver.observe(el));
-
-// ==================================
-// NAVIGATION HIGHLIGHT OBSERVER
-// ==================================
-
-const sections = document.querySelectorAll("section[id]");
 
 // ==================================
 // NAVIGATION HIGHLIGHT OBSERVER
@@ -59,12 +45,7 @@ const navObserverOptions = {
 
 const navObserver = new IntersectionObserver(
   (entries) => {
-const navObserver = new IntersectionObserver(
-  (entries) => {
   entries.forEach((entry) => {
-    if (entry.target.tagName !== "SECTION") {
-      return;
-    }
     if (entry.target.tagName !== "SECTION") {
       return;
     }
@@ -75,15 +56,10 @@ const navObserver = new IntersectionObserver(
         return;
       }
 
-      if (!link) {
-        return;
-      }
-
         if (entry.isIntersecting) {
           link.classList.add("active");
         } else {
           link.classList.remove("active");
-        }
         }
   });
 }, navObserverOptions);
@@ -124,88 +100,43 @@ cards.forEach(card => {
 // CONTACT MODAL
 // =============
 
-// ===================================================
-// MOUSE TRACKING (Gradient spotlight effect on cards)
-// ===================================================
-const cards = document.querySelectorAll('.skill-card, .project-card');
-
-cards.forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    // Get card's position and size relative to the viewport
-    const rect = card.getBoundingClientRect();
-
-    // Calculate mouse position relative to the card
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    // Convert to percentage so that it works at any card size
-    const xPercent = (x / rect.width) * 100;
-    const yPercent = (y / rect.height) * 100;
-
-    // Feed into CSS variables on that specific card
-    card.style.setProperty('--mouse-x', `${xPercent}%`);
-    card.style.setProperty('--mouse-y', `${yPercent}%`);
-
-    // Reset when the mouse leaves
-    card.addEventListener('mouseleave', () => {
-      card.style.setProperty('--mouse-x', '50%');
-      card.style.setProperty('--mouse-y', '50%');
-    });
-  });
-});
-
-// =============
-// CONTACT MODAL
-// =============
-
 //  FETCH API
 
 const modal = document.getElementById("contactModal");
-const closeBtn = document.getElementById('modalCloseBtn');
+const closeBtn = document.querySelector(".close-btn");
 
 //Open Modal
 function openModal() {
   if (modal) {
-function openModal() {
-  if (modal) {
-    modal.classList.add ("is-open");
-  }
+    modal.style.display = "block";
   }
 }
 
 //Close Modal
 function closeModal() {
   if (modal) {
-function closeModal() {
-  if (modal) {
-    modal.classList.remove("is-open");
+    modal.style.display = "none";
   }
 }
 
-if (contactBtn) {
-  contactBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    openModal();
-  });
-}
-
+document.addEventListener("components:loaded", () => {
+    const contactBtn = document.querySelector(".nav-menu a[href='#contact']");
+    if (contactBtn) {
+        contactBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            openModal();
+        });
+    }
+});
 if (closeBtn) {
-    closeBtn.addEventListener("click", closeModal());
+    closeBtn.addEventListener("click", closeModal);
 }
 
 // Close Modal on Outside Click
 window.addEventListener("click", (e) => {
-window.addEventListener("click", (e) => {
   if (e.target === modal) {
     closeModal();
-    closeModal();
   }
-});
-
-// ======================================
-// CONTACT FORM - VALIDATION & SUBMISSION
-// ======================================
-
 });
 
 // ======================================
@@ -213,8 +144,6 @@ window.addEventListener("click", (e) => {
 // ======================================
 
 const contactForm = document.getElementById("contactForm");
-const formStatus = document.getElementById("formStatus");
-
 const formStatus = document.getElementById("formStatus");
 
 // Real Time Validation
@@ -228,26 +157,21 @@ if (contactForm) {
   });
 
   contactForm.addEventListener("submit", handleFormSubmit);
-
-  contactForm.addEventListener("submit", handleFormSubmit);
 }
 
 // --- Handle Form Submission ---
 async function handleFormSubmit(e) {
   e.preventDefault();
   clearErrors();
-// --- Handle Form Submission ---
-async function handleFormSubmit(e) {
-  e.preventDefault();
-  clearErrors();
 
-  if (!validateContactForm) {
+   const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+  if (!validateContactForm()) {
     return;
   }
 
-   // Get Form Data
-    const formData = new FormData(contactForm);
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    // Get Form Data
+   const formData = new FormData(contactForm);
 
     setSubmittingState(submitBtn, true);
 
@@ -264,18 +188,7 @@ async function handleFormSubmit(e) {
           "success",
           '<i class="fa-solid fa-check-circle"></i> Message Sent Successfully!'
         );
-      if(response.ok) {
-        showFormStatus(
-          "success",
-          '<i class="fa-solid fa-check-circle"></i> Message Sent Successfully!'
-        );
         contactForm.reset();
-        setTimeout(() => hideFormStatus(), 5000);
-      } else if (result.errors) {
-        displayServiceErrors(result.errors);
-        hideFormStatus();
-      } else {
-        throw new Error(result.message || "Server Error");
         setTimeout(() => hideFormStatus(), 5000);
       } else if (result.errors) {
         displayServiceErrors(result.errors);
@@ -287,12 +200,7 @@ async function handleFormSubmit(e) {
       console.error("Submission error:", error);
       showFormStatus(
         "error",
-      console.error("Submission error:", error);
-      showFormStatus(
-        "error",
         '<i class="fa-solid fa-circle-exclamation"></i> ' +
-        (error.message || "Network Error. Please try again.")
-      );
         (error.message || "Network Error. Please try again.")
       );
     } finally {
@@ -320,20 +228,17 @@ function showFormStatus(className, html) {
 }
 
 function hideFormStatus() {
-  formStatus.style.direction = "none";
+  formStatus.style.display = "none";
   formStatus.className = "";
 }
-
 //  --- Validation ---
 function validateContactForm() {
   const name = document.getElementById("name").value.trim();
   const email = document.getElementById("email").value.trim();
   const message = document.getElementById("message").value.trim();
   let isValid = true;
-  let isValid = true;
 
   //validate name
-  if (!name) {
   if (!name) {
     showError("name", "Name is required");
     isValid = false;
@@ -347,7 +252,6 @@ function validateContactForm() {
 
   //validate email
   if (!email) {
-  if (!email) {
     showError("email", "Email is required");
     isValid = false;
   } else {
@@ -359,7 +263,6 @@ function validateContactForm() {
   }
 
   //validate message
-  if (!message) {
   if (!message) {
     showError("message", "Message is required");
     isValid = false;
@@ -377,6 +280,7 @@ function validateContactForm() {
 function showError(fieldId, message) {
   const input = document.getElementById(fieldId);
   const span = document.getElementById(fieldId + "Error");
+   console.log('showError called:', fieldId, message, !!input, !!span);
   input.classList.add("error");
   span.textContent = message;
 }
@@ -390,22 +294,16 @@ function removeFieldError(fieldId) {
   if (errorEl) {
     errorEl.textContent = "";
   }
-  const errorEl = document.getElementById(fieldId + "Error");
-  if (input) {
-    input.classList.remove("error");
-  }
-  if (errorEl) {
-    errorEl.textContent = "";
-  }
 }
 
 function clearErrors() {
     // Only clear error class from inputs and textareas
   document.querySelectorAll("input.error, textarea.error").forEach((el) => {
     el.classList.remove("error");
-    if (el.tagName !== "INPUT" && el.tagName !== "TEXTAREA") {
-      el.textContent = "";
-    }
+  });
+  // Clear error span text separately
+  document.querySelectorAll(".error-text").forEach((el) => {
+    el.textContent = "";
   });
 }
 
@@ -414,10 +312,6 @@ function displayServiceErrors(errors) {
     const errorEl = document.getElementById(`${field}Error`);
     if (errorEl) {
       errorEl.textContent = message;
-    const errorEl = document.getElementById(`${field}Error`);
-    if (errorEl) {
-      errorEl.textContent = message;
     }
   }
 }
-
