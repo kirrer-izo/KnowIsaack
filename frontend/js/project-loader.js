@@ -22,7 +22,7 @@ async function loadPortfolioProjects() {
     </div>`;
 
   try {
-    const res  = await fetch('/portfolio/api/public-projects');
+    const res  = await fetch('/api/public-projects');
     const data = await res.json();
 
     if (!data.projects || data.projects.length === 0) {
@@ -34,27 +34,50 @@ async function loadPortfolioProjects() {
     }
 
     // Render project cards matching your existing .project-card markup
-    container.innerHTML = data.projects.map(project => `
-      <div class="project-card">
-        <div class="project-content">
-          <h3 class="project-title">${project.title}</h3>
-          <p class="project-description">${project.description}</p>
-          <div class="tech-stack">
-            ${(project.tech_stack ?? []).map(t => `<span class="tech-tag">${t}</span>`).join('')}
-          </div>
-          <div class="project-buttons">
-            ${project.detail_url
-              ? `<a href="${project.detail_url}" class="btn-primary">About Project</a>`
-              : ''}
-            ${project.github_url
-              ? `<a href="${project.github_url}" class="btn-secondary" target="_blank" rel="noopener">
-                   <i class="fa-brands fa-github"></i> Source Code
-                 </a>`
-              : ''}
-          </div>
-        </div>
+   container.innerHTML = data.projects.map(project => `
+  <div class="project-card ${project.featured ? 'project-card--featured' : ''}">
+    <div class="project-card-inner">
+
+      <!-- Header row: title + featured badge -->
+      <div class="project-card-header">
+        <h3 class="project-title">${project.title}</h3>
+        ${project.featured
+          ? `<span class="featured-badge">
+               <i class="fa-solid fa-star"></i> Featured
+             </span>`
+          : ''}
       </div>
-    `).join('');
+
+      <!-- Description -->
+      <p class="project-description">${project.description}</p>
+
+      <!-- Tech Stack -->
+      <div class="tech-stack">
+        ${(project.tech_stack ?? []).map(t =>
+          `<span class="tech-tag">${t}</span>`
+        ).join('')}
+      </div>
+
+      <!-- Actions -->
+      <div class="project-actions">
+        ${project.detail_url
+          ? `<a href="${project.detail_url}" class="btn-primary project-btn">
+               About Project
+             </a>`
+          : ''}
+        ${project.github_url
+          ? `<a href="${project.github_url}"
+                class="btn-outline project-btn"
+                target="_blank"
+                rel="noopener">
+               <i class="fa-brands fa-github"></i> Source Code
+             </a>`
+          : ''}
+      </div>
+
+    </div>
+  </div>
+`).join('');
 
     // Re-attach mouse tracking spotlight effect to dynamically created cards
     container.querySelectorAll('.project-card').forEach(card => {
