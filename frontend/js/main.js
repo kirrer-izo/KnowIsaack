@@ -103,19 +103,19 @@ cards.forEach(card => {
 //  FETCH API
 
 const modal = document.getElementById("contactModal");
-const closeBtn = document.querySelector(".close-btn");
+const closeBtn = document.getElementById("modalCloseBtn");
 
 //Open Modal
 function openModal() {
   if (modal) {
-    modal.style.display = "block";
+    modal.classList.add("is-open");
   }
 }
 
 //Close Modal
 function closeModal() {
   if (modal) {
-    modal.style.display = "none";
+    modal.classList.remove("is-open");
   }
 }
 
