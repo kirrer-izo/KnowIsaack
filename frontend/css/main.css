@@ -372,6 +372,7 @@ section {
 .hero-photo {
   width: auto;
   height: auto;
+  max-height: 360px;
   object-fit: cover;
   object-position: top;
   display: block;
