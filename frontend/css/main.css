@@ -372,7 +372,7 @@ section {
 .hero-photo {
   width: auto;
   height: auto;
-  max-height: 360px;
+  max-width: 360px;
   object-fit: cover;
   object-position: top;
   display: block;
@@ -716,6 +716,7 @@ section {
   max-width: 520px;
   overflow: hidden;
   animation: modalSlideIn 0.25s ease;
+  margin: auto;
 }
 
 @keyframes modalSlideIn {
