@@ -1,7 +1,3 @@
-Here is a version written from your perspective, giving it a much more personal, authentic, and developer-to-developer tone.
-
----
-
 # KnowIsaack - My Developer Portfolio
 
 Welcome to the source code for my personal developer portfolio! 👋
@@ -103,7 +99,7 @@ GITHUB_USERNAME=your_github_username
 GITHUB_REPO=your_private_repo_name
 GITHUB_FILE_PATH=projects.json
 SESSION_SECRET=a_random_secure_string
-OAUTH_CALLBACK_URL=http://localhost:8080/auth/callback
+OAUTH_CALLBACK_URL=https://knowisaack.onrender.com/auth/callback
 
 ```
 
@@ -118,8 +114,7 @@ docker-compose up -d --build
 
 ### 4. Check it out
 
-* **Public Site:** `http://localhost:8080/`
-* **Admin Login:** `http://localhost:8080/auth/login`
+* **Public Site:** `https://knowisaack.onrender.com/`
 
 ## 🔒 How the Auth Flow Works
 
