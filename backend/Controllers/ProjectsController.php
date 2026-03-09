@@ -2,17 +2,26 @@
 
 namespace App\Controllers;
 
+use App\Services\ProjectService;
+
 require_once './backend/config/config.php';
 
 
 class ProjectsController {
+
+private $projectService;
+
+public function __construct(ProjectService $projectService)
+{
+    $this->projectService = $projectService;
+}
+
 // Handles all project CRUD operations via the GitHub API.
 // GET /api/projects.php -> returns all projects as JSON
 // POST /api/projects.php ->creates or updates a project
 // DELETE /api/projects -> removes a project by id
-
 public function handleRequest(): void {
-    require_once './backend/config/guard.php';
+    require_once './backend/config/guard_user.php';
     header('Content-Type: application/json');
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
@@ -31,16 +40,8 @@ public function handleRequest(): void {
 // -- GET -- fetch projects from GitHub
 
 private function handleGet(): void {
-    $result = $this->githubGetFile();
-
-    if (!$result['success']) {
-        // File doesnt exist yet - return empty array
-        $this->jsonSuccess(['projects' => []]);
-        return;
-    }
-
-    $data = json_decode(base64_decode($result['content']), true) ?? ['projects' => []];
-    $this->jsonSuccess($data);
+    $projects = $this->projectService->getAllProjects();
+    $this->jsonSuccess(['projects' => $projects]);
 }
 
 // -- POST -- create or update a project
@@ -62,55 +63,19 @@ private function handlePost(): void {
         }
     }
 
-    // Fetch current data
-    $result = $this->githubGetFile();
-    $sha = $result['sha'] ?? null;
-    $data = $result['success']
-    ? json_decode(base64_decode($result['content']), true)
-    : ['projects' => []];
-    $projects = $data['projects'] ?? [];
-
     // Update existing or add new
     $id = $body['id'] ?? null;
 
     if ($id) {
         // Update
-        $found = false;
-        foreach ($projects as &$project) {
-            if ($project['id'] === $id) {
-                $project = array_merge($project, $this->sanitizeProject($body));
-                $project['updated_at'] = date('c');
-                $found = true;
-                break;
-            }
-        }
-
-        unset($project);
-
-        if(!$found) {
-            $this->jsonError(404, 'Project not found');
-            return;
-        }
+        $this->projectService->updateProject($id, $this->sanitizeProject($body));
+        $this->jsonSuccess(['message' => 'Project updated']);
     } else {
         // Create
-        $newProject = array_merge($this->sanitizeProject($body), [
-            'id' => uniqid('proj_', true),
-            'created_at' => date('c'),
-            'updated_at' => date('c'),
-        ]);
-
-        $projects[] = $newProject;
+        $this->projectService->createProject($this->sanitizeProject($body));
+        $this->jsonSuccess(['message' => 'Project created']);
     }
 
-    $data['projects'] = $projects;
-    $saved = $this->githubSaveFile($data, $sha, $id ? 'Update project' : 'Add project');
-
-    if (!$saved) {
-        $this->jsonError(500, 'Failed to save to GitHub');
-        return;
-    }
-
-    $this->jsonSuccess(['message' => $id ? 'Project updated' : 'Project created', 'projects' => $projects]);
 }
 
 //  -- DELETE -- remove a project
@@ -123,29 +88,8 @@ private function handleDelete(): void {
         return;
     }
 
-    $result = $this->githubGetFile();
-    $sha = $result['sha'] ?? null;
-    $data = $result['success']
-    ? json_decode(base64_decode($result['content']), true)
-    : ['projects' => []];
-
-    $projects = $data['projects'] ?? [];
-    $filtered = array_values(array_filter($projects, fn($p) => $p['id'] !== $id));
-
-    if (count($filtered) === count($projects)) {
-        $this->jsonError(404, 'Project not found');
-        return;
-    }
-
-    $data['projects'] = $filtered;
-    $saved = $this->githubSaveFile($data, $sha, 'Delete project');
-
-    if (!$saved) {
-        $this->jsonError(500, 'Failed to save to GitHub');
-        return;
-    }
-
-    $this->jsonSuccess(['message' => 'Project deleted', 'projects' => $filtered]);
+    $this->projectService->deleteProject((int)$id);
+    $this->jsonSuccess(['message' => 'Project deleted']);
 }
 
 
@@ -160,10 +104,20 @@ public function session(): void {
         echo json_encode(['authenticated' => false]);
         exit;
     }
+
+    if (!empty($_SESSION['github_user'])) {
+        echo json_encode([
+            'authenticated' => true,
+            'user' => $_SESSION['github_user'],
+            'is_admin' => true
+        ]);
+        return;
+    }
     
     echo json_encode([
         'authenticated' => true,
-        'user' => $_SESSION['github_user'],
+        'user' => $_SESSION['db_user'],
+        'is_admin' => false
     ]);
 }
 
@@ -196,69 +150,6 @@ private function jsonError(int $code, string $message): void {
     http_response_code($code);
     echo json_encode(['status' => 'error', 'message' => $message]);
     exit;
-}
-
-// GitHub API Helpers
-
-private function githubGetFile(): array {
-    $url = 'https://api.github.com/repos/' . GITHUB_REPO . '/contents/' . GITHUB_FILE_PATH;
-
-    $ch  = curl_init($url);
-
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER     => [
-            'Authorization: Bearer ' . GITHUB_PERSONAL_ACCESS_TOKEN,
-            'User-Agent: portfolio-admin',
-            'Accept: application/vnd.github+json',
-        ],
-    ]);
-
-    $response = curl_exec($ch);
-    $status   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($status !== 200) {
-        return ['success' => false];
-    }
-
-    $data = json_decode($response, true);
-    return [
-        'success' => true,
-        'content' => $data['content'],
-        'sha'     => $data['sha'],
-    ];
-}
-
-private function githubSaveFile(array $data, ?string $sha, string $message): bool {
-    $url     = 'https://api.github.com/repos/' . GITHUB_REPO . '/contents/' . GITHUB_FILE_PATH;
-    $payload = [
-        'message' => $message,
-        'content' => base64_encode(json_encode($data, JSON_PRETTY_PRINT)),
-    ];
-
-    if ($sha) {
-        $payload['sha'] = $sha;
-    }
-
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CUSTOMREQUEST  => 'PUT',
-        CURLOPT_POSTFIELDS     => json_encode($payload),
-        CURLOPT_HTTPHEADER     => [
-            'Authorization: Bearer ' . GITHUB_PERSONAL_ACCESS_TOKEN,
-            'User-Agent: portfolio-admin',
-            'Content-Type: application/json',
-            'Accept: application/vnd.github+json',
-        ],
-    ]);
-
-    $response = curl_exec($ch);
-    $status   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    
-    return in_array($status, [200, 201]);
 }
 
 }
