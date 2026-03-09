@@ -20,3 +20,10 @@ define('SESSION_SECRET', getenv('SESSION_SECRET'));
 
 // OAuth callback URL
 define('OAUTH_CALLBACK_URL', getenv('OAUTH_CALLBACK_URL'));
+
+
+// MySQL Database Credentials
+define('DB_HOST', getenv('DB_HOST'));
+define('DB_NAME', getenv('DB_NAME'));
+define('DB_USER', getenv('DB_USER'));
+define('DB_PASSWORD', getenv('DB_PASSWORD'));
