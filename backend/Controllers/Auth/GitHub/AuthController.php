@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Auth\GitHub;
 
 require_once './backend/config/config.php';
 
