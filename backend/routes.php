@@ -5,6 +5,9 @@ use App\Infrastructure\Mail\ResendMailer;
 use App\Controllers\AuthController;
 use App\Controllers\ProjectsController;
 use App\Controllers\PublicProjectsController;
+use App\Infrastructure\Database\MySQLConnection;
+use App\Infrastructure\Database\ProjectRepository;
+use App\Services\ProjectService;
 
 session_start();
 
@@ -16,6 +19,13 @@ $path = str_replace($base_path, '', $request);
 
 // Strips ?code=xxx&state=yyy
 $path = strtok($path, '?');
+
+$db_routes = ['/api/projects', '/api/public-projects', '/api/session'];
+if (in_array($path, $db_routes)) {
+    $pdo = MySQLConnection::getInstance()->getConnection();
+    $projectRepository = new ProjectRepository($pdo);
+    $projectService = new ProjectService($projectRepository);
+}
 
 switch ($path) {
     case '/':
@@ -50,15 +60,15 @@ switch ($path) {
         $controller->handleRequest();
         break;
     case '/api/session':
-        $controller = new ProjectsController();
+        $controller = new ProjectsController($projectService);
         $controller->session();
         break;
     case '/api/projects':
-        $controller = new ProjectsController();
+        $controller = new ProjectsController($projectService);
         $controller->handleRequest();
         break;
     case '/api/public-projects':
-        $controller = new PublicProjectsController();
+        $controller = new PublicProjectsController($projectService);
         $controller->handleRequest();
         break;
 
