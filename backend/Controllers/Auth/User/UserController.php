@@ -34,11 +34,11 @@ public function handleLoginRequest(): void {
 }
 
 public function showLogin() : void {
-    require __DIR__ . '/../../frontend/pages/login.html';
+    require __DIR__ . '/../../../../frontend/pages/login.html';
 }
 
 public function showRegister() : void {
-    require __DIR__ . '/../../frontend/pages/register.html';
+    require __DIR__ . '/../../../../frontend/pages/register.html';
 }
 
 public function handleRegister() : void {

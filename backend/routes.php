@@ -27,8 +27,8 @@ $db_routes = [
     '/api/projects', 
     '/api/public-projects', 
     '/api/session',
-    '/auth/user/login',
-    '/auth/user/register'
+    '/auth/login',
+    '/auth/register'
 ];
 
 if (in_array($path, $db_routes)) {
@@ -36,6 +36,7 @@ if (in_array($path, $db_routes)) {
     $projectRepository = new ProjectRepository($pdo);
     $projectService = new ProjectService($projectRepository);
 }
+
 
 switch ($path) {
     case '/':
@@ -51,21 +52,18 @@ switch ($path) {
     
     // Auth Pages
     case '/auth/login':
-        require __DIR__. '/../frontend/pages/login.html';
-        break;
-    case '/auth/user/login':
         $userRepository = new UserRepository($pdo);
         $userService = new UserService($userRepository);
         $controller = new UserController($userService);
         $controller->handleLoginRequest();
         break;
-    case '/auth/user/register':
+    case '/auth/register':
         $userRepository = new UserRepository($pdo);
         $userService = new UserService($userRepository);
         $controller = new UserController($userService);
         $controller->handleRegisterRequest();
         break;
-    case '/auth/user/logout':
+    case '/auth/logout':
         // Simple logout - no controller needed
         session_unset();
         session_destroy();
@@ -108,10 +106,6 @@ switch ($path) {
     case '/auth/callback':
         $controller = new AuthController();
         $controller->callback();
-        break;
-    case '/auth/logout':
-        $controller = new AuthController();
-        $controller->logout();
         break;
 
     // HealthCheck
