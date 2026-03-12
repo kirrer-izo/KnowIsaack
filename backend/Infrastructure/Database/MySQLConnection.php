@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Database;
 
+require_once './backend/config/config.php';
+
 use PDO;
 use PDOException;
 
@@ -14,8 +16,8 @@ class MySQLConnection {
     private function __construct()
     {
         try {
-            $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
-            $this->pdo = new PDO($dsn, DB_USER, DB_PASSWORD);
+            $dsn = "mysql:host=" . \DB_HOST . ";dbname=" . \DB_NAME . ";charset=utf8mb4";
+            $this->pdo = new PDO($dsn, \DB_USER, \DB_PASSWORD);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             error_log($e->getMessage());
