@@ -35,6 +35,9 @@ if (in_array($path, $db_routes)) {
     $pdo = MySQLConnection::getInstance()->getConnection();
     $projectRepository = new ProjectRepository($pdo);
     $projectService = new ProjectService($projectRepository);
+    $userRepository = new UserRepository($pdo);
+    $userService = new UserService($userRepository);
+    $userController = new UserController($userService);
 }
 
 
@@ -52,16 +55,10 @@ switch ($path) {
     
     // Auth Pages
     case '/auth/login':
-        $userRepository = new UserRepository($pdo);
-        $userService = new UserService($userRepository);
-        $controller = new UserController($userService);
-        $controller->handleLoginRequest();
+        $userController->handleLoginRequest();
         break;
     case '/auth/register':
-        $userRepository = new UserRepository($pdo);
-        $userService = new UserService($userRepository);
-        $controller = new UserController($userService);
-        $controller->handleRegisterRequest();
+        $userController->handleRegisterRequest();
         break;
     case '/auth/logout':
         // Simple logout - no controller needed
