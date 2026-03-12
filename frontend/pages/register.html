@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — Isaack Muchoki</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: hsl(var(--background));
+    }
+
+    .login-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: var(--spacing-xl);
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    .login-card .label {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .login-card h1 {
+      font-size: 32px;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .login-card > p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .form-group {
+      margin-bottom: var(--spacing-md);
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 var(--spacing-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: 14px;
+      color: var(--text-primary);
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb, 59,130,246), 0.15);
+    }
+
+    .btn-submit {
+      width: 100%;
+      height: 48px;
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: var(--spacing-sm);
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .login-error {
+      background-color: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius-sm);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      font-size: 14px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+      text-align: left;
+    }
+
+    .login-error.visible {
+      display: block;
+    }
+
+    .login-divider {
+      margin: var(--spacing-lg) 0 var(--spacing-md);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .back-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--color-accent);
+    }
+
+    .login-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: var(--spacing-md);
+    }
+
+    .login-link a {
+      color: var(--color-accent);
+      font-weight: 600;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <div class="login-wrapper">
+    <div class="login-card reveal is-visible">
+
+      <span class="label">PORTFOLIO</span>
+      <h1>Create an <span class="color-accent">Account</span></h1>
+      <p>Register to access the portfolio dashboard.</p>
+
+      <div class="login-error" id="registerError"></div>
+
+      <form action="/auth/register" method="POST">
+        <div class="form-group">
+          <label class="form-label" for="name">Full name</label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="Jane Smith" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-submit">Create Account</button>
+      </form>
+
+      <p class="login-link">
+        Already have an account? <a href="/auth/login">Sign in</a>
+      </p>
+
+      <p class="login-divider">——</p>
+
+      <a href="/" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to portfolio
+      </a>
+
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
+    const errorEl = document.getElementById('registerError');
+
+    const messages = {
+      missing_fields: 'Please fill in all fields.',
+      'Email already in use': 'An account with this email already exists.',
+    };
+
+    if (error) {
+      errorEl.textContent = messages[error] || decodeURIComponent(error);
+      errorEl.classList.add('visible');
+    }
+  </script>
+</body>
+</html>
