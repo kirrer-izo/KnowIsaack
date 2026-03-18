@@ -29,3 +29,9 @@ RUN composer require resend/resend-php
 # Set permissions for the web user
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
+
+# Copy and set startup script
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]
