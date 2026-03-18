@@ -6,7 +6,7 @@ use App\Controllers\ContactController;
 use App\Infrastructure\Mail\ResendMailer;
 use App\Controllers\ProjectsController;
 use App\Controllers\PublicProjectsController;
-use App\Infrastructure\Database\MySQLConnection;
+use App\Infrastructure\Database\DatabaseConnection;
 use App\Infrastructure\Database\ProjectRepository;
 use App\Infrastructure\Database\UserRepository;
 use App\Services\ProjectService;
@@ -32,7 +32,7 @@ $db_routes = [
 ];
 
 if (in_array($path, $db_routes)) {
-    $pdo = MySQLConnection::getInstance()->getConnection();
+    $pdo = DatabaseConnection::getInstance()->getConnection();
     $projectRepository = new ProjectRepository($pdo);
     $projectService = new ProjectService($projectRepository);
     $userRepository = new UserRepository($pdo);

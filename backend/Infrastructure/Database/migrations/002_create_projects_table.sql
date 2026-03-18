@@ -1,0 +1,11 @@
+CREATE TABLE projects (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    tech_stack JSON NOT NULL,
+    detail_url VARCHAR(255) NULL,
+    github_url VARCHAR(255) NULL,
+    featured BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

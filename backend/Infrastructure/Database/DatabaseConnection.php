@@ -7,7 +7,7 @@ require_once './backend/config/config.php';
 use PDO;
 use PDOException;
 
-class MySQLConnection {
+class DatabaseConnection {
     private static $instance = null; // holds the MySQLConnection object
     private $pdo; // holds the PDO object inside it
 
@@ -16,7 +16,7 @@ class MySQLConnection {
     private function __construct()
     {
         try {
-            $dsn = "mysql:host=" . \DB_HOST . ";dbname=" . \DB_NAME . ";charset=utf8mb4";
+            $dsn = "pgsql:host=" . \DB_HOST . ";dbname=" . \DB_NAME;
             $this->pdo = new PDO($dsn, \DB_USER, \DB_PASSWORD);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
