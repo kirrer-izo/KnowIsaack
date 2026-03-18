@@ -177,6 +177,11 @@
           <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required>
           <p id="strengthLabel" style="font-size: 13px; margin-top: 6px;"></p>
         </div>
+          <div class="form-group">
+          <label class="form-label" for="confirm_password">Confirm Password</label>
+          <input class="form-input" type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required>
+          <p id="matchLabel" style="font-size: 13px; margin-top: 6px;"></p>
+        </div>
         <button type="submit" class="btn-submit">Create Account</button>
       </form>
 
@@ -218,7 +223,9 @@
 
     // Password Strength Validation
     const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm_password');
     const strengthLabel = document.getElementById('strengthLabel');
+    const matchLabel = document.getElementById('matchLabel');
     
     if (passwordInput) {
       let strength = 0;
@@ -254,13 +261,32 @@
         
       });
 
+      confirmPasswordInput.addEventListener('input', () => {
+          if (confirmPasswordInput.value.length > 0) {
+          if (passwordInput.value !== confirmPasswordInput.value) {
+            confirmPasswordInput.style.borderColor = '#f87171';
+            matchLabel.textContent = 'Passwords do not match';
+            matchLabel.style.color = '#f87171';
+          } else {
+            confirmPasswordInput.style.borderColor = '#34d399';
+            matchLabel.textContent = '';
+          }
+        }
+      });
+
       document.querySelector('form').addEventListener('submit', (event) => {
         if (strength < 4) {
           event.preventDefault();
           errorEl.textContent = 'Please choose a stronger password.';
           errorEl.classList.add('visible');
         }
-      })
+
+        if (passwordInput.value !== document.getElementById('confirm_password').value) {
+          event.preventDefault();
+          errorEl.textContent = 'Passwords do not match.';
+          errorEl.classList.add('visible');
+        }
+      });
     }
   </script>
 </body>
