@@ -446,7 +446,7 @@
       try {
         const res  = await fetch('/portfolio/api/projects');
         const data = await res.json();
-        const project = (data.projects ?? []).find(p => p.id === id);
+        const project = (data.projects ?? []).find(p => p.id === parseInt(id));
 
         if (!project) {
           showToast('Project not found.', 'error');
