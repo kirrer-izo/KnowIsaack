@@ -1,3 +1,3 @@
 #!/bin/bash
-php /var/www/html/backend/Infrastructure/database/migrate.php
+php /var/www/html/backend/Infrastructure/Database/migrate.php
 apache2-foreground
