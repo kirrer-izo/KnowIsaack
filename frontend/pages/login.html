@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login — Isaack Muchoki</title>
+  <title>Login — Isaack Muchoki</title>
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -35,12 +35,54 @@
       margin-bottom: var(--spacing-sm);
     }
 
-    .login-card p {
+    .login-card > p {
       font-size: 15px;
       color: var(--text-muted);
       margin-bottom: var(--spacing-lg);
     }
 
+    /* Tabs */
+    .login-tabs {
+      display: flex;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .login-tab {
+      flex: 1;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-family);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .login-tab.active {
+      background: var(--color-accent);
+      color: white;
+    }
+
+    .login-tab:hover:not(.active) {
+      background: var(--bg-card-hover, rgba(0,0,0,0.05));
+    }
+
+    /* Tab panels */
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* GitHub button */
     .btn-github {
       display: inline-flex;
       align-items: center;
@@ -75,6 +117,65 @@
       font-size: 20px;
     }
 
+    /* Form */
+    .form-group {
+      margin-bottom: var(--spacing-md);
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 var(--spacing-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: 14px;
+      color: var(--text-primary);
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb, 59,130,246), 0.15);
+    }
+
+    .btn-submit {
+      width: 100%;
+      height: 48px;
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: var(--spacing-sm);
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* Error & success */
     .login-error {
       background-color: #fee2e2;
       color: #991b1b;
@@ -85,10 +186,33 @@
       font-size: 14px;
       display: none;
       animation: fadeIn 0.3s ease;
+      text-align: left;
     }
 
     .login-error.visible {
       display: block;
+    }
+
+    .login-success {
+      background-color: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      border-radius: var(--radius-sm);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      font-size: 14px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+      text-align: left;
+      transition: opacity 0.5s ease;
+    }
+
+    .login-success.visible {
+      display: block;
+    }
+
+    .login-success:not(.visible) {
+      opacity: 0;
     }
 
     .login-divider {
@@ -109,6 +233,22 @@
     .back-to-portfolio:hover {
       color: var(--color-accent);
     }
+
+    .register-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: var(--spacing-md);
+    }
+
+    .register-link a {
+      color: var(--color-accent);
+      font-weight: 600;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
@@ -117,17 +257,53 @@
   <div class="login-wrapper">
     <div class="login-card reveal is-visible">
 
-      <span class="label">PORTFOLIO ADMIN</span>
-      <h1>Welcome Back <span class="color-accent">Isaack</span></h1>
-      <p>Sign in with GitHub to manage your portfolio projects.</p>
+      <span class="label">PORTFOLIO</span>
+      <h1>Welcome <span class="color-accent">Back</span></h1>
+      <p>Sign in to access the dashboard.</p>
 
-      <!-- Error message shown on failed login -->
-      <div class="login-error" id="loginError"></div>
+      <!-- Tabs -->
+      <div class="login-tabs">
+        <button class="login-tab active" onclick="switchTab('github')">
+          <i class="fa-brands fa-github"></i> GitHub
+        </button>
+        <button class="login-tab" onclick="switchTab('email')">
+          <i class="fa-solid fa-envelope"></i> Email
+        </button>
+      </div>
 
-      <a href="/portfolio/auth/authorize" class="btn-github">
-        <i class="fa-brands fa-github"></i>
-        Continue with GitHub
-      </a>
+      <!-- GitHub Tab -->
+      <div class="tab-panel active" id="tab-github">
+        <div class="login-error" id="githubError"></div>
+        <p style="font-size:14px; color:var(--text-muted); margin-bottom: var(--spacing-md);">
+          Admin access only. Sign in with the portfolio owner's GitHub account.
+        </p>
+        <a href="/auth/authorize" class="btn-github">
+          <i class="fa-brands fa-github"></i>
+          Continue with GitHub
+        </a>
+      </div>
+
+      <!-- Email Tab -->
+      <div class="tab-panel" id="tab-email">
+        <div class="login-error" id="emailError"></div>
+        <div class="login-success" id="emailSuccess"></div>
+
+        <form action="/auth/login" method="POST">
+          <div class="form-group">
+            <label class="form-label" for="email">Email address</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn-submit">Sign In</button>
+        </form>
+
+        <p class="register-link">
+          Don't have an account? <a href="/auth/register">Register</a>
+        </p>
+      </div>
 
       <p class="login-divider">——</p>
 
@@ -140,19 +316,52 @@
   </div>
 
   <script>
-    // Show error message from query param if redirected back with error
-    const params   = new URLSearchParams(window.location.search);
-    const error    = params.get('error');
-    const errorEl  = document.getElementById('loginError');
+    function switchTab(tab) {
+      document.querySelectorAll('.login-tab').forEach((t, i) => {
+        t.classList.toggle('active', (tab === 'github' && i === 0) || (tab === 'email' && i === 1));
+      });
+      document.getElementById('tab-github').classList.toggle('active', tab === 'github');
+      document.getElementById('tab-email').classList.toggle('active', tab === 'email');
+    }
 
-    const messages = {
+    // Handle query params
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
+    const message = params.get('message');
+
+    const errorMessages = {
       unauthorized: 'Access denied. This admin panel is restricted to the site owner.',
       oauth_failed: 'GitHub login failed. Please try again.',
+      missing_fields: 'Please fill in all fields.',
+      invalid_credentials: 'Invalid email or password.',
     };
 
-    if (error && messages[error]) {
-      errorEl.textContent = messages[error];
-      errorEl.classList.add('visible');
+    const successMessages = {
+      registered: 'Account created successfully. Please sign in.',
+      logged_out: 'You have been signed out.',
+    };
+
+    if (error && errorMessages[error]) {
+      // Show on correct tab
+      if (error === 'unauthorized' || error === 'oauth_failed') {
+        document.getElementById('githubError').textContent = errorMessages[error];
+        document.getElementById('githubError').classList.add('visible');
+      } else {
+        switchTab('email');
+        document.getElementById('emailError').textContent = errorMessages[error];
+        document.getElementById('emailError').classList.add('visible');
+      }
+    }
+
+    if (message && successMessages[message]) {
+      switchTab('email');
+      const successEl = document.getElementById('emailSuccess');
+      successEl.textContent = successMessages[message];
+      successEl.classList.add('visible');
+
+      setTimeout(() => {
+        successEl.classList.remove('visible');
+      }, 4000);
     }
   </script>
 </body>

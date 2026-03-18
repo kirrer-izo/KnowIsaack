@@ -1,10 +1,16 @@
-<?php 
+<?php
 
+use App\Controllers\Auth\GitHub\AuthController;
+use App\Controllers\Auth\User\UserController;
 use App\Controllers\ContactController;
 use App\Infrastructure\Mail\ResendMailer;
-use App\Controllers\AuthController;
 use App\Controllers\ProjectsController;
 use App\Controllers\PublicProjectsController;
+use App\Infrastructure\Database\MySQLConnection;
+use App\Infrastructure\Database\ProjectRepository;
+use App\Infrastructure\Database\UserRepository;
+use App\Services\ProjectService;
+use App\Services\UserService;
 
 session_start();
 
@@ -16,6 +22,24 @@ $path = str_replace($base_path, '', $request);
 
 // Strips ?code=xxx&state=yyy
 $path = strtok($path, '?');
+
+$db_routes = [
+    '/api/projects', 
+    '/api/public-projects', 
+    '/api/session',
+    '/auth/login',
+    '/auth/register'
+];
+
+if (in_array($path, $db_routes)) {
+    $pdo = MySQLConnection::getInstance()->getConnection();
+    $projectRepository = new ProjectRepository($pdo);
+    $projectService = new ProjectService($projectRepository);
+    $userRepository = new UserRepository($pdo);
+    $userService = new UserService($userRepository);
+    $userController = new UserController($userService);
+}
+
 
 switch ($path) {
     case '/':
@@ -31,9 +55,18 @@ switch ($path) {
     
     // Auth Pages
     case '/auth/login':
-        require __DIR__. '/../frontend/pages/login.html';
+        $userController->handleLoginRequest();
         break;
-    
+    case '/auth/register':
+        $userController->handleRegisterRequest();
+        break;
+    case '/auth/logout':
+        // Simple logout - no controller needed
+        session_unset();
+        session_destroy();
+        header('Location: /auth/login?message=logged_out');
+        exit;
+
     // Admin Pages
     case '/admin':
         require __DIR__. '/../frontend/pages/admin/index.html';
@@ -42,7 +75,7 @@ switch ($path) {
         require __DIR__ . '/../frontend/pages/admin/edit.html';
         break;
 
-        // API
+    // API
     case '/api/contact':
         // This handles your fetch request from the contact modal
         $mailer = new ResendMailer();
@@ -50,19 +83,19 @@ switch ($path) {
         $controller->handleRequest();
         break;
     case '/api/session':
-        $controller = new ProjectsController();
+        $controller = new ProjectsController($projectService);
         $controller->session();
         break;
     case '/api/projects':
-        $controller = new ProjectsController();
+        $controller = new ProjectsController($projectService);
         $controller->handleRequest();
         break;
     case '/api/public-projects':
-        $controller = new PublicProjectsController();
+        $controller = new PublicProjectsController($projectService);
         $controller->handleRequest();
         break;
 
-        // Auth Actions
+    // Auth Actions
     case '/auth/authorize':
         $controller = new AuthController();
         $controller->authorize();
@@ -71,12 +104,8 @@ switch ($path) {
         $controller = new AuthController();
         $controller->callback();
         break;
-    case '/auth/logout':
-        $controller = new AuthController();
-        $controller->logout();
-        break;
 
-        // HealthCheck
+    // HealthCheck
     case '/ping':
         http_response_code(200);
         echo 'PONG'; 

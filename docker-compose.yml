@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   portfolio:
     build: .
@@ -9,3 +8,19 @@ services:
       - /var/www/html/vendor # This tells Docker: "Don't overwrite this folder with the host contents"
     env_file:
       - .env #This tells Docker to load variables from your .env file
+    depends_on:
+      - db
+  
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+  
+volumes:
+  db_data:

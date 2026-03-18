@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Mail;
 
 use App\Domain\Interfaces\EmailServiceInterface;
+use Exception;
 use Resend;
 
 class ResendMailer implements EmailServiceInterface {
