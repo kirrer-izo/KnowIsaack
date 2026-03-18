@@ -32,6 +32,7 @@ RUN chown -R www-data:www-data /var/www/html \
 
 # Copy and set startup script
 COPY start.sh /start.sh
+RUN sed -i 's/\r//' /start.sh
 RUN chmod +x /start.sh
 
 CMD ["/start.sh"]
