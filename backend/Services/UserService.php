@@ -13,11 +13,29 @@ class UserService {
     }
 
     public function register(string $name, string $email, string $password): void
-    {
+    {   
+        // Checking Password Strength
+        if (strlen($password) < 8) {
+            throw new \Exception("password_too_short");
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            throw new \Exception("password_no_uppercase");
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            throw new \Exception("password_no_lowercase");
+        }
+        if (!preg_match('/\d/', $password)) {
+            throw new \Exception("password_no_number");
+        }
+        if (!preg_match('/[@$!%*?&]/', $password)) {
+            throw new \Exception("password_no_special");
+        }
+
         $existingUser = $this->userRepository->findByEmail($email);
         if ($existingUser) {
-            throw new \Exception("Email already in use");
+            throw new \Exception("email_taken");
         }
+
 
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
         $this->userRepository->create([
@@ -31,7 +49,7 @@ class UserService {
     {
         $user = $this->userRepository->findByEmail($email);
         if (!$user || !password_verify($password, $user['password_hash'])) {
-            throw new \Exception("Invalid credentials");
+            throw new \Exception("invalid_credentials");
         }
 
         return [
