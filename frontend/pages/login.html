@@ -204,12 +204,17 @@
       display: none;
       animation: fadeIn 0.3s ease;
       text-align: left;
+      transition: opacity 0.5s ease;
     }
 
     .login-success.visible {
       display: block;
     }
 
+    .login-success:not(.visible) {
+      opacity: 0;
+    }
+    
     .login-divider {
       margin: var(--spacing-lg) 0 var(--spacing-md);
       font-size: 13px;
@@ -328,7 +333,7 @@
       unauthorized: 'Access denied. This admin panel is restricted to the site owner.',
       oauth_failed: 'GitHub login failed. Please try again.',
       missing_fields: 'Please fill in all fields.',
-      invalid_credentials: 'Invalid email or password.',
+     'Invalid credentials': 'Invalid email or password.',
     };
 
     const successMessages = {
@@ -350,8 +355,13 @@
 
     if (message && successMessages[message]) {
       switchTab('email');
-      document.getElementById('emailSuccess').textContent = successMessages[message];
-      document.getElementById('emailSuccess').classList.add('visible');
+      const successEl = document.getElementById('emailSuccess');
+      successEl.textContent = successMessages[message];
+      successEl.classList.add('visible');
+
+      setTimeout(() => {
+        successEl.classList.remove('visible');
+      }, 4000);
     }
   </script>
 </body>
