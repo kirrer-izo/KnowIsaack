@@ -7,6 +7,8 @@ echo "=== Infrastructure contents ==="
 ls /var/www/html/backend/Infrastructure/
 echo "=== Checking file exists ==="
 ls /var/www/html/backend/Infrastructure/database/
+echo "=== Permissions ==="
+ls -la /var/www/html/backend/Infrastructure/database/
 echo "=== Running migrations ==="
 php /var/www/html/backend/Infrastructure/database/migrate.php
 echo "=== Starting Apache ==="
