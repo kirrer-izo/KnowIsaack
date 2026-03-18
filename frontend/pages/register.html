@@ -175,6 +175,7 @@
         <div class="form-group">
           <label class="form-label" for="password">Password</label>
           <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required>
+          <p id="strengthLabel" style="font-size: 13px; margin-top: 6px;"></p>
         </div>
         <button type="submit" class="btn-submit">Create Account</button>
       </form>
@@ -194,18 +195,72 @@
   </div>
 
   <script>
+
+    // Handle query params
     const params = new URLSearchParams(window.location.search);
     const error = params.get('error');
     const errorEl = document.getElementById('registerError');
 
-    const messages = {
+    const errorMessages = {
       missing_fields: 'Please fill in all fields.',
-      'Email already in use': 'An account with this email already exists.',
+      password_too_short: 'Password must be at least 8 characters.',
+      password_no_uppercase: 'Password must contain at least one uppercase letter.',
+      password_no_lowercase: 'Password must contain at least one lowercase letter.',
+      password_no_number: 'Password must contain at least one number.',
+      password_no_special: 'Password must contain at least one special character.',
+      email_taken: 'An account with this email already exists.',
     };
 
     if (error) {
-      errorEl.textContent = messages[error] || decodeURIComponent(error);
+      errorEl.textContent = errorMessages[error] || decodeURIComponent(error);
       errorEl.classList.add('visible');
+    }
+
+    // Password Strength Validation
+    const passwordInput = document.getElementById('password');
+    const strengthLabel = document.getElementById('strengthLabel');
+    
+    if (passwordInput) {
+      let strength = 0;
+      passwordInput.addEventListener('input', () => {
+        const value = passwordInput.value;
+        strength = 0;
+        if (value.length === 0) {
+          passwordInput.style.borderColor = 'var(--border-card)';
+          strengthLabel.textContent = '';
+          return;
+        }
+
+        if (value.length >= 8) strength++;
+        if (/[A-Z]/.test(value)) strength++;
+        if (/[a-z]/.test(value)) strength++;
+        if (/\d/.test(value)) strength++;
+        if (/[@$!%*?&]/.test(value)) strength++;
+
+
+        if (strength <= 2) {
+          passwordInput.style.borderColor = '#f87171';
+          strengthLabel.textContent = 'Weak password';
+          strengthLabel.style.color = '#f87171';
+        } else if (strength > 2 && strength < 5) {
+          passwordInput.style.borderColor = '#fbbf24'; 
+          strengthLabel.textContent = 'Moderate password';
+          strengthLabel.style.color = '#fbbf24';
+        } else {
+          passwordInput.style.borderColor = '#34d399'; 
+          strengthLabel.textContent = 'Strong password';
+          strengthLabel.style.color = '#34d399';
+        }
+        
+      });
+
+      document.querySelector('form').addEventListener('submit', (event) => {
+        if (strength < 4) {
+          event.preventDefault();
+          errorEl.textContent = 'Please choose a stronger password.';
+          errorEl.classList.add('visible');
+        }
+      })
     }
   </script>
 </body>
