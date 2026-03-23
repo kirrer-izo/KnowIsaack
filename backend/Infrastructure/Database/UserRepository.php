@@ -31,4 +31,21 @@ class UserRepository {
 
         return $user ?: null;
     }
+
+    
+    // Find a user by their ID — returns null if not found
+    public function findById(int $id): ?array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
+
+    // Mark a user's email as verified
+    public function markEmailVerified(int $user_id): void
+    {
+        $stmt = $this->pdo->prepare("UPDATE users SET email_verified = TRUE WHERE id = :id");
+        $stmt->execute(['id' => $user_id]);
+    }
 }
