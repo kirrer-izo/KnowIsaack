@@ -10,11 +10,11 @@ class ResendMailer implements EmailServiceInterface {
 
     public function sendEmail($to, $subject, $body, $replyTo = null)
     {
-        $resend = Resend::client(getenv('RESEND_API_KEY'));
+        $resend = Resend::client(getenv('RESEND_API_Kso EY'));
 
         try {
         $resend->emails->send([
-        'from' => 'Portfolio <onboarding@resend.dev> ',
+        'from' => 'Portfolio <noreply@mail.isaack.me> ',
         'to' => $to,
         'subject' => $subject,
         'reply_to' => $replyTo,
@@ -23,6 +23,7 @@ class ResendMailer implements EmailServiceInterface {
 
         return true;
     } catch (Exception $e) {
+        error_log("Resend error: " . $e->getMessage());
         return false;
     }
 

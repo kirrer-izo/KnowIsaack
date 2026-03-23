@@ -334,11 +334,16 @@
       oauth_failed: 'GitHub login failed. Please try again.',
       missing_fields: 'Please fill in all fields.',
       invalid_credentials: 'Invalid email or password.',
+      email_not_verified: 'Please verify your email address. Check your inbox for a verification link.',
+      no_token: 'No verification token provided.',
+      invalid_token: 'Invalid verification link.',
+      token_expired: 'Verification link has expired. Please register again.',
     };
 
     const successMessages = {
-      registered: 'Account created successfully. Please sign in.',
+      registered: 'Account created successfully. Please check your email to verify your account.',
       logged_out: 'You have been signed out.',
+      email_verified: 'Email verified successfully. You can now sign in.',
     };
 
     if (error && errorMessages[error]) {
