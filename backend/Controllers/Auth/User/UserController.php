@@ -92,4 +92,28 @@ public function logout() : void {
     exit;
 }
 
+// Handle email verification from the link sent to the user's email
+public function handleVerifyRequest(): void
+{
+    // Read the token from the URL query string e.g. /auth/verify?token=abc123
+    $token = $_GET['token'] ?? '';
+
+    // Reject if no token was provided
+    if (empty($token)) {
+        header('Location: /auth/login?error=no_token');
+        exit;
+    }
+
+    try {
+        // Validate token, check expiry and mark user as verified
+        $this->userService->verifyEmail($token);
+        header('Location: /auth/login?message=email_verified');
+        exit;
+    } catch (\Exception $e) {
+        // Redirect with the slug thrown by UserService e.g. invalid_token, token_expired
+        header('Location: /auth/login?error=' . urlencode($e->getMessage()));
+        exit;
+    }
+}
+
 }

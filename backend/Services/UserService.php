@@ -60,7 +60,7 @@ class UserService {
         // Token expires in 24 hours
         $expires_at = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
-        // Store the toke
+        // Store the token
         $this->emailVerificationRepository->createToken($user['id'], $token, $expires_at);
 
         // Send verification email
