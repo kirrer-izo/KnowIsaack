@@ -48,4 +48,11 @@ class UserRepository {
         $stmt = $this->pdo->prepare("UPDATE users SET email_verified = TRUE WHERE id = :id");
         $stmt->execute(['id' => $user_id]);
     }
+
+    // Enables user to reset password
+    public function updatePassword(int $user_id, string $password_hash): void
+    {
+        $stmt = $this->pdo->prepare("UPDATE users SET password_hash = :password_hash WHERE id = :id");
+        $stmt->execute(['id' => $user_id, 'password_hash' => $password_hash]);
+    }
 }

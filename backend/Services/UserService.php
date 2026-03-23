@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Infrastructure\Database\EmailVerificationRepository;
+use App\Infrastructure\Database\PasswordResetRepository;
 use App\Infrastructure\Database\UserRepository;
 use App\Infrastructure\Mail\ResendMailer;
 
@@ -10,12 +11,14 @@ class UserService {
     private $userRepository;
     private $emailVerificationRepository;
     private $mailer;
+    private $passwordResetRepository;
 
-    public function __construct(UserRepository $userRepository, EmailVerificationRepository $emailVerificationRepository, ResendMailer $mailer)
+    public function __construct(UserRepository $userRepository, EmailVerificationRepository $emailVerificationRepository, ResendMailer $mailer, PasswordResetRepository $passwordResetRepository)
     {
         $this->userRepository = $userRepository;
         $this->emailVerificationRepository = $emailVerificationRepository;
         $this->mailer = $mailer;
+        $this->passwordResetRepository = $passwordResetRepository;
     }
 
     public function register(string $name, string $email, string $password): void
@@ -106,5 +109,46 @@ class UserService {
 
         // Delete the used token
         $this->emailVerificationRepository->deleteByUserId($record['user_id']);
+    }
+
+    public function forgotPassword(string $email) :void
+    {
+        $user = $this->userRepository->findByEmail($email);
+
+        if(!$user || !$user['email_verified']) {
+            throw new \Exception("email_not_found_or_unverified");
+        }
+
+        $token = bin2hex(random_bytes(32));
+
+         // Token expires in 24 hours
+        $expires_at = date('Y-m-d H:i:s', strtotime('+24 hours'));
+
+        $this->passwordResetRepository->createToken($user['id'], $token, $expires_at);
+
+        $this->mailer->sendPasswordResetEmail($email, $user['name'], $token);
+
+    }
+
+    public function resetPassword(string $token, string $password): void
+    {
+        // Find token record
+        $record = $this->passwordResetRepository->findByToken($token);
+
+        if (!$record) {
+            throw new \Exception("invalid_token");
+        }
+
+        // Check if token is expired
+        if (strtotime($record['expires_at']) < time()) {
+            throw new \Exception("token_expired");
+        }
+
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+
+        $this->userRepository->updatePassword($record['user_id'], $passwordHash);
+
+        $this->passwordResetRepository->deleteByUserId($record['user_id']);
+
     }
 }
