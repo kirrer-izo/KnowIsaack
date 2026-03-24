@@ -12,11 +12,13 @@ use App\Infrastructure\Database\LoginActivityRepository;
 use App\Infrastructure\Database\PasswordResetRepository;
 use App\Infrastructure\Database\ProjectRepository;
 use App\Infrastructure\Database\RateLimitRepository;
+use App\Infrastructure\Database\RememberTokenRepository;
 use App\Infrastructure\Database\UserRepository;
 use App\Services\LoginActivityService;
 use App\Services\ProjectService;
 use App\Services\UserService;
 use App\Services\RateLimiterService;
+use App\Services\RememberTokenService;
 
 session_start();
 
@@ -28,6 +30,29 @@ $path = str_replace($base_path, '', $request);
 
 // Strip query string e.g. ?code=xxx&state=yyy — we only need the path
 $path = strtok($path, '?');
+
+// Remember me: if no session, try the cookie
+if (empty($_SESSION['authenticated'])) {
+    if (isset($_COOKIE['remember_token'])) {
+        $token = $_COOKIE['remember_token'];
+        // We need PDO – we can get it here, but only if we connect.
+        // However, connecting for every request is heavy if no token.
+        // We'll connect only if the cookie exists.
+        $pdo = DatabaseConnection::getInstance()->getConnection();
+        $rememberTokenRepository = new RememberTokenRepository($pdo);
+        $userRepo = new UserRepository($pdo);
+        $rememberTokenService = new RememberTokenService($rememberTokenRepository, $userRepo);
+        $user = $rememberTokenService->validateToken($token);
+        if ($user) {
+            session_regenerate_id(true);
+            $_SESSION['authenticated'] = true;
+            $_SESSION['db_user'] = $user;
+        } else {
+            // Invalid/expired token: delete the cookie
+            setcookie('remember_token', '', time() - 3600, '/');
+        }
+    }
+}
 
 // Routes that require a database connection
 // Only these routes trigger PDO instantiation and dependency wiring
@@ -55,12 +80,14 @@ if (in_array($path, $db_routes)) {
     $loginActivityRepository = new LoginActivityRepository($pdo);
     $rateLimiterService = new RateLimiterService($rateLimitRepository);
     $loginActivityService = new LoginActivityService($loginActivityRepository);
+    $rememberTokenRepository = new RememberTokenRepository($pdo);
+    $rememberTokenService = new RememberTokenService($rememberTokenRepository, $userRepository);
 
     $mailer = new ResendMailer();
 
     $userService = new UserService($userRepository, $emailVerificationRepository, $mailer, $passwordResetRepository);
 
-    $userController = new UserController($userService, $rateLimiterService, $loginActivityService);
+    $userController = new UserController($userService, $rateLimiterService, $loginActivityService, $rememberTokenService);
 }
 
 switch ($path) {
