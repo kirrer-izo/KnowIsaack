@@ -10,7 +10,7 @@ class RateLimiterService {
     private int $maxAttempts;
     private int $decayMinutes;
 
-    public function __construct(RateLimitRepository $rateLimitRepository, int $maxAttempts = 5, int $decayMinutes = 60)
+    public function __construct(RateLimitRepository $rateLimitRepository, int $maxAttempts = 6, int $decayMinutes = 60)
     {
         $this->rateLimitRepository = $rateLimitRepository;
         $this->maxAttempts = $maxAttempts;

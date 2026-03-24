@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Auth\User;
 
+use App\Services\LoginActivityService;
 use App\Services\RateLimiterService;
 use App\Services\UserService;
 
@@ -10,11 +11,13 @@ class UserController{
 
 private $userService;
 private $rateLimiterService;
+private $loginActivityService;
 
-public function __construct(UserService $userService, RateLimiterService $rateLimiterService)
+public function __construct(UserService $userService, RateLimiterService $rateLimiterService, LoginActivityService $loginActivityService)
 {
     $this->userService = $userService;
     $this->rateLimiterService = $rateLimiterService;
+    $this->loginActivityService = $loginActivityService;
 }
 
 public function handleRegisterRequest(): void {
@@ -96,20 +99,27 @@ public function handleLogin() : void {
         header('Location: /auth/login?error=missing_fields');
         exit;
     }
-       $ip = $_SERVER['REMOTE_ADDR'] ?? '';
-        $identifier = $email . '_' . $ip; // combine email+IP for login
-        if (!$this->rateLimiterService->attempt($identifier, 'login')) {
-            header('Location: /auth/login?error=too_many_attempts');
-            exit;
-        }
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    $identifier = $email . '_' . $ip;
+    if (!$this->rateLimiterService->attempt($identifier, 'login')) {
+        header('Location: /auth/login?error=too_many_attempts');
+        exit;
+    }
 
     try {
         $user = $this->userService->login($email, $password);
+
+         // Log the successful attempt
+        $this->loginActivityService->recordSuccess($user['id'], $ip, $userAgent);
         session_regenerate_id(true);
         $_SESSION['authenticated'] = true;
         $_SESSION['db_user'] = $user;
         header('Location: /admin');
     } catch (\Exception $e) {
+        // Log the failed attempt (store the email even if it doesn't exist)
+        $this->loginActivityService->recordFailure($email, $ip, $userAgent);
+        
         header('Location: /auth/login?error=' . urlencode($e->getMessage()));
     }
 
