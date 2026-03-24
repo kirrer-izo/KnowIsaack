@@ -2,15 +2,19 @@
 
 namespace App\Controllers\Auth\User;
 
+use App\Services\RateLimiterService;
 use App\Services\UserService;
+
 
 class UserController{
 
 private $userService;
+private $rateLimiterService;
 
-public function __construct(UserService $userService)
+public function __construct(UserService $userService, RateLimiterService $rateLimiterService)
 {
     $this->userService = $userService;
+    $this->rateLimiterService = $rateLimiterService;
 }
 
 public function handleRegisterRequest(): void {
@@ -84,6 +88,7 @@ public function handleRegister() : void {
 }
 
 public function handleLogin() : void {
+
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
@@ -91,6 +96,12 @@ public function handleLogin() : void {
         header('Location: /auth/login?error=missing_fields');
         exit;
     }
+       $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+        $identifier = $email . '_' . $ip; // combine email+IP for login
+        if (!$this->rateLimiterService->attempt($identifier, 'login')) {
+            header('Location: /auth/login?error=too_many_attempts');
+            exit;
+        }
 
     try {
         $user = $this->userService->login($email, $password);
@@ -153,6 +164,12 @@ public function handleForgotPassword(): void
     header('Location: /auth/forgot-password?error=missing_fields');
     exit;
    }
+
+   $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    if (!$this->rateLimiterService->attempt($ip, 'forgot_password')) {
+        header('Location: /auth/login?error=too_many_attempts');
+        exit;
+    }
 
    try {
         $this->userService->forgotPassword($email);
