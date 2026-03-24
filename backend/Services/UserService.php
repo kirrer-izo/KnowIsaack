@@ -78,11 +78,6 @@ class UserService {
             throw new \Exception("invalid_credentials");
         }
 
-        // Block unverified users
-        if (!$user['email_verified']) {
-            throw new \Exception("email_not_verified");
-        }
-
         return [
             'id' => $user['id'],
             'name' => $user['name'],
@@ -115,7 +110,7 @@ class UserService {
     {
         $user = $this->userRepository->findByEmail($email);
 
-        if(!$user || !$user['email_verified']) {
+        if(!$user) {
             throw new \Exception("email_not_found_or_unverified");
         }
 

@@ -33,7 +33,9 @@ $db_routes = [
     '/api/session',
     '/auth/login',
     '/auth/register',
-    '/auth/verify'
+    '/auth/verify',
+    '/auth/forgot-password',
+    '/auth/reset-password',
 ];
 
 // Wire up database dependencies only when needed
@@ -79,7 +81,14 @@ switch ($path) {
         // Handles email verification link clicked from inbox
         $userController->handleVerifyRequest();
         break;
+    case '/auth/forgot-password':
+        $userController->handleForgotPasswordRequest();
+    break;
+    case '/auth/reset-password':
+        $userController->handleResetPasswordRequest();
+    break;
 
+    
     // Admin Pages — protected by guard inside each controller
     case '/admin':
         require __DIR__. '/../frontend/pages/admin/index.html';

@@ -67,7 +67,7 @@ class ResendMailer implements EmailServiceInterface {
         return $this->sendEmail($to, 'Verify your email address', $html);
     }
 
-    // Send a password reset email with a secure token link
+        // Send a password reset email with a secure token link
     public function sendPasswordResetEmail(string $to, string $name, string $token): bool
     {
         $resetUrl = getenv('APP_URL') . '/auth/reset-password?token=' . $token;

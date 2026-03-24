@@ -33,6 +33,22 @@ public function handleLoginRequest(): void {
     };
 }
 
+public function handleForgotPasswordRequest(): void {
+    $method = $_SERVER['REQUEST_METHOD'];
+    match ($method) {
+        'GET' => $this->showForgotPassword(),
+        'POST' => $this->handleForgotPassword(),
+    };
+}
+
+public function handleResetPasswordRequest(): void {
+    $method = $_SERVER['REQUEST_METHOD'];
+    match ($method) {
+        'GET' => $this->showResetPassword(),
+        'POST' => $this->handleResetPassword(),
+    };
+}
+
 public function showLogin() : void {
     require __DIR__ . '/../../../../frontend/pages/login.html';
 }
@@ -163,7 +179,7 @@ public function showResetPassword(): void
 // Handle reset password form submission (POST)
 public function handleResetPassword(): void
 {
-    $token = $_GET['token'] ?? '';
+    $token = $_POST['token'] ?? '';
     $password = $_POST['password'] ?? '';
     $confirm = $_POST['confirm_password'] ?? '';
 
