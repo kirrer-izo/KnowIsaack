@@ -125,7 +125,6 @@ class UserService {
         $expires_at = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
         $this->passwordResetRepository->createToken($user['id'], $token, $expires_at);
-
         $this->mailer->sendPasswordResetEmail($email, $user['name'], $token);
 
     }
@@ -142,6 +141,23 @@ class UserService {
         // Check if token is expired
         if (strtotime($record['expires_at']) < time()) {
             throw new \Exception("token_expired");
+        }
+
+        // Validate new password strength
+        if (strlen($password) < 8) {
+            throw new \Exception("password_too_short");
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            throw new \Exception("password_no_uppercase");
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            throw new \Exception("password_no_lowercase");
+        }
+        if (!preg_match('/\d/', $password)) {
+            throw new \Exception("password_no_number");
+        }
+        if (!preg_match('/[@$!%*?&]/', $password)) {
+            throw new \Exception("password_no_special");
         }
 
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);

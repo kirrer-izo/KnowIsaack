@@ -8,6 +8,7 @@ use App\Controllers\ProjectsController;
 use App\Controllers\PublicProjectsController;
 use App\Infrastructure\Database\DatabaseConnection;
 use App\Infrastructure\Database\EmailVerificationRepository;
+use App\Infrastructure\Database\PasswordResetRepository;
 use App\Infrastructure\Database\ProjectRepository;
 use App\Infrastructure\Database\UserRepository;
 use App\Services\ProjectService;
@@ -42,8 +43,9 @@ if (in_array($path, $db_routes)) {
     $projectService = new ProjectService($projectRepository);
     $userRepository = new UserRepository($pdo);
     $emailVerificationRepository = new EmailVerificationRepository($pdo);
+    $passwordResetRepository = new PasswordResetRepository($pdo);
     $mailer = new ResendMailer();
-    $userService = new UserService($userRepository, $emailVerificationRepository, $mailer);
+    $userService = new UserService($userRepository, $emailVerificationRepository, $mailer, $passwordResetRepository);
     $userController = new UserController($userService);
 }
 
