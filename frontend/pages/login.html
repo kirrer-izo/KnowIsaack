@@ -175,6 +175,18 @@
       transform: translateY(0);
     }
 
+    /* Forgot password link */
+    .forgot-link {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .forgot-link:hover {
+      color: var(--color-accent);
+    }
+
     /* Error & success */
     .login-error {
       background-color: #fee2e2;
@@ -297,6 +309,9 @@
             <label class="form-label" for="password">Password</label>
             <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required>
           </div>
+          <div style="text-align: right;">
+            <a href="/auth/forgot-password" class="forgot-link">Forgot password?</a>
+          </div>
           <button type="submit" class="btn-submit">Sign In</button>
         </form>
 
@@ -344,6 +359,8 @@
       registered: 'Account created successfully. Please check your email to verify your account.',
       logged_out: 'You have been signed out.',
       email_verified: 'Email verified successfully. You can now sign in.',
+      password_reset_sent: 'If an account exists with that email, we have sent a password reset link.',
+      password_reset_success: 'Password reset successfully. You can now sign in with your new password.',
     };
 
     if (error && errorMessages[error]) {
@@ -367,7 +384,20 @@
       setTimeout(() => {
         successEl.classList.remove('visible');
       }, 4000);
+    } else if (message && !successMessages[message]) {
+      // Fallback for unknown messages
+      switchTab('email');
+      const successEl = document.getElementById('emailSuccess');
+      successEl.textContent = decodeURIComponent(message);
+      successEl.classList.add('visible');
+
+      setTimeout(() => {
+        successEl.classList.remove('visible');
+      }, 4000);
     }
+
+    // Optional: remove query params from URL after handling
+    window.history.replaceState({}, document.title, window.location.pathname);
   </script>
 </body>
 </html>
