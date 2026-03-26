@@ -1,521 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard — Isaack Muchoki</title>
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* ── Admin Navbar ─────────────────────────────────────────────────────── */
-    .admin-navbar {
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border-card);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: var(--shadow-sm);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — Isaack Muchoki</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Stats cards styles */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
 
-    .admin-nav-inner {
-      max-width: var(--container-width);
-      margin: 0 auto;
-      height: 70px;
-      padding: 0 var(--spacing-lg);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
 
-    .admin-nav-left {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-md);
-    }
+        .stat-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-md);
+        }
 
-    .admin-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--text-primary);
-    }
+        .stat-card p {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
 
-    .admin-logo i {
-      color: var(--color-accent);
-    }
+        /* Simple admin dashboard wrapper */
+        .admin-dashboard {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
 
-    .admin-badge {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      background: var(--color-primary-100);
-      color: var(--color-accent);
-      padding: 2px 8px;
-      border-radius: 999px;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-md);
-    }
-
-    .user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-circle);
-      border: 2px solid var(--border-card);
-      object-fit: cover;
-      display: block;
-    }
-
-    .user-name {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-
-    .btn-logout {
-      font-size: 13px;
-      color: var(--text-muted);
-      background: none;
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-logout:hover {
-      color: red;
-      border-color: red;
-    }
-
-    /* ── Main Layout ──────────────────────────────────────────────────────── */
-    .admin-main {
-      max-width: var(--container-width);
-      margin: 0 auto;
-      padding: var(--spacing-xl) var(--spacing-lg);
-    }
-
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .admin-header h1 {
-      font-size: 32px;
-      margin-bottom: 0;
-    }
-
-    /* ── Stats Row ────────────────────────────────────────────────────────── */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--gap-sm);
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-md);
-      padding: var(--spacing-lg);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .stat-label {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .stat-value {
-      font-size: 36px;
-      font-weight: 700;
-      font-family: var(--font-heading);
-      color: var(--text-primary);
-      line-height: 1;
-    }
-
-    .stat-value.accent {
-      color: var(--color-accent);
-    }
-
-    /* ── Project Table ────────────────────────────────────────────────────── */
-    .table-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      overflow: hidden;
-    }
-
-    .table-toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: var(--spacing-md) var(--spacing-lg);
-      border-bottom: 1px solid var(--border-card);
-    }
-
-    .table-toolbar h2 {
-      font-size: 16px;
-      margin-bottom: 0;
-      color: var(--text-secondary);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th {
-      background: var(--color-neutral-100);
-      padding: var(--spacing-md);
-      text-align: left;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-muted);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--border-card);
-    }
-
-    td {
-      padding: var(--spacing-md);
-      font-size: 14px;
-      color: var(--text-body);
-      border-bottom: 1px solid var(--color-neutral-100);
-      vertical-align: middle;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    tr:hover td {
-      background: var(--color-neutral-100);
-    }
-
-    /* ── Tags ─────────────────────────────────────────────────────────────── */
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-
-    .tag {
-      background: var(--color-primary-100);
-      color: var(--color-accent);
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 999px;
-    }
-
-    /* ── Featured Badge ───────────────────────────────────────────────────── */
-    .badge-featured {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: #d1fae5;
-      color: #065f46;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 999px;
-    }
-
-    /* ── Action Buttons ───────────────────────────────────────────────────── */
-    .actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-edit {
-      font-size: 13px;
-      color: var(--color-accent);
-      background: none;
-      border: 1px solid var(--color-accent);
-      border-radius: var(--radius-sm);
-      padding: 4px 12px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .btn-edit:hover {
-      background: var(--color-primary-100);
-    }
-
-    .btn-delete {
-      font-size: 13px;
-      color: #991b1b;
-      background: none;
-      border: 1px solid #fecaca;
-      border-radius: var(--radius-sm);
-      padding: 4px 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .btn-delete:hover {
-      background: #fee2e2;
-    }
-
-    /* ── Empty State ──────────────────────────────────────────────────────── */
-    .empty-state {
-      text-align: center;
-      padding: var(--spacing-xl) var(--spacing-lg);
-      color: var(--text-muted);
-    }
-
-    .empty-state i {
-      font-size: 48px;
-      margin-bottom: var(--spacing-md);
-      display: block;
-      color: var(--color-neutral-300);
-    }
-
-    .empty-state p {
-      color: var(--text-muted);
-      margin-bottom: 0;
-    }
-
-    /* ── Loading ──────────────────────────────────────────────────────────── */
-    .loading-state {
-      text-align: center;
-      padding: var(--spacing-xl);
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    /* ── Toast ────────────────────────────────────────────────────────────── */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      padding: var(--spacing-md) var(--spacing-lg);
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-weight: 600;
-      box-shadow: var(--shadow-md);
-      z-index: 9999;
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .toast.success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
-    .toast.error   { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-
-    /* ── Responsive ───────────────────────────────────────────────────────── */
-    @media (max-width: 900px) {
-      .stats-row { grid-template-columns: 1fr; }
-      .user-name  { display: none; }
-
-      td:nth-child(3),
-      th:nth-child(3) { display: none; }
-    }
-  </style>
+        .admin-dashboard h1 {
+            margin-bottom: var(--spacing-lg);
+        }
+    </style>
 </head>
 <body>
+    <!-- Admin navbar placeholder – will be loaded by admin-components.js -->
+    <div id="admin-navbar-placeholder"></div>
 
-  <!-- Admin Navbar -->
- <div id="admin-navbar-placeholder"></div>
+    <div class="admin-dashboard">
+        <h1>Dashboard</h1>
 
-  <!-- Main Content -->
-  <main class="admin-main">
-
-    <!-- Page Header -->
-    <div class="admin-header">
-      <h1>Projects</h1>
-      <a href="/portfolio/admin/edit" class="btn-primary">
-        <i class="fa-solid fa-plus"></i>&nbsp; Add Project
-      </a>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-row" id="statsRow">
-      <div class="stat-card">
-        <div class="stat-label">Total Projects</div>
-        <div class="stat-value" id="statTotal">—</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Featured</div>
-        <div class="stat-value accent" id="statFeatured">—</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">With Live URL</div>
-        <div class="stat-value" id="statLive">—</div>
-      </div>
-    </div>
-
-    <!-- Projects Table -->
-    <div class="table-card">
-      <div class="table-toolbar">
-        <h2>All Projects</h2>
-      </div>
-      <div id="tableBody">
-        <div class="loading-state">
-          <i class="fa-solid fa-spinner fa-spin"></i> Loading projects...
+        <!-- Stats cards container -->
+        <div class="stats-grid" id="stats-container">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <p id="total-users">—</p>
+            </div>
+            <div class="stat-card">
+                <h3>Verified Users</h3>
+                <p id="verified-users">—</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Projects</h3>
+                <p id="total-projects">—</p>
+            </div>
+            <div class="stat-card">
+                <h3>Featured Projects</h3>
+                <p id="featured-projects">—</p>
+            </div>
+            <div class="stat-card">
+                <h3>Failed Logins (24h)</h3>
+                <p id="failed-logins-24h">—</p>
+            </div>
         </div>
-      </div>
+
+        <!-- Future sections: recent logins, user management, etc. -->
     </div>
 
-  </main>
+    <script src="../../js/admin-component.js"></script>
+    <script>
+        // Load stats from the API
+        async function loadAdminStats() {
+            try {
+                const response = await fetch('/api/admin/stats');
+                const data = await response.json();
 
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
-  <script src="../../js/admin-component.js"></script>
-  <script>
-    // ── Auth Check ───────────────────────────────────────────────────────────
-    async function checkSession() {
-      try {
-        const res = await fetch('/portfolio/api/session');
-        if (res.status === 401) {
-          window.location.href = '/portfolio/auth/login';
-          return null;
+                if (data.status === 'success') {
+                    document.getElementById('total-users').textContent = data.data.total_users;
+                    document.getElementById('verified-users').textContent = data.data.verified_users;
+                    document.getElementById('total-projects').textContent = data.data.total_projects;
+                    document.getElementById('featured-projects').textContent = data.data.featured_projects;
+                    document.getElementById('failed-logins-24h').textContent = data.data.failed_logins_24h;
+                } else {
+                    console.error('Stats API returned error:', data);
+                }
+            } catch (err) {
+                console.error('Failed to load admin stats:', err);
+            }
         }
-        return await res.json();
-      } catch {
-        window.location.href = '/portfolio/auth/login';
-        return null;
-      }
-    }
 
-    // ── Load Projects ────────────────────────────────────────────────────────
-    async function loadProjects() {
-      const res  = await fetch('/portfolio/api/projects');
-      const data = await res.json();
-      return data.projects ?? [];
-    }
-
-    // ── Render Stats ─────────────────────────────────────────────────────────
-    function renderStats(projects) {
-      document.getElementById('statTotal').textContent    = projects.length;
-      document.getElementById('statFeatured').textContent = projects.filter(p => p.featured).length;
-      document.getElementById('statLive').textContent     = projects.filter(p => p.live_url).length;
-    }
-
-    // ── Render Table ─────────────────────────────────────────────────────────
-    function renderTable(projects) {
-      const body = document.getElementById('tableBody');
-
-      if (projects.length === 0) {
-        body.innerHTML = `
-          <div class="empty-state">
-            <i class="fa-solid fa-folder-open"></i>
-            <p>No projects yet. <a href="/portfolio/admin/edit" style="color:var(--color-accent)">Add your first one.</a></p>
-          </div>`;
-        return;
-      }
-
-      body.innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Tech Stack</th>
-              <th>Featured</th>
-              <th>Links</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${projects.map(p => `
-              <tr>
-                <td><strong>${p.title}</strong></td>
-                <td>
-                  <div class="tag-list">
-                    ${(p.tech_stack ?? []).map(t => `<span class="tag">${t}</span>`).join('')}
-                  </div>
-                </td>
-                <td>
-                  ${p.featured
-                    ? `<span class="badge-featured"><i class="fa-solid fa-star"></i> Featured</span>`
-                    : `<span style="color:var(--text-muted);font-size:13px">—</span>`}
-                </td>
-                <td>
-                  ${p.github_url ? `<a href="${p.github_url}" target="_blank" style="color:var(--color-accent);margin-right:10px" title="GitHub"><i class="fa-brands fa-github"></i></a>` : ''}
-                  ${p.live_url   ? `<a href="${p.live_url}"   target="_blank" style="color:var(--color-accent)" title="Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ''}
-                  ${!p.github_url && !p.live_url ? `<span style="color:var(--text-muted);font-size:13px">—</span>` : ''}
-                </td>
-                <td>
-                  <div class="actions">
-                    <a href="/portfolio/admin/edit?id=${p.id}" class="btn-edit">
-                      <i class="fa-solid fa-pen"></i> Edit
-                    </a>
-                    <button class="btn-delete" onclick="deleteProject('${p.id}', '${p.title.replace(/'/g, "\\'")}')">
-                      <i class="fa-solid fa-trash"></i> Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>`;
-    }
-
-    // ── Delete ───────────────────────────────────────────────────────────────
-    async function deleteProject(id, title) {
-      if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
-
-      try {
-        const res  = await fetch(`/portfolio/api/projects?id=${id}`, { method: 'DELETE' });
-        const data = await res.json();
-
-        if (data.status === 'success') {
-          showToast('Project deleted.', 'success');
-          renderStats(data.projects);
-          renderTable(data.projects);
-        } else {
-          showToast(data.message ?? 'Delete failed.', 'error');
-        }
-      } catch {
-        showToast('Network error. Please try again.', 'error');
-      }
-    }
-
-    // ── Toast ────────────────────────────────────────────────────────────────
-    function showToast(message, type = 'success') {
-      const toast         = document.getElementById('toast');
-      toast.textContent   = message;
-      toast.className     = `toast ${type}`;
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 3500);
-    }
-
-    // ── Init ─────────────────────────────────────────────────────────────────
-    (async () => {
-      const session = await checkSession();
-      if (!session) return;
-
-      document.getElementById('userName').textContent = session.user.name;
-      document.getElementById('userAvatar').src       = session.user.avatar_url;
-
-      const projects = await loadProjects();
-      renderStats(projects);
-      renderTable(projects);
-    })();
-  </script>
+        // Run when the page loads
+        document.addEventListener('DOMContentLoaded', loadAdminStats);
+    </script>
 </body>
 </html>

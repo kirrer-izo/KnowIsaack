@@ -65,4 +65,18 @@ class ProjectRepository {
         $stmt = $this->pdo->prepare("DELETE FROM projects WHERE id = :id");
         return $stmt->execute(['id' => $id]);
     }
+
+    // Get total number of registered projects
+    public function countAll(): int 
+    {
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM projects");
+        return (int) $stmt->fetchColumn();
+    }
+
+    // Get number of projects with featured projects
+    public function countFeatured(): int
+    {
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM projects WHERE featured = true");
+        return (int) $stmt->fetchColumn();
+    }
 }
