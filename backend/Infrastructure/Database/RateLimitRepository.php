@@ -65,4 +65,68 @@ class RateLimitRepository {
             'cutoff' => $cutoff
         ]);
     }
+
+
+    // Get paginated rate limit records with optional search and filters
+    public function getPaginatedRateLimits(int $page, int $limit, ?string $search = null, ?string $action = null): array
+    {
+        $offset = ($page - 1) * $limit;
+
+        $sql = "SELECT id, identifier, action, attempts, first_attempt_at, last_attempt_at FROM rate_limits WHERE 1=1";
+        $params = [];
+
+        if ($search) {
+            $sql .= " AND (identifier ILIKE :search OR action ILIKE :search)";
+            $params['search'] = "%{$search}%";
+        }
+
+        if ($action) {
+            $sql .= " AND action = :action";
+            $params['action'] = $action;
+        }
+
+        // Count total
+        $countStmt = $this->pdo->prepare("SELECT COUNT(*) FROM ({$sql}) AS filtered");
+        $countStmt->execute($params);
+        $total = (int) $countStmt->fetchColumn();
+
+        // Fetch paginated rows
+        $sql .= " ORDER BY last_attempt_at DESC LIMIT :limit OFFSET :offset";
+        $stmt = $this->pdo->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+        $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue('offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        $rateLimits = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return [
+            'total' => $total,
+            'rate_limits' => $rateLimits
+        ];
+    }
+
+    
+    //  Get all rate limit records for CSV export (with same filters)
+    public function getAllRateLimitsForExport(?string $search = null, ?string $action = null): array
+    {
+        $sql = "SELECT id, identifier, action, attempts, first_attempt_at, last_attempt_at FROM rate_limits WHERE 1=1";
+        $params = [];
+
+        if ($search) {
+            $sql .= " AND (identifier ILIKE :search OR action ILIKE :search)";
+            $params['search'] = "%{$search}%";
+        }
+
+        if ($action) {
+            $sql .= " AND action = :action";
+            $params['action'] = $action;
+        }
+
+        $sql .= " ORDER BY last_attempt_at DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
