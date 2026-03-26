@@ -11,6 +11,7 @@ use App\Controllers\ContactController;
 use App\Infrastructure\Mail\ResendMailer;
 use App\Controllers\ProjectsController;
 use App\Controllers\PublicProjectsController;
+use App\Controllers\UserProfileController;
 use App\Infrastructure\Database\DatabaseConnection;
 use App\Infrastructure\Database\EmailVerificationRepository;
 use App\Infrastructure\Database\LoginActivityRepository;
@@ -100,6 +101,8 @@ $db_routes = [
     '/api/admin/logs/export',
     '/api/admin/rate-limits',
     '/api/admin/rate-limits/export',
+    '/api/user/profile',
+    '/api/user/password',
 ];
 
 // Wire up database dependencies only when needed
@@ -128,6 +131,7 @@ if (in_array($path, $db_routes)) {
     $adminProjectController = new AdminProjectController($projectRepository);
     $adminLogController = new AdminLogController($loginActivityRepository);
     $adminRateLimitController = new AdminRateLimitController($rateLimitRepository);
+    $userProfileController = new UserProfileController($userRepository);
 }
 
 
@@ -143,6 +147,10 @@ switch ($path) {
         break;
     case '/sole-proprietor-crm':
         require __DIR__ . '/../frontend/pages/sole-proprietor-crm.html';
+        break;
+    case '/profile':
+        require_once __DIR__ . '/config/guard_user.php';
+        require __DIR__ . '/../frontend/pages/profile.html';
         break;
     
     // Auth Pages
@@ -285,6 +293,26 @@ switch ($path) {
     case '/api/admin/rate-limits/export':
         require_once __DIR__ . '/config/guard.php';
         $adminRateLimitController->exportCsv();
+        break;
+    case '/api/user/profile':
+        require_once __DIR__ . '/config/guard_user.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userProfileController->getProfile();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $userProfileController->updateProfile();
+        } else {
+            http_response_code(405);
+            echo 'Method Not Allowed';
+        }
+        break;
+    case '/api/user/password':
+        require_once __DIR__ . '/config/guard_user.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $userProfileController->updatePassword();
+        } else {
+            http_response_code(405);
+            echo 'Method Not Allowed';
+        }
         break;
 
     // GitHub OAuth flow

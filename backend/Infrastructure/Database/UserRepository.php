@@ -142,4 +142,17 @@ class UserRepository {
             return false;
         }
     }
+
+
+    // Update user's profile information (name, email)
+    public function updateProfile(int $userId, string $name, string $email): bool
+    {
+        $stmt = $this->pdo->prepare("UPDATE users SET name = :name, email = :email, updated_at = NOW() WHERE id = :id");
+        return $stmt->execute([
+            'id' => $userId,
+            'name' => $name,
+            'email' => $email
+        ]);
+    }
+  
 }
