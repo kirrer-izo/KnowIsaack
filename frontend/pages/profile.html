@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile — Isaack Muchoki</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .profile-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--spacing-lg);
+    }
+    .profile-header {
+      margin-bottom: var(--spacing-xl);
+    }
+    .profile-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      margin-bottom: var(--spacing-xl);
+    }
+    .profile-section {
+      padding: var(--spacing-lg);
+      border-bottom: 1px solid var(--border-card);
+    }
+    .profile-section:last-child {
+      border-bottom: none;
+    }
+    .profile-section h2 {
+      font-size: 18px;
+      margin-bottom: var(--spacing-md);
+      color: var(--text-primary);
+    }
+    .form-group {
+      margin-bottom: var(--spacing-md);
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-secondary);
+    }
+    .form-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 var(--spacing-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: 14px;
+      color: var(--text-primary);
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb, 59,130,246), 0.15);
+    }
+    .form-input:disabled {
+      background: var(--color-neutral-100);
+      cursor: not-allowed;
+    }
+    .password-wrapper {
+      position: relative;
+    }
+    .password-wrapper .form-input {
+      padding-right: 40px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+    .toggle-password:hover {
+      color: var(--color-accent);
+    }
+    .btn-primary {
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .btn-secondary {
+      background: var(--color-neutral-100);
+      color: var(--text-primary);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-left: var(--spacing-sm);
+    }
+    .btn-secondary:hover {
+      background: var(--color-neutral-200);
+    }
+    .form-actions {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-lg);
+    }
+    .alert {
+      padding: var(--spacing-md);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--spacing-md);
+      display: none;
+    }
+    .alert-success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .alert-error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+    .alert.visible {
+      display: block;
+    }
+    .loading-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid transparent;
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-right: 6px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .btn-primary.loading {
+      position: relative;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div id="admin-navbar-placeholder"></div>
+
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1>My Profile</h1>
+    </div>
+
+    <!-- Alert messages -->
+    <div id="profileAlert" class="alert"></div>
+    <div id="passwordAlert" class="alert"></div>
+
+    <!-- Profile Information Section -->
+    <div class="profile-card">
+      <div class="profile-section">
+        <h2>Profile Information</h2>
+        <form id="profileForm">
+          <div class="form-group">
+            <label class="form-label" for="name">Full Name</label>
+            <input type="text" id="name" name="name" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="emailVerified">Email Verified</label>
+            <input type="text" id="emailVerified" class="form-input" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="createdAt">Member Since</label>
+            <input type="text" id="createdAt" class="form-input" disabled>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" id="saveProfileBtn">Save Changes</button>
+            <button type="button" class="btn-secondary" id="cancelProfileBtn">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Change Password Section -->
+    <div class="profile-card">
+      <div class="profile-section">
+        <h2>Change Password</h2>
+        <form id="passwordForm">
+          <div class="form-group">
+            <label class="form-label" for="currentPassword">Current Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="currentPassword" name="current_password" class="form-input" required>
+              <button type="button" class="toggle-password" data-target="currentPassword">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="newPassword">New Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="newPassword" name="new_password" class="form-input" required>
+              <button type="button" class="toggle-password" data-target="newPassword">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+            <p id="strengthLabel" style="font-size: 13px; margin-top: 6px;"></p>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="confirmPassword">Confirm New Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="confirmPassword" name="confirm_password" class="form-input" required>
+              <button type="button" class="toggle-password" data-target="confirmPassword">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+            <p id="matchLabel" style="font-size: 13px; margin-top: 6px;"></p>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" id="changePasswordBtn">Change Password</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/admin-component.js"></script>
+  <script src="../js/profile.js"></script>
+</body>
+</html>
