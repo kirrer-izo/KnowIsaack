@@ -3,6 +3,7 @@
 use App\Controllers\AdminController;
 use App\Controllers\AdminLogController;
 use App\Controllers\AdminProjectController;
+use App\Controllers\AdminRateLimitController;
 use App\Controllers\AdminUserController;
 use App\Controllers\Auth\GitHub\AuthController;
 use App\Controllers\Auth\User\UserController;
@@ -97,6 +98,8 @@ $db_routes = [
     '/api/admin/projects/export', 
     '/api/admin/logs',
     '/api/admin/logs/export',
+    '/api/admin/rate-limits',
+    '/api/admin/rate-limits/export',
 ];
 
 // Wire up database dependencies only when needed
@@ -124,6 +127,7 @@ if (in_array($path, $db_routes)) {
     $adminUserController = new AdminUserController($userRepository,$userService);
     $adminProjectController = new AdminProjectController($projectRepository);
     $adminLogController = new AdminLogController($loginActivityRepository);
+    $adminRateLimitController = new AdminRateLimitController($rateLimitRepository);
 }
 
 
@@ -186,6 +190,10 @@ switch ($path) {
     case '/admin/logs':
         require_once __DIR__ . '/config/guard_user.php';
         require __DIR__ . '/../frontend/pages/admin/logs.html';
+        break;
+    case '/admin/rate-limits':
+        require_once __DIR__ . '/config/guard_user.php';
+        require __DIR__ . '/../frontend/pages/admin/rate-limits.html';
         break;
 
     // API
@@ -265,7 +273,19 @@ switch ($path) {
         require_once __DIR__ . '/config/guard.php';
         $adminLogController->exportCsv();
         break;
-
+    case '/api/admin/rate-limits':
+        require_once __DIR__ . '/config/guard.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $adminRateLimitController->listRateLimits();
+        } else {
+            http_response_code(405);
+            echo 'Method Not Allowed';
+        }
+        break;
+    case '/api/admin/rate-limits/export':
+        require_once __DIR__ . '/config/guard.php';
+        $adminRateLimitController->exportCsv();
+        break;
 
     // GitHub OAuth flow
     case '/auth/authorize':
