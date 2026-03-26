@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\AdminController;
+use App\Controllers\AdminProjectController;
 use App\Controllers\AdminUserController;
 use App\Controllers\Auth\GitHub\AuthController;
 use App\Controllers\Auth\User\UserController;
@@ -44,6 +45,13 @@ if (preg_match('#^/api/admin/users/(\d+)$#', $path, $matches) && $_SERVER['REQUE
     $path = '/api/admin/users/delete';
 }
 
+// Extract project ID for admin project actions
+$adminProjectId = null;
+if (preg_match('#^/api/admin/projects/(\d+)$#', $path, $matches) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    $adminProjectId = (int) $matches[1];
+    $path = '/api/admin/projects/delete';
+}
+
 
 // Remember me: if no session, try the cookie
 if (empty($_SESSION['authenticated'])) {
@@ -83,7 +91,9 @@ $db_routes = [
     '/api/admin/users',
     '/api/admin/users/export',
     '/api/admin/users/resend-verification',
-    '/api/admin/users/delete',  
+    '/api/admin/users/delete', 
+    '/api/admin/projects',
+    '/api/admin/projects/export', 
 ];
 
 // Wire up database dependencies only when needed
@@ -109,6 +119,7 @@ if (in_array($path, $db_routes)) {
     $userController = new UserController($userService, $rateLimiterService, $loginActivityService, $rememberTokenService);
     $adminController = new AdminController($userRepository, $projectRepository, $loginActivityRepository);
     $adminUserController = new AdminUserController($userRepository,$userService);
+    $adminProjectController = new AdminProjectController($projectRepository);
 }
 
 
@@ -162,7 +173,7 @@ switch ($path) {
         break;
     case '/admin/projects':
         require_once __DIR__ . '/config/guard_user.php';
-        echo "Project list - under construction";
+        require __DIR__ . '/../frontend/pages/admin/projects.html';
         break;
     case '/admin/users':
         require_once __DIR__ . '/config/guard_user.php';
@@ -215,6 +226,23 @@ switch ($path) {
     case '/api/admin/users/delete':
         require_once __DIR__ . '/config/guard.php';
         $adminUserController->deleteUser($adminUserId);
+        break;
+    case '/api/admin/projects':
+        require_once __DIR__ . '/config/guard.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $adminProjectController->listProjects();
+        } else {
+            http_response_code(405);
+            echo 'Method Not Allowed';
+        }
+    break;
+    case '/api/admin/projects/export':
+        require_once __DIR__ . '/config/guard.php';
+        $adminProjectController->exportCsv();
+        break;
+    case '/api/admin/projects/delete':
+        require_once __DIR__ . '/config/guard.php';
+        $adminProjectController->deleteProject($adminProjectId);
         break;
 
 
