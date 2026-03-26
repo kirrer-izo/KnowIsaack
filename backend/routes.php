@@ -166,7 +166,7 @@ switch ($path) {
         break;
     case '/admin/users':
         require_once __DIR__ . '/config/guard_user.php';
-        echo "Users list under construction";
+        require __DIR__ . '/../frontend/pages/admin/users.html';
         break;
 
     // API
