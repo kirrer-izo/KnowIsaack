@@ -1573,6 +1573,24 @@ section {
 }
 
 /* ========================================
+   ADMIN NAVBAR
+   ======================================== */
+.admin-navbar {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-card);
+  margin-bottom: var(--spacing-lg);
+}
+
+.nav-menu li.active a {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.nav-menu li.active a::after {
+  width: 100%;
+}
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 

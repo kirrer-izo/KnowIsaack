@@ -4,6 +4,7 @@ namespace App\Controllers\Auth\User;
 
 use App\Services\LoginActivityService;
 use App\Services\RateLimiterService;
+use App\Services\RememberTokenService;
 use App\Services\UserService;
 
 
@@ -12,12 +13,14 @@ class UserController{
 private $userService;
 private $rateLimiterService;
 private $loginActivityService;
+private $rememberTokenService;
 
-public function __construct(UserService $userService, RateLimiterService $rateLimiterService, LoginActivityService $loginActivityService)
+public function __construct(UserService $userService, RateLimiterService $rateLimiterService, LoginActivityService $loginActivityService, RememberTokenService $rememberTokenService)
 {
     $this->userService = $userService;
     $this->rateLimiterService = $rateLimiterService;
     $this->loginActivityService = $loginActivityService;
+    $this->rememberTokenService = $rememberTokenService;
 }
 
 public function handleRegisterRequest(): void {
@@ -109,10 +112,18 @@ public function handleLogin() : void {
 
     try {
         $user = $this->userService->login($email, $password);
-
          // Log the successful attempt
         $this->loginActivityService->recordSuccess($user['id'], $ip, $userAgent);
+
+        $remember = isset($_POST['remember']) && $_POST['remember'] === 'on';
+        if ($remember) {
+            $plainToken = $this->rememberTokenService->createToken($user['id']);
+            // Set cookie: name, value, expiry (30 days), path, domain, secure, httponly
+            setcookie('remember_token', $plainToken, time() + 86400 * 30, '/', '', false, true);
+        }
+
         session_regenerate_id(true);
+        
         $_SESSION['authenticated'] = true;
         $_SESSION['db_user'] = $user;
         header('Location: /admin');
@@ -128,6 +139,12 @@ public function handleLogin() : void {
 }
 
 public function logout() : void {
+
+    // Delete remember token if it exists
+    if (isset($_COOKIE['remember_token'])) {
+        $this->rememberTokenService->deleteToken($_COOKIE['remember_token']);
+        setcookie('remember_token', '', time() - 3600, '/');
+    }
     session_unset();
     session_destroy();
     
