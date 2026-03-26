@@ -340,24 +340,7 @@
 <body>
 
   <!-- Admin Navbar -->
-  <nav class="admin-navbar">
-    <div class="admin-nav-inner">
-      <div class="admin-nav-left">
-        <div class="admin-logo">
-          <i class="fa-solid fa-layer-group"></i>
-          kirrer
-        </div>
-        <span class="admin-badge">Admin</span>
-      </div>
-      <div class="user-info">
-        <img class="user-avatar" id="userAvatar" src="" alt="Avatar">
-        <span class="user-name" id="userName"></span>
-        <a href="/portfolio/auth/logout" class="btn-logout">
-          <i class="fa-solid fa-right-from-bracket"></i> Logout
-        </a>
-      </div>
-    </div>
-  </nav>
+ <div id="admin-navbar-placeholder"></div>
 
   <!-- Main Content -->
   <main class="admin-main">
@@ -402,7 +385,7 @@
 
   <!-- Toast -->
   <div class="toast" id="toast"></div>
-
+  <script src="../../js/admin-component.js"></script>
   <script>
     // ── Auth Check ───────────────────────────────────────────────────────────
     async function checkSession() {

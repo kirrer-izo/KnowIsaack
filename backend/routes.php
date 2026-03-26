@@ -130,10 +130,20 @@ switch ($path) {
     
     // Admin Pages — protected by guard inside each controller
     case '/admin':
+        require_once __DIR__ . '/config/guard_user.php';
         require __DIR__. '/../frontend/pages/admin/index.html';
         break;
     case '/admin/edit':
+        require_once __DIR__ . '/config/guard_user.php';
         require __DIR__ . '/../frontend/pages/admin/edit.html';
+        break;
+    case '/admin/projects':
+        require_once __DIR__ . '/config/guard_user.php';
+        echo "Project list - under construction";
+        break;
+    case '/admin/users':
+        require_once __DIR__ . '/config/guard_user.php';
+        echo "Users list under construction";
         break;
 
     // API
