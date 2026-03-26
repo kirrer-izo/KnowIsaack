@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\AdminController;
+use App\Controllers\AdminLogController;
 use App\Controllers\AdminProjectController;
 use App\Controllers\AdminUserController;
 use App\Controllers\Auth\GitHub\AuthController;
@@ -94,6 +95,8 @@ $db_routes = [
     '/api/admin/users/delete', 
     '/api/admin/projects',
     '/api/admin/projects/export', 
+    '/api/admin/logs',
+    '/api/admin/logs/export',
 ];
 
 // Wire up database dependencies only when needed
@@ -120,6 +123,7 @@ if (in_array($path, $db_routes)) {
     $adminController = new AdminController($userRepository, $projectRepository, $loginActivityRepository);
     $adminUserController = new AdminUserController($userRepository,$userService);
     $adminProjectController = new AdminProjectController($projectRepository);
+    $adminLogController = new AdminLogController($loginActivityRepository);
 }
 
 
@@ -178,6 +182,10 @@ switch ($path) {
     case '/admin/users':
         require_once __DIR__ . '/config/guard_user.php';
         require __DIR__ . '/../frontend/pages/admin/users.html';
+        break;
+    case '/admin/logs':
+        require_once __DIR__ . '/config/guard_user.php';
+        require __DIR__ . '/../frontend/pages/admin/logs.html';
         break;
 
     // API
@@ -243,6 +251,19 @@ switch ($path) {
     case '/api/admin/projects/delete':
         require_once __DIR__ . '/config/guard.php';
         $adminProjectController->deleteProject($adminProjectId);
+        break;
+    case '/api/admin/logs':
+        require_once __DIR__ . '/config/guard.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $adminLogController->listLogs();
+        } else {
+            http_response_code(405);
+            echo 'Method Not Allowed';
+        }
+        break;
+    case '/api/admin/logs/export':
+        require_once __DIR__ . '/config/guard.php';
+        $adminLogController->exportCsv();
         break;
 
 
