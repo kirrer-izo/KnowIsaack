@@ -53,46 +53,141 @@
     </style>
 </head>
 <body>
-    <!-- Admin navbar placeholder – will be loaded by admin-components.js -->
-    <div id="admin-navbar-placeholder"></div>
 
-    <div class="admin-dashboard">
-        <h1>Dashboard</h1>
+  <!-- Admin Navbar -->
+ <div id="admin-navbar-placeholder"></div>
 
-        <!-- Stats cards container -->
-        <div class="stats-grid" id="stats-container">
-            <div class="stat-card">
-                <h3>Total Users</h3>
-                <p id="total-users">—</p>
-            </div>
-            <div class="stat-card">
-                <h3>Verified Users</h3>
-                <p id="verified-users">—</p>
-            </div>
-            <div class="stat-card">
-                <h3>Total Projects</h3>
-                <p id="total-projects">—</p>
-            </div>
-            <div class="stat-card">
-                <h3>Featured Projects</h3>
-                <p id="featured-projects">—</p>
-            </div>
-            <div class="stat-card">
-                <h3>Failed Logins (24h)</h3>
-                <p id="failed-logins-24h">—</p>
-            </div>
-        </div>
+  <!-- Main Content -->
+  <main class="admin-main">
+
+    <!-- Page Header -->
+    <div class="admin-header">
+      <h1>Projects</h1>
+      <a href="/portfolio/admin/edit" class="btn-primary">
+        <i class="fa-solid fa-plus"></i>&nbsp; Add Project
+      </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-label">Total Projects</div>
+        <div class="stat-value" id="statTotal">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Featured</div>
+        <div class="stat-value accent" id="statFeatured">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">With Live URL</div>
+        <div class="stat-value" id="statLive">—</div>
+      </div>
+    </div>
 
         <!-- Future sections: recent logins, user management, etc. -->
     </div>
 
-    <script src="../../js/admin-component.js"></script>
-    <script>
-        // Load stats from the API
-        async function loadAdminStats() {
-            try {
-                const response = await fetch('/api/admin/stats');
-                const data = await response.json();
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+  <script src="../../js/admin-component.js"></script>
+  <script>
+    // ── Auth Check ───────────────────────────────────────────────────────────
+    async function checkSession() {
+      try {
+        const res = await fetch('/portfolio/api/session');
+        if (res.status === 401) {
+          window.location.href = '/portfolio/auth/login';
+          return null;
+        }
+        return await res.json();
+      } catch {
+        window.location.href = '/portfolio/auth/login';
+        return null;
+      }
+    }
+
+    // ── Load Projects ────────────────────────────────────────────────────────
+    async function loadProjects() {
+      const res  = await fetch('/portfolio/api/projects');
+      const data = await res.json();
+      return data.projects ?? [];
+    }
+
+    // ── Render Stats ─────────────────────────────────────────────────────────
+    function renderStats(projects) {
+      document.getElementById('statTotal').textContent    = projects.length;
+      document.getElementById('statFeatured').textContent = projects.filter(p => p.featured).length;
+      document.getElementById('statLive').textContent     = projects.filter(p => p.live_url).length;
+    }
+
+    // ── Render Table ─────────────────────────────────────────────────────────
+    function renderTable(projects) {
+      const body = document.getElementById('tableBody');
+
+      if (projects.length === 0) {
+        body.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-folder-open"></i>
+            <p>No projects yet. <a href="/portfolio/admin/edit" style="color:var(--color-accent)">Add your first one.</a></p>
+          </div>`;
+        return;
+      }
+
+      body.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Tech Stack</th>
+              <th>Featured</th>
+              <th>Links</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${projects.map(p => `
+              <tr>
+                <td><strong>${p.title}</strong></td>
+                <td>
+                  <div class="tag-list">
+                    ${(p.tech_stack ?? []).map(t => `<span class="tag">${t}</span>`).join('')}
+                  </div>
+                </td>
+                <td>
+                  ${p.featured
+                    ? `<span class="badge-featured"><i class="fa-solid fa-star"></i> Featured</span>`
+                    : `<span style="color:var(--text-muted);font-size:13px">—</span>`}
+                </td>
+                <td>
+                  ${p.github_url ? `<a href="${p.github_url}" target="_blank" style="color:var(--color-accent);margin-right:10px" title="GitHub"><i class="fa-brands fa-github"></i></a>` : ''}
+                  ${p.live_url   ? `<a href="${p.live_url}"   target="_blank" style="color:var(--color-accent)" title="Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ''}
+                  ${!p.github_url && !p.live_url ? `<span style="color:var(--text-muted);font-size:13px">—</span>` : ''}
+                </td>
+                <td>
+                  <div class="actions">
+                    <a href="/portfolio/admin/edit?id=${p.id}" class="btn-edit">
+                      <i class="fa-solid fa-pen"></i> Edit
+                    </a>
+                    <button class="btn-delete" onclick="deleteProject('${p.id}', '${p.title.replace(/'/g, "\\'")}')">
+                      <i class="fa-solid fa-trash"></i> Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    // ── Delete ───────────────────────────────────────────────────────────────
+    async function deleteProject(id, title) {
+      if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+
+      try {
+        const res  = await fetch(`/portfolio/api/projects?id=${id}`, { method: 'DELETE' });
+        const data = await res.json();
 
                 if (data.status === 'success') {
                     document.getElementById('total-users').textContent = data.data.total_users;
