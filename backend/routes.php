@@ -305,6 +305,6 @@ switch ($path) {
 
     default: 
         http_response_code(404);
-        echo "Page not found.";
+        require __DIR__ . '/../frontend/pages/404.html';
         break;
 }

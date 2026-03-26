@@ -174,8 +174,24 @@
         </div>
         <div class="form-group">
           <label class="form-label" for="password">Password</label>
-          <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required>
+          <div class="password-wrapper">
+            <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required>
+            <button type="button" class="toggle-password" aria-label="Show password">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
           <p id="strengthLabel" style="font-size: 13px; margin-top: 6px;"></p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirm_password">Confirm Password</label>
+          <div class="password-wrapper">
+            <input class="form-input" type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required>
+            <button type="button" class="toggle-password" aria-label="Show password">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <p id="matchLabel" style="font-size: 13px; margin-top: 6px;"></p>
         </div>
           <div class="form-group">
           <label class="form-label" for="confirm_password">Confirm Password</label>
@@ -288,6 +304,39 @@
         }
       });
     }
+
+      // Handle form submission loading state
+    const registerForm = document.querySelector('form');
+    if (registerForm) {
+      registerForm.addEventListener('submit', function(e) {
+        const submitBtn = this.querySelector('button[type="submit"]');
+        if (submitBtn) {
+          submitBtn.classList.add('loading');
+          submitBtn.disabled = true;
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating account...';
+          submitBtn.setAttribute('data-original-text', originalText);
+        }
+      });
+    }
+
+    // Toggle password visibility
+document.querySelectorAll('.toggle-password').forEach(button => {
+  button.addEventListener('click', function() {
+    const input = this.closest('.password-wrapper').querySelector('input');
+    const icon = this.querySelector('i');
+    
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      input.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  });
+});
   </script>
 </body>
 </html>
