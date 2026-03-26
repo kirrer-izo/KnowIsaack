@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — Isaack Muchoki</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .error-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--spacing-xl);
+    }
+    .error-content {
+      max-width: 500px;
+    }
+    .error-code {
+      font-size: 120px;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      color: var(--color-accent);
+      line-height: 1;
+      margin-bottom: var(--spacing-md);
+      text-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .error-title {
+      font-size: 32px;
+      margin-bottom: var(--spacing-md);
+    }
+    .error-message {
+      color: var(--text-muted);
+      margin-bottom: var(--spacing-xl);
+    }
+    .error-actions {
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: var(--spacing-md) var(--spacing-xl);
+    }
+  </style>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <div class="error-container">
+    <div class="error-content reveal is-visible">
+      <div class="error-code">404</div>
+      <h1 class="error-title">Page Not <span class="color-accent">Found</span></h1>
+      <p class="error-message">
+        The page you're looking for doesn't exist or has been moved.<br>
+        Let's get you back on track.
+      </p>
+      <div class="error-actions">
+        <a href="/" class="btn-primary btn-home">
+          <i class="fa-solid fa-arrow-left"></i> Back to Home
+        </a>
+        <a href="javascript:history.back()" class="btn-secondary">
+          <i class="fa-solid fa-rotate-left"></i> Go Back
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
