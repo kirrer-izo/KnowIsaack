@@ -90,6 +90,7 @@ if (in_array($path, $db_routes)) {
     $userService = new UserService($userRepository, $emailVerificationRepository, $mailer, $passwordResetRepository);
 
     $userController = new UserController($userService, $rateLimiterService, $loginActivityService, $rememberTokenService);
+    $adminController = new AdminController($userRepository, $projectRepository, $loginActivityRepository);
 }
 
 switch ($path) {

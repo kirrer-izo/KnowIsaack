@@ -59,7 +59,7 @@ class UserRepository {
     // Get total number of registered users
     public function countAll(): int 
     {
-        $stmt = $this->pdo->query("SELECY COUNT(*) FROM users");
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM users");
         return (int) $stmt->fetchColumn();
     }
 

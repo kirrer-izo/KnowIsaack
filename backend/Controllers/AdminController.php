@@ -30,7 +30,7 @@ class AdminController
 
         $stats = [
             'total_users' => $this->userRepository->countAll(),
-            'verified_user' => $this->userRepository->countVerified(),
+            'verified_users' => $this->userRepository->countVerified(),
             'total_projects' => $this->projectRepository->countAll(),
             'featured_projects' => $this->projectRepository->countFeatured(),
             'failed_logins_24h' => $this->loginActivityRepository->countFailedLast24Hours(),

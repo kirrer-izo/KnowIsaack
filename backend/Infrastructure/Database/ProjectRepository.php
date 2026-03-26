@@ -69,7 +69,7 @@ class ProjectRepository {
     // Get total number of registered projects
     public function countAll(): int 
     {
-        $stmt = $this->pdo->query("SELECY COUNT(*) FROM projects");
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM projects");
         return (int) $stmt->fetchColumn();
     }
 
