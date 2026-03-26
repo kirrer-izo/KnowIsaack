@@ -162,4 +162,28 @@ class UserService {
         $this->passwordResetRepository->deleteByUserId($record['user_id']);
 
     }
-}
+
+    // Resend verification email for existing user
+    public function resendVerificationEmail(int $userId): void
+    {
+        $user = $this->userRepository->findById($userId);
+        if (!$user) {
+            throw new \Exception("user_not_found");
+        }
+
+        if ($user['email_verified']) {
+            throw new \Exception("email_already_verified");
+        }
+
+        // Delete old tokens
+        $this->emailVerificationRepository->deleteByUserId($userId);
+
+        // Generate new token
+        $token = bin2hex(random_bytes(32));
+        $expiresAt = date('Y-m-d H:i:s', strtotime('+24 hours'));
+        $this->emailVerificationRepository->createToken($userId, $token, $expiresAt);
+
+        // Send email
+        $this->mailer->sendVerificationEmail($user['email'], $user['name'], $token);
+    }
+    }

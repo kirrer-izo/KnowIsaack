@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Users</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Additional admin‑specific styles */
+    .users-container {
+      max-width: var(--container-width);
+      margin: 0 auto;
+      padding: var(--spacing-lg);
+    }
+    .users-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-lg);
+    }
+    .filters {
+      display: flex;
+      gap: var(--spacing-md);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      width: 250px;
+      height: 36px;
+      padding: 0 var(--spacing-md);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+    }
+    .filter-select {
+      height: 36px;
+      padding: 0 var(--spacing-md);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+    }
+    .btn-export {
+      background: var(--color-neutral-100);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-export:hover {
+      background: var(--color-neutral-200);
+    }
+    .table-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: var(--spacing-md);
+      text-align: left;
+      border-bottom: 1px solid var(--border-card);
+    }
+    th {
+      background: var(--color-neutral-100);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    td {
+      font-size: 14px;
+      color: var(--text-body);
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-resend {
+      background: none;
+      border: none;
+      color: var(--color-accent);
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-resend:hover {
+      text-decoration: underline;
+    }
+    .btn-delete {
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-delete:hover {
+      text-decoration: underline;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-lg);
+    }
+    .pagination button {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      z-index: 9999;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .toast.success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .toast.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Admin navbar placeholder -->
+  <div id="admin-navbar-placeholder"></div>
+
+  <div class="users-container">
+    <div class="users-header">
+      <h1>Manage Users</h1>
+      <button class="btn-export" id="export-csv">
+        <i class="fa-solid fa-download"></i> Export CSV
+      </button>
+    </div>
+
+    <div class="filters">
+      <input type="text" id="search-input" class="search-input" placeholder="Search by name or email...">
+      <select id="verified-filter" class="filter-select">
+        <option value="all">All users</option>
+        <option value="verified">Verified only</option>
+        <option value="unverified">Unverified only</option>
+      </select>
+    </div>
+
+    <div class="table-container">
+      <table id="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Verified</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="users-table-body">
+          <tr>
+            <td colspan="6" style="text-align: center;">Loading users...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination" id="pagination-controls">
+      <button id="prev-page" disabled>Previous</button>
+      <span id="page-info">Page 1 of 1</span>
+      <button id="next-page" disabled>Next</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="../../js/admin-component.js"></script>
+  <script src="../../js/admin-user.js"></script>
+</body>
+</html>

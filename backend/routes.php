@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\AdminController;
+use App\Controllers\AdminUserController;
 use App\Controllers\Auth\GitHub\AuthController;
 use App\Controllers\Auth\User\UserController;
 use App\Controllers\ContactController;
@@ -31,6 +32,18 @@ $path = str_replace($base_path, '', $request);
 
 // Strip query string e.g. ?code=xxx&state=yyy — we only need the path
 $path = strtok($path, '?');
+
+// Extract user ID for admin user actions
+$adminUserId = null;
+if (preg_match('#^/api/admin/users/(\d+)/resend-verification$#', $path, $matches)) {
+    $adminUserId = (int) $matches[1];
+    $path = '/api/admin/users/resend-verification';
+}
+if (preg_match('#^/api/admin/users/(\d+)$#', $path, $matches) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    $adminUserId = (int) $matches[1];
+    $path = '/api/admin/users/delete';
+}
+
 
 // Remember me: if no session, try the cookie
 if (empty($_SESSION['authenticated'])) {
@@ -67,6 +80,10 @@ $db_routes = [
     '/auth/forgot-password',
     '/auth/reset-password',
     '/api/admin/stats',
+    '/api/admin/users',
+    '/api/admin/users/export',
+    '/api/admin/users/resend-verification',
+    '/api/admin/users/delete',  
 ];
 
 // Wire up database dependencies only when needed
@@ -91,7 +108,10 @@ if (in_array($path, $db_routes)) {
 
     $userController = new UserController($userService, $rateLimiterService, $loginActivityService, $rememberTokenService);
     $adminController = new AdminController($userRepository, $projectRepository, $loginActivityRepository);
+    $adminUserController = new AdminUserController($userRepository,$userService);
 }
+
+
 
 switch ($path) {
     // Public pages
@@ -146,7 +166,7 @@ switch ($path) {
         break;
     case '/admin/users':
         require_once __DIR__ . '/config/guard_user.php';
-        echo "Users list under construction";
+        require __DIR__ . '/../frontend/pages/admin/users.html';
         break;
 
     // API
@@ -175,6 +195,28 @@ switch ($path) {
         require_once __DIR__ . '/config/guard_user.php';
         $adminController->stats();
         break;
+    case '/api/admin/users':
+        require_once __DIR__ . '/config/guard.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $adminUserController->listUsers();
+        } else {
+            http_response_code(405);
+            echo 'Method Not Allowed';
+        }
+        break;
+    case '/api/admin/users/export':
+        require_once __DIR__ . '/config/guard.php';
+        $adminUserController->exportCsv();
+        break;
+    case '/api/admin/users/resend-verification':
+    require_once __DIR__ . '/config/guard.php';
+    $adminUserController->resendVerification($adminUserId);
+    break;
+    case '/api/admin/users/delete':
+        require_once __DIR__ . '/config/guard.php';
+        $adminUserController->deleteUser($adminUserId);
+        break;
+
 
     // GitHub OAuth flow
     case '/auth/authorize':
