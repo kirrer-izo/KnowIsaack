@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\AdminController;
 use App\Controllers\Auth\GitHub\AuthController;
 use App\Controllers\Auth\User\UserController;
 use App\Controllers\ContactController;
@@ -40,6 +41,7 @@ $db_routes = [
     '/auth/verify',
     '/auth/forgot-password',
     '/auth/reset-password',
+    '/api/admin/stats',
 ];
 
 // Wire up database dependencies only when needed
@@ -61,6 +63,7 @@ if (in_array($path, $db_routes)) {
     $userService = new UserService($userRepository, $emailVerificationRepository, $mailer, $passwordResetRepository);
 
     $userController = new UserController($userService, $rateLimiterService, $loginActivityService);
+    $adminController = new AdminController($userRepository, $projectRepository, $loginActivityRepository);
 }
 
 switch ($path) {
@@ -130,6 +133,10 @@ switch ($path) {
         // Public project feed — no authentication required
         $controller = new PublicProjectsController($projectService);
         $controller->handleRequest();
+        break;
+    case '/api/admin/stats':
+        require_once __DIR__ . '/config/guard_user.php';
+        $adminController->stats();
         break;
 
     // GitHub OAuth flow

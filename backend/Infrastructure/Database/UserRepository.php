@@ -55,4 +55,18 @@ class UserRepository {
         $stmt = $this->pdo->prepare("UPDATE users SET password_hash = :password_hash WHERE id = :id");
         $stmt->execute(['id' => $user_id, 'password_hash' => $password_hash]);
     }
+
+    // Get total number of registered users
+    public function countAll(): int 
+    {
+        $stmt = $this->pdo->query("SELECY COUNT(*) FROM users");
+        return (int) $stmt->fetchColumn();
+    }
+
+    // Get number of users with verified email
+    public function countVerified(): int
+    {
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM users WHERE email_verified = true");
+        return (int) $stmt->fetchColumn();
+    }
 }
