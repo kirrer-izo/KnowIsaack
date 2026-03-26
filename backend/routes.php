@@ -27,6 +27,8 @@ use App\Services\RememberTokenService;
 
 session_start();
 
+date_default_timezone_set('Africa/Nairobi');
+
 $request = $_SERVER['REQUEST_URI'];
 
 // Remove subdirectory prefix from path if running in a subdirectory
