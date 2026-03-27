@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Database;
 
+use App\Utils\DateTimeHelper;
 use PDO;
 
 class EmailVerificationRepository {
@@ -29,6 +30,10 @@ class EmailVerificationRepository {
         $stmt = $this->pdo->prepare("SELECT * FROM email_verifications WHERE token = :token");
         $stmt->execute(['token' => $token]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($result) {
+            $result = DateTimeHelper::convertTimestamps($result, ['created_at', 'expires_at']);
+        }
         return $result ?: null;
     }
 

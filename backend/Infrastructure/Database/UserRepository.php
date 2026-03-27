@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Database;
 
+use App\Utils\DateTimeHelper;
 use PDO;
 use PDOException;
 
@@ -29,6 +30,10 @@ class UserRepository {
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if($user) {
+            $user = DateTimeHelper::convertTimestamps($user, ['created_at']);
+        }
+
         return $user ?: null;
     }
 
@@ -39,6 +44,10 @@ class UserRepository {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($user) {
+            $user = DateTimeHelper::convertTimestamps($user, ['created_at']);
+        }
+
         return $user ?: null;
     }
 
@@ -111,6 +120,10 @@ class UserRepository {
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Convert created_at to UTC ISO
+        foreach ($users as &$user) {
+            $user = DateTimeHelper::convertTimestamps($user, ['created_at']);
+        }
         return [
             'total' => $total,
             'users' => $users
@@ -141,5 +154,35 @@ class UserRepository {
             error_log("Error deleting user: " . $e->getMessage());
             return false;
         }
+    }
+
+
+    //  Get all users for CSV export with optional filters
+    public function getAllUsersForExport(?string $search = null, ?bool $verified = null): array
+    {
+        $sql = "SELECT id, name, email, email_verified, created_at FROM users WHERE 1=1";
+        $params = [];
+
+        if ($search) {
+            $sql .= " AND (name ILIKE :search OR email ILIKE :search)";
+            $params['search'] = "%{$search}%";
+        }
+
+        if ($verified !== null) {
+            $sql .= " AND email_verified = :verified";
+            $params['verified'] = $verified ? 'true' : 'false';
+        }
+
+        $sql .= " ORDER BY created_at DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Convert created_at to UTC ISO
+        foreach ($users as &$user) {
+            $user = DateTimeHelper::convertTimestamps($user, ['created_at']);
+        }
+
+        return $users;
     }
 }

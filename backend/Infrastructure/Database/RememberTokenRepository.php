@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Database;
 
+use App\Utils\DateTimeHelper;
 use PDO;
 
 class RememberTokenRepository
@@ -32,6 +33,10 @@ class RememberTokenRepository
         $stmt = $this->pdo->prepare("SELECT * FROM remember_tokens WHERE token = :token");
         $stmt->execute(['token' => $hashedToken]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($result) {
+            $result = DateTimeHelper::convertTimestamps($result, ['created_at', 'expires_at']);
+        }
         return $result ?: null;
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Database;
 
+use App\Utils\DateTimeHelper;
 use PDO;
 
 class RateLimitRepository {
@@ -101,6 +102,11 @@ class RateLimitRepository {
         $stmt->execute();
         $rateLimits = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Convert created_at to UTC ISO
+        foreach ($rateLimits as &$rateLimit) {
+            $rateLimit = DateTimeHelper::convertTimestamps($rateLimit, ['first_attempt_at', 'last_attempt_at']);
+        }
+
         return [
             'total' => $total,
             'rate_limits' => $rateLimits
@@ -127,6 +133,13 @@ class RateLimitRepository {
         $sql .= " ORDER BY last_attempt_at DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rateLimits = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Convert created_at to UTC ISO
+        foreach ($rateLimits as &$rateLimit) {
+            $rateLimit = DateTimeHelper::convertTimestamps($rateLimit, ['first_attempt_at', 'last_attempt_at']);
+        }
+
+        return $rateLimits;
     }
 }

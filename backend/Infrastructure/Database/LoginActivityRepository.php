@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Database;
 
+use App\Utils\DateTimeHelper;
 use PDO;
 
 class LoginActivityRepository
@@ -88,6 +89,11 @@ class LoginActivityRepository
         $stmt->execute();
         $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Convert created_at to UTC ISO
+        foreach ($logs as &$log) {
+            $log = DateTimeHelper::convertTimestamps($log, ['created_at']);
+        }
+
         return [
             'total' => $total,
             'logs' => $logs
@@ -123,7 +129,13 @@ class LoginActivityRepository
 
         $sql .= " ORDER BY l.created_at DESC";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->execute($params);;
+
+        $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($logs as &$log) {
+            $log = DateTimeHelper::convertTimestamps($log, ['created_at']);
+        }
+        return $logs;
     }
 }

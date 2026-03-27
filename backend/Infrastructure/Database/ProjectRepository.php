@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Database;
 
+use App\Utils\DateTimeHelper;
 use PDO;
 
 class ProjectRepository {
@@ -30,6 +31,7 @@ class ProjectRepository {
         if (!$project) {
             return null;
         }
+        $project = DateTimeHelper::convertTimestamps($project, ['created_at', 'updated_at']);
         return array_merge($project, ['tech_stack' => json_decode($project['tech_stack'], true)]);
     }
 
@@ -119,6 +121,11 @@ class ProjectRepository {
             $project['tech_stack'] = json_decode($project['tech_stack'], true);
         }
 
+        // Convert created_at to UTC ISO for each project
+        foreach ($projects as &$project) {
+            $project = DateTimeHelper::convertTimestamps($project, ['created_at']);
+        }
+
         return [
             'total' => $total,
             'projects' => $projects
@@ -134,6 +141,11 @@ class ProjectRepository {
             $project['tech_stack'] = json_decode($project['tech_stack'], true);
             // Convert tech_stack array to comma-separated string for CSV
             $project['tech_stack'] = implode(', ', $project['tech_stack']);
+        }
+
+        // Convert created_at to UTC ISO
+        foreach ($projects as &$project) {
+            $project = DateTimeHelper::convertTimestamps($project, ['created_at']);
         }
         return $projects;
     }
