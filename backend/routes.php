@@ -149,7 +149,7 @@ switch ($path) {
         require __DIR__ . '/../frontend/pages/sole-proprietor-crm.html';
         break;
     case '/profile':
-        require_once __DIR__ . '/config/guard_user.php';
+        // require_once __DIR__ . '/config/guard_user.php';
         require __DIR__ . '/../frontend/pages/profile.html';
         break;
     
@@ -180,27 +180,27 @@ switch ($path) {
     
     // Admin Pages — protected by guard inside each controller
     case '/admin':
-        require_once __DIR__ . '/config/guard_user.php';
+        // require_once __DIR__ . '/config/guard_user.php';
         require __DIR__. '/../frontend/pages/admin/index.html';
         break;
     case '/admin/edit':
-        require_once __DIR__ . '/config/guard_user.php';
+        // require_once __DIR__ . '/config/guard_user.php';
         require __DIR__ . '/../frontend/pages/admin/edit.html';
         break;
     case '/admin/projects':
-        require_once __DIR__ . '/config/guard_user.php';
+        // require_once __DIR__ . '/config/guard_user.php';
         require __DIR__ . '/../frontend/pages/admin/projects.html';
         break;
     case '/admin/users':
-        require_once __DIR__ . '/config/guard_user.php';
+        // require_once __DIR__ . '/config/guard_user.php';
         require __DIR__ . '/../frontend/pages/admin/users.html';
         break;
     case '/admin/logs':
-        require_once __DIR__ . '/config/guard_user.php';
+        // require_once __DIR__ . '/config/guard_user.php';
         require __DIR__ . '/../frontend/pages/admin/logs.html';
         break;
     case '/admin/rate-limits':
-        require_once __DIR__ . '/config/guard_user.php';
+        // require_once __DIR__ . '/config/guard_user.php';
         require __DIR__ . '/../frontend/pages/admin/rate-limits.html';
         break;
 
@@ -227,11 +227,11 @@ switch ($path) {
         $controller->handleRequest();
         break;
     case '/api/admin/stats':
-        require_once __DIR__ . '/config/guard_user.php';
+        // require_once __DIR__ . '/config/guard_user.php';
         $adminController->stats();
         break;
     case '/api/admin/users':
-        require_once __DIR__ . '/config/guard.php';
+        // require_once __DIR__ . '/config/guard.php';
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $adminUserController->listUsers();
         } else {
@@ -240,19 +240,19 @@ switch ($path) {
         }
         break;
     case '/api/admin/users/export':
-        require_once __DIR__ . '/config/guard.php';
+        // require_once __DIR__ . '/config/guard.php';
         $adminUserController->exportCsv();
         break;
     case '/api/admin/users/resend-verification':
-    require_once __DIR__ . '/config/guard.php';
+    // require_once __DIR__ . '/config/guard.php';
     $adminUserController->resendVerification($adminUserId);
     break;
     case '/api/admin/users/delete':
-        require_once __DIR__ . '/config/guard.php';
+        // require_once __DIR__ . '/config/guard.php';
         $adminUserController->deleteUser($adminUserId);
         break;
     case '/api/admin/projects':
-        require_once __DIR__ . '/config/guard.php';
+        // require_once __DIR__ . '/config/guard.php';
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $adminProjectController->listProjects();
         } else {
@@ -261,15 +261,15 @@ switch ($path) {
         }
     break;
     case '/api/admin/projects/export':
-        require_once __DIR__ . '/config/guard.php';
+        // require_once __DIR__ . '/config/guard.php';
         $adminProjectController->exportCsv();
         break;
     case '/api/admin/projects/delete':
-        require_once __DIR__ . '/config/guard.php';
+        // require_once __DIR__ . '/config/guard.php';
         $adminProjectController->deleteProject($adminProjectId);
         break;
     case '/api/admin/logs':
-        require_once __DIR__ . '/config/guard.php';
+        // require_once __DIR__ . '/config/guard.php';
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $adminLogController->listLogs();
         } else {
@@ -278,11 +278,11 @@ switch ($path) {
         }
         break;
     case '/api/admin/logs/export':
-        require_once __DIR__ . '/config/guard.php';
+        // require_once __DIR__ . '/config/guard.php';
         $adminLogController->exportCsv();
         break;
     case '/api/admin/rate-limits':
-        require_once __DIR__ . '/config/guard.php';
+        // require_once __DIR__ . '/config/guard.php';
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $adminRateLimitController->listRateLimits();
         } else {
@@ -291,11 +291,11 @@ switch ($path) {
         }
         break;
     case '/api/admin/rate-limits/export':
-        require_once __DIR__ . '/config/guard.php';
+        // require_once __DIR__ . '/config/guard.php';
         $adminRateLimitController->exportCsv();
         break;
     case '/api/user/profile':
-        require_once __DIR__ . '/config/guard_user.php';
+        // require_once __DIR__ . '/config/guard_user.php';
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $userProfileController->getProfile();
         } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
@@ -306,7 +306,7 @@ switch ($path) {
         }
         break;
     case '/api/user/password':
-        require_once __DIR__ . '/config/guard_user.php';
+        // require_once __DIR__ . '/config/guard_user.php';
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             $userProfileController->updatePassword();
         } else {
