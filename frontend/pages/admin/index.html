@@ -4,112 +4,252 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard — Isaack Muchoki</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/frontend/css/main.css">
+    <link rel="stylesheet" href="/frontend/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Stats cards styles */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-lg);
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .stat-card h3 {
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-muted);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .stat-card p {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin: 0;
-        }
-
-        /* Simple admin dashboard wrapper */
-        .admin-dashboard {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: var(--spacing-lg);
-        }
-
-        .admin-dashboard h1 {
-            margin-bottom: var(--spacing-lg);
-        }
-    </style>
 </head>
 <body>
-    <!-- Admin navbar placeholder – will be loaded by admin-components.js -->
+
     <div id="admin-navbar-placeholder"></div>
 
-    <div class="admin-dashboard">
-        <h1>Dashboard</h1>
+    <div class="admin-page">
 
-        <!-- Stats cards container -->
-        <div class="stats-grid" id="stats-container">
-            <div class="stat-card">
-                <h3>Total Users</h3>
-                <p id="total-users">—</p>
+        <!-- Page header -->
+        <div class="admin-page-header">
+            <div>
+                <h1 class="admin-page-title">Dashboard</h1>
+                <p class="admin-page-subtitle">Welcome back, Isaack — here's what's happening</p>
             </div>
-            <div class="stat-card">
-                <h3>Verified Users</h3>
-                <p id="verified-users">—</p>
+            <a href="/admin/projects/edit" class="admin-btn-primary">
+                <i class="fa-solid fa-plus"></i>
+                Add project
+            </a>
+        </div>
+
+        <!-- Stats grid -->
+        <div class="stats-grid">
+            <div class="stat-card stat-card--blue">
+                <div class="stat-card__accent"></div>
+                <div class="stat-card__icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="stat-card__label">Total users</div>
+                <div class="stat-card__value" id="total-users">—</div>
+                <div class="stat-card__delta">
+                    <span class="delta-up">↑ 3</span> this week
+                </div>
             </div>
-            <div class="stat-card">
-                <h3>Total Projects</h3>
-                <p id="total-projects">—</p>
+
+            <div class="stat-card stat-card--green">
+                <div class="stat-card__accent"></div>
+                <div class="stat-card__icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="stat-card__label">Verified users</div>
+                <div class="stat-card__value" id="verified-users">—</div>
+                <div class="stat-card__delta">
+                    <span class="delta-up">↑ 1</span> today
+                </div>
             </div>
-            <div class="stat-card">
-                <h3>Featured Projects</h3>
-                <p id="featured-projects">—</p>
+
+            <div class="stat-card stat-card--purple">
+                <div class="stat-card__accent"></div>
+                <div class="stat-card__icon">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+                <div class="stat-card__label">Total projects</div>
+                <div class="stat-card__value" id="total-projects">—</div>
+                <div class="stat-card__delta stat-card__delta--neutral">No change</div>
             </div>
-            <div class="stat-card">
-                <h3>Failed Logins (24h)</h3>
-                <p id="failed-logins-24h">—</p>
+
+            <div class="stat-card stat-card--amber">
+                <div class="stat-card__accent"></div>
+                <div class="stat-card__icon">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="stat-card__label">Featured</div>
+                <div class="stat-card__value" id="featured-projects">—</div>
+                <div class="stat-card__delta stat-card__delta--neutral">Pinned to homepage</div>
+            </div>
+
+            <div class="stat-card stat-card--red">
+                <div class="stat-card__accent"></div>
+                <div class="stat-card__icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="stat-card__label">Failed logins (24h)</div>
+                <div class="stat-card__value" id="failed-logins-24h">—</div>
+                <div class="stat-card__delta">
+                    <span class="delta-down">↓ 2</span> vs yesterday
+                </div>
             </div>
         </div>
 
-        <!-- Future sections: recent logins, user management, etc. -->
+        <!-- Main two-column layout -->
+        <div class="admin-main-grid">
+
+            <!-- Left column -->
+            <div class="admin-col">
+
+                <!-- Recent projects table -->
+                <div class="admin-card">
+                    <div class="admin-card__header">
+                        <div class="admin-card__title">
+                            <i class="fa-solid fa-folder-open admin-card__title-icon"></i>
+                            Recent projects
+                        </div>
+                        <a href="/admin/projects" class="admin-card__action">View all →</a>
+                    </div>
+                    <div class="admin-card__search">
+                        <i class="fa-solid fa-magnifying-glass admin-search__icon"></i>
+                        <input
+                            type="text"
+                            class="admin-search__input"
+                            placeholder="Search projects…"
+                            id="project-search"
+                            oninput="filterProjects(this.value)"
+                        >
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table" id="projects-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Tech stack</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="projects-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                        <div class="admin-table__empty" id="projects-empty" style="display:none">
+                            No projects match your search.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Login activity chart -->
+                <div class="admin-card">
+                    <div class="admin-card__header">
+                        <div class="admin-card__title">
+                            <i class="fa-solid fa-chart-bar admin-card__title-icon"></i>
+                            Login activity — last 7 days
+                        </div>
+                        <a href="/admin/logs" class="admin-card__action">Full log →</a>
+                    </div>
+                    <div class="admin-card__body">
+                        <div class="activity-summary">
+                            <div class="activity-summary__item">
+                                <div class="activity-summary__label">Successful</div>
+                                <div class="activity-summary__value activity-summary__value--green" id="logins-success">—</div>
+                            </div>
+                            <div class="activity-summary__item">
+                                <div class="activity-summary__label">Failed</div>
+                                <div class="activity-summary__value activity-summary__value--red" id="logins-failed">—</div>
+                            </div>
+                            <div class="activity-summary__item">
+                                <div class="activity-summary__label">Rate limited</div>
+                                <div class="activity-summary__value activity-summary__value--amber" id="logins-limited">—</div>
+                            </div>
+                        </div>
+                        <div class="mini-chart" id="login-chart"></div>
+                        <div class="mini-chart__labels" id="chart-labels"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right column -->
+            <div class="admin-col">
+
+                <!-- Quick actions -->
+                <div class="admin-card">
+                    <div class="admin-card__header">
+                        <div class="admin-card__title">
+                            <i class="fa-solid fa-bolt admin-card__title-icon"></i>
+                            Quick actions
+                        </div>
+                    </div>
+                    <div class="admin-card__body admin-card__body--tight">
+                        <div class="quick-actions">
+                            <a href="/admin/projects/edit" class="qa-btn">
+                                <div class="qa-btn__icon qa-btn__icon--purple">
+                                    <i class="fa-solid fa-plus"></i>
+                                </div>
+                                <div>
+                                    <div class="qa-btn__label">New project</div>
+                                    <div class="qa-btn__desc">Add to portfolio</div>
+                                </div>
+                            </a>
+                            <a href="/admin/users" class="qa-btn">
+                                <div class="qa-btn__icon qa-btn__icon--blue">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                </div>
+                                <div>
+                                    <div class="qa-btn__label">Manage users</div>
+                                    <div class="qa-btn__desc">View &amp; edit</div>
+                                </div>
+                            </a>
+                            <a href="/admin/logs?export=csv" class="qa-btn">
+                                <div class="qa-btn__icon qa-btn__icon--green">
+                                    <i class="fa-solid fa-download"></i>
+                                </div>
+                                <div>
+                                    <div class="qa-btn__label">Export CSV</div>
+                                    <div class="qa-btn__desc">Logs or users</div>
+                                </div>
+                            </a>
+                            <a href="/admin/rate-limits" class="qa-btn">
+                                <div class="qa-btn__icon qa-btn__icon--amber">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <div>
+                                    <div class="qa-btn__label">Rate limits</div>
+                                    <div class="qa-btn__desc">View blocked IPs</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent activity feed -->
+                <div class="admin-card">
+                    <div class="admin-card__header">
+                        <div class="admin-card__title">
+                            <i class="fa-solid fa-clock-rotate-left admin-card__title-icon"></i>
+                            Recent activity
+                        </div>
+                    </div>
+                    <div class="admin-card__body admin-card__body--tight">
+                        <div class="activity-feed" id="activity-feed">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active rate limits -->
+                <div class="admin-card">
+                    <div class="admin-card__header">
+                        <div class="admin-card__title">
+                            <i class="fa-solid fa-gauge admin-card__title-icon"></i>
+                            Active rate limits
+                        </div>
+                        <a href="/admin/rate-limits" class="admin-card__action">All →</a>
+                    </div>
+                    <div class="admin-card__body admin-card__body--tight">
+                        <div id="rate-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <script src="../../js/admin-component.js"></script>
-    <script>
-        // Load stats from the API
-        async function loadAdminStats() {
-            try {
-                const response = await fetch('/api/admin/stats');
-                const data = await response.json();
-
-                if (data.status === 'success') {
-                    document.getElementById('total-users').textContent = data.data.total_users;
-                    document.getElementById('verified-users').textContent = data.data.verified_users;
-                    document.getElementById('total-projects').textContent = data.data.total_projects;
-                    document.getElementById('featured-projects').textContent = data.data.featured_projects;
-                    document.getElementById('failed-logins-24h').textContent = data.data.failed_logins_24h;
-                } else {
-                    console.error('Stats API returned error:', data);
-                }
-            } catch (err) {
-                console.error('Failed to load admin stats:', err);
-            }
-        }
-
-        // Run when the page loads
-        document.addEventListener('DOMContentLoaded', loadAdminStats);
-    </script>
+    <script src="/frontend/js/admin-component.js"></script>
+    <script src="/frontend/js/admin-dashboard.js"></script>
 </body>
 </html>

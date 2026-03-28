@@ -3,201 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Login Activity</title>
-  <link rel="stylesheet" href="/css/main.css">
+  <title>Admin — Login Activity · KnowIsaack</title>
+  <link rel="stylesheet" href="/frontend/css/main.css">
+  <link rel="stylesheet" href="/frontend/css/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* Reuse same styles as projects.html */
-    .logs-container {
-      max-width: var(--container-width);
-      margin: 0 auto;
-      padding: var(--spacing-lg);
-    }
-    .logs-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--spacing-lg);
-    }
-    .filters {
-      display: flex;
-      gap: var(--spacing-md);
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: var(--spacing-lg);
-    }
-    .search-input {
-      width: 250px;
-      height: 36px;
-      padding: 0 var(--spacing-md);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-    }
-    .filter-select {
-      height: 36px;
-      padding: 0 var(--spacing-md);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      background: var(--bg-card);
-    }
-    .date-input {
-      height: 36px;
-      padding: 0 var(--spacing-md);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-    }
-    .btn-export {
-      background: var(--color-neutral-100);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-export:hover {
-      background: var(--color-neutral-200);
-    }
-    .table-container {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-md);
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: var(--spacing-md);
-      text-align: left;
-      border-bottom: 1px solid var(--border-card);
-    }
-    th {
-      background: var(--color-neutral-100);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    td {
-      font-size: 14px;
-      color: var(--text-body);
-    }
-    .success-badge {
-      background: #d1fae5;
-      color: #065f46;
-      padding: 2px 8px;
-      border-radius: 999px;
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .failed-badge {
-      background: #fee2e2;
-      color: #991b1b;
-      padding: 2px 8px;
-      border-radius: 999px;
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: var(--spacing-md);
-      margin-top: var(--spacing-lg);
-    }
-    .pagination button {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      cursor: pointer;
-    }
-    .pagination button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: var(--spacing-md) var(--spacing-lg);
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-      z-index: 9999;
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-    .toast.success {
-      background: #d1fae5;
-      color: #065f46;
-      border: 1px solid #a7f3d0;
-    }
-    .toast.error {
-      background: #fee2e2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-  </style>
 </head>
 <body>
+
   <div id="admin-navbar-placeholder"></div>
 
-  <div class="logs-container">
-    <div class="logs-header">
-      <h1>Login Activity</h1>
-      <button class="btn-export" id="export-csv">
-        <i class="fa-solid fa-download"></i> Export CSV
+  <div class="admin-page">
+
+    <!-- Page header -->
+    <div class="admin-page-header">
+      <div>
+        <h1 class="admin-page-title">Login Activity</h1>
+        <p class="admin-page-subtitle">All authentication attempts across the platform</p>
+      </div>
+      <button class="admin-btn-secondary" id="export-csv">
+        <i class="fa-solid fa-download"></i>
+        Export CSV
       </button>
     </div>
 
-    <div class="filters">
-      <input type="text" id="search-input" class="search-input" placeholder="Search by user, email, IP...">
-      <select id="success-filter" class="filter-select">
-        <option value="all">All attempts</option>
-        <option value="success">Successful</option>
-        <option value="failed">Failed</option>
-      </select>
-      <input type="date" id="date-from" class="date-input" placeholder="From">
-      <input type="date" id="date-to" class="date-input" placeholder="To">
-    </div>
+    <!-- Main card -->
+    <div class="admin-card">
 
-    <div class="table-container">
-      <table id="logs-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>User</th>
-            <th>Email Attempted</th>
-            <th>IP Address</th>
-            <th>Result</th>
-            <th>Date/Time</th>
-          </tr>
-        </thead>
-        <tbody id="logs-table-body">
-          <tr><td colspan="6" style="text-align: center;">Loading logs...</td></tr>
-        </tbody>
-      </table>
-    </div>
+      <!-- Filters row -->
+      <div class="admin-filters">
+        <div class="admin-search-wrap">
+          <i class="fa-solid fa-magnifying-glass admin-search__icon"></i>
+          <input
+            type="text"
+            id="search-input"
+            class="admin-search__input"
+            placeholder="Search by user, email, IP address…"
+          >
+        </div>
 
-    <div class="pagination" id="pagination-controls">
-      <button id="prev-page" disabled>Previous</button>
-      <span id="page-info">Page 1 of 1</span>
-      <button id="next-page" disabled>Next</button>
+        <select id="success-filter" class="admin-select">
+          <option value="all">All attempts</option>
+          <option value="success">Successful</option>
+          <option value="failed">Failed</option>
+        </select>
+
+        <div class="admin-date-range">
+          <div class="admin-date-wrap">
+            <i class="fa-solid fa-calendar admin-date__icon"></i>
+            <input type="date" id="date-from" class="admin-date__input" title="From date">
+          </div>
+          <span class="admin-date-sep">—</span>
+          <div class="admin-date-wrap">
+            <i class="fa-solid fa-calendar admin-date__icon"></i>
+            <input type="date" id="date-to" class="admin-date__input" title="To date">
+          </div>
+          <button class="admin-date-clear" id="clear-dates" title="Clear date range">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="admin-filter-meta" id="results-meta"></div>
+      </div>
+
+      <!-- Table -->
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="logs-table">
+          <thead>
+            <tr>
+              <th style="width:48px">#</th>
+              <th>User</th>
+              <th>Email attempted</th>
+              <th>IP address</th>
+              <th style="width:110px">Result</th>
+              <th style="width:160px">Date / time</th>
+            </tr>
+          </thead>
+          <tbody id="logs-table-body">
+            <tr>
+              <td colspan="6" class="admin-table__loading">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> Loading logs…
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="admin-pagination">
+        <button class="admin-pagination__btn" id="prev-page" disabled>
+          <i class="fa-solid fa-chevron-left"></i> Previous
+        </button>
+        <span class="admin-pagination__info" id="page-info">Page 1 of 1</span>
+        <button class="admin-pagination__btn" id="next-page" disabled>
+          Next <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <div id="toast" class="toast"></div>
+  <!-- Toast -->
+  <div id="toast" class="admin-toast" role="alert" aria-live="polite"></div>
 
-  <script src="../../js/admin-component.js"></script>
-  <script src="../../js/admin-logs.js"></script>
+  <script src="/frontend/js/admin-component.js"></script>
+  <script src="/frontend/js/admin-logs.js"></script>
 </body>
 </html>
