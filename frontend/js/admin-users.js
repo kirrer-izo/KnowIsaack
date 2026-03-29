@@ -1,17 +1,19 @@
 /**
  * admin-users.js
  * Handles: user listing, search/filter, pagination,
- *          delete with modal confirm, resend verification with modal confirm, CSV export
+ *          create drawer (POST), edit drawer (PUT),
+ *          delete modal, resend verification modal, CSV export
  */
 
 let currentPage     = 1;
 let currentLimit    = 10;
 let currentSearch   = '';
-let currentVerified = null; // null = all, true = verified, false = unverified
+let currentVerified = null;
 let totalPages      = 1;
 
 let pendingDeleteId = null;
 let pendingResendId = null;
+let drawerMode      = 'create'; // 'create' | 'edit'
 
 /* ── Toast ────────────────────────────────────────────────── */
 
@@ -20,9 +22,7 @@ function showToast(message, type = 'success') {
   toast.textContent = message;
   toast.className   = `admin-toast admin-toast--${type} admin-toast--visible`;
   clearTimeout(toast._timer);
-  toast._timer = setTimeout(() => {
-    toast.classList.remove('admin-toast--visible');
-  }, 3500);
+  toast._timer = setTimeout(() => toast.classList.remove('admin-toast--visible'), 3500);
 }
 
 /* ── Load users ───────────────────────────────────────────── */
@@ -34,7 +34,7 @@ async function loadUsers() {
   if (currentSearch)            url.searchParams.set('search',   currentSearch);
   if (currentVerified !== null) url.searchParams.set('verified', currentVerified);
 
-  setTableLoading(true);
+  setTableLoading();
 
   try {
     const res  = await fetch(url);
@@ -115,6 +115,15 @@ function renderUsers(users) {
         <td>${verified}</td>
         <td style="color:var(--admin-text3);font-size:12px;white-space:nowrap">${date}</td>
         <td class="cell-actions">
+          <button
+            class="table-btn js-edit-btn"
+            data-id="${u.id}"
+            data-name="${escapeHtml(u.name)}"
+            data-email="${escapeHtml(u.email)}"
+            data-verified="${u.email_verified ? '1' : '0'}"
+          >
+            <i class="fa-solid fa-pen" style="font-size:10px"></i> Edit
+          </button>
           ${resendBtn}
           <button
             class="table-btn table-btn--danger js-delete-btn"
@@ -153,6 +162,137 @@ function updateMeta(total, shown) {
     ? `Showing ${start}–${end} of ${total} user${total !== 1 ? 's' : ''}`
     : '0 users';
 }
+
+/* ── Drawer (shared for create + edit) ───────────────────── */
+
+function clearDrawer() {
+  document.getElementById('edit-user-id').value    = '';
+  document.getElementById('edit-name').value       = '';
+  document.getElementById('edit-email').value      = '';
+  document.getElementById('edit-password').value   = '';
+  document.getElementById('edit-verified').checked = false;
+  ['err-edit-name', 'err-edit-email', 'err-edit-password'].forEach(id => {
+    document.getElementById(id).textContent = '';
+  });
+  const alert = document.getElementById('drawer-alert');
+  alert.style.display = 'none';
+  alert.textContent   = '';
+}
+
+function openDrawer() {
+  document.getElementById('edit-drawer').classList.add('user-drawer--open');
+  document.getElementById('edit-overlay').classList.add('user-drawer-overlay--visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer() {
+  document.getElementById('edit-drawer').classList.remove('user-drawer--open');
+  document.getElementById('edit-overlay').classList.remove('user-drawer-overlay--visible');
+  document.body.style.overflow = '';
+}
+
+function openCreateDrawer() {
+  drawerMode = 'create';
+  clearDrawer();
+
+  document.getElementById('drawer-avatar').textContent  = '+';
+  document.getElementById('drawer-title').textContent   = 'New user';
+  document.getElementById('drawer-subtitle').textContent = 'Fill in the details below';
+  document.getElementById('password-field').style.display = 'block';
+  document.getElementById('edit-save-btn').textContent  = 'Create user';
+
+  openDrawer();
+  setTimeout(() => document.getElementById('edit-name').focus(), 150);
+}
+
+function openEditDrawer(id, name, email, verified) {
+  drawerMode = 'edit';
+  clearDrawer();
+
+  document.getElementById('edit-user-id').value    = id;
+  document.getElementById('edit-name').value       = name;
+  document.getElementById('edit-email').value      = email;
+  document.getElementById('edit-verified').checked = verified === '1' || verified === true;
+  document.getElementById('drawer-avatar').textContent  = getInitials(name);
+  document.getElementById('drawer-title').textContent   = name;
+  document.getElementById('drawer-subtitle').textContent = email;
+  document.getElementById('password-field').style.display = 'none';
+  document.getElementById('edit-save-btn').textContent  = 'Save changes';
+
+  openDrawer();
+  setTimeout(() => document.getElementById('edit-name').focus(), 150);
+}
+
+/* ── Drawer form submit ───────────────────────────────────── */
+
+document.getElementById('edit-user-form').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  ['err-edit-name', 'err-edit-email', 'err-edit-password'].forEach(id => {
+    document.getElementById(id).textContent = '';
+  });
+
+  const id       = document.getElementById('edit-user-id').value;
+  const name     = document.getElementById('edit-name').value.trim();
+  const email    = document.getElementById('edit-email').value.trim();
+  const password = document.getElementById('edit-password').value;
+  const verified = document.getElementById('edit-verified').checked;
+
+  let valid = true;
+  if (!name) {
+    document.getElementById('err-edit-name').textContent = 'Name is required';
+    valid = false;
+  }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    document.getElementById('err-edit-email').textContent = 'A valid email is required';
+    valid = false;
+  }
+  if (drawerMode === 'create' && password.length < 8) {
+    document.getElementById('err-edit-password').textContent = 'Password must be at least 8 characters';
+    valid = false;
+  }
+  if (!valid) return;
+
+  const btn = document.getElementById('edit-save-btn');
+  btn.disabled  = true;
+  btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" style="font-size:11px"></i> Saving…';
+
+  const isCreate = drawerMode === 'create';
+  const url      = isCreate ? '/api/admin/users' : `/api/admin/users/${id}`;
+  const method   = isCreate ? 'POST' : 'PUT';
+  const payload  = isCreate
+    ? { name, email, password, email_verified: verified }
+    : { name, email, email_verified: verified };
+
+  try {
+    const res  = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      showToast(isCreate ? 'User created successfully' : 'User updated successfully', 'success');
+      closeDrawer();
+      loadUsers();
+    } else {
+      const alertEl = document.getElementById('drawer-alert');
+      alertEl.textContent   = data.message || 'Something went wrong';
+      alertEl.className     = 'profile-alert profile-alert--error';
+      alertEl.style.display = 'block';
+    }
+  } catch (err) {
+    console.error(err);
+    const alertEl = document.getElementById('drawer-alert');
+    alertEl.textContent   = 'Network error. Please try again.';
+    alertEl.className     = 'profile-alert profile-alert--error';
+    alertEl.style.display = 'block';
+  } finally {
+    btn.disabled  = false;
+    btn.textContent = isCreate ? 'Create user' : 'Save changes';
+  }
+});
 
 /* ── Delete modal ─────────────────────────────────────────── */
 
@@ -236,21 +376,37 @@ async function confirmResend() {
   }
 }
 
-/* ── Event listeners ──────────────────────────────────────── */
+/* ── Event delegation ─────────────────────────────────────── */
 
-// Event delegation — table action buttons
 document.addEventListener('click', e => {
+  const editBtn = e.target.closest('.js-edit-btn');
+  if (editBtn) {
+    openEditDrawer(
+      editBtn.dataset.id,
+      editBtn.dataset.name,
+      editBtn.dataset.email,
+      editBtn.dataset.verified
+    );
+    return;
+  }
   const deleteBtn = e.target.closest('.js-delete-btn');
   if (deleteBtn) {
     openDeleteModal(deleteBtn.dataset.id, deleteBtn.dataset.name);
     return;
   }
-
   const resendBtn = e.target.closest('.js-resend-btn');
   if (resendBtn) {
     openResendModal(resendBtn.dataset.id, resendBtn.dataset.email);
   }
 });
+
+// New user button
+document.getElementById('new-user-btn').addEventListener('click', openCreateDrawer);
+
+// Drawer close controls
+document.getElementById('edit-close').addEventListener('click', closeDrawer);
+document.getElementById('edit-cancel-btn').addEventListener('click', closeDrawer);
+document.getElementById('edit-overlay').addEventListener('click', closeDrawer);
 
 // Delete modal
 document.getElementById('delete-cancel').addEventListener('click', closeDeleteModal);
@@ -266,15 +422,29 @@ document.getElementById('resend-modal').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeResendModal();
 });
 
-// Escape closes whichever modal is open
+// Password visibility toggle
+document.querySelectorAll('.profile-toggle-pw').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const input = document.getElementById(btn.dataset.target);
+    const icon  = btn.querySelector('i');
+    const hide  = input.type === 'password';
+    input.type = hide ? 'text' : 'password';
+    icon.classList.toggle('fa-eye',      !hide);
+    icon.classList.toggle('fa-eye-slash', hide);
+  });
+});
+
+// Escape closes everything
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
+    closeDrawer();
     closeDeleteModal();
     closeResendModal();
   }
 });
 
-// Search (debounced 300ms)
+/* ── Filters & search ─────────────────────────────────────── */
+
 let searchTimer;
 document.getElementById('search-input').addEventListener('input', e => {
   clearTimeout(searchTimer);
@@ -285,7 +455,6 @@ document.getElementById('search-input').addEventListener('input', e => {
   }, 300);
 });
 
-// Verified filter
 document.getElementById('verified-filter').addEventListener('change', e => {
   const val = e.target.value;
   currentVerified = val === 'verified' ? true : val === 'unverified' ? false : null;
@@ -293,7 +462,8 @@ document.getElementById('verified-filter').addEventListener('change', e => {
   loadUsers();
 });
 
-// Pagination
+/* ── Pagination ───────────────────────────────────────────── */
+
 document.getElementById('prev-page').addEventListener('click', () => {
   if (currentPage > 1) { currentPage--; loadUsers(); }
 });
@@ -301,7 +471,8 @@ document.getElementById('next-page').addEventListener('click', () => {
   if (currentPage < totalPages) { currentPage++; loadUsers(); }
 });
 
-// Export CSV
+/* ── Export ───────────────────────────────────────────────── */
+
 document.getElementById('export-csv').addEventListener('click', () => {
   window.location.href = '/api/admin/users/export';
 });

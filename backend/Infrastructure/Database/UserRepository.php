@@ -23,6 +23,21 @@ class UserRepository {
         ]);
     }
 
+    // Admin-only create: allows setting email_verified at creation time
+    public function adminCreate(array $data): void
+    {
+        $stmt = $this->pdo->prepare(
+            "INSERT INTO users (email, name, password_hash, email_verified)
+             VALUES (:email, :name, :password_hash, :email_verified)"
+        );
+        $stmt->execute([
+            'email'          => $data['email'],
+            'name'           => $data['name'],
+            'password_hash'  => $data['password_hash'],
+            'email_verified' => $data['email_verified'] ? 'true' : 'false',
+        ]);
+    }
+
     public function findByEmail(string $email): ?array 
     {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email");

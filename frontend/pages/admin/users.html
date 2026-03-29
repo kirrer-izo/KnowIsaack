@@ -14,31 +14,29 @@
 
   <div class="admin-page">
 
-    <!-- Page header -->
     <div class="admin-page-header">
       <div>
         <h1 class="admin-page-title">Users</h1>
         <p class="admin-page-subtitle">Manage registered accounts and verification status</p>
       </div>
-      <button class="admin-btn-secondary" id="export-csv">
-        <i class="fa-solid fa-download"></i>
-        Export CSV
-      </button>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="admin-btn-secondary" id="export-csv">
+          <i class="fa-solid fa-download"></i>
+          Export CSV
+        </button>
+        <button class="admin-btn-primary" id="new-user-btn">
+          <i class="fa-solid fa-plus"></i>
+          New user
+        </button>
+      </div>
     </div>
 
-    <!-- Main card -->
     <div class="admin-card">
 
-      <!-- Filters row -->
       <div class="admin-filters">
         <div class="admin-search-wrap">
           <i class="fa-solid fa-magnifying-glass admin-search__icon"></i>
-          <input
-            type="text"
-            id="search-input"
-            class="admin-search__input"
-            placeholder="Search by name or email…"
-          >
+          <input type="text" id="search-input" class="admin-search__input" placeholder="Search by name or email…">
         </div>
         <select id="verified-filter" class="admin-select">
           <option value="all">All users</option>
@@ -48,7 +46,6 @@
         <div class="admin-filter-meta" id="results-meta"></div>
       </div>
 
-      <!-- Table -->
       <div class="admin-table-wrap">
         <table class="admin-table" id="users-table">
           <thead>
@@ -58,7 +55,7 @@
               <th>Email</th>
               <th style="width:110px">Verified</th>
               <th style="width:130px">Joined</th>
-              <th style="width:160px"></th>
+              <th style="width:190px"></th>
             </tr>
           </thead>
           <tbody id="users-table-body">
@@ -71,7 +68,6 @@
         </table>
       </div>
 
-      <!-- Pagination -->
       <div class="admin-pagination">
         <button class="admin-pagination__btn" id="prev-page" disabled>
           <i class="fa-solid fa-chevron-left"></i> Previous
@@ -85,7 +81,75 @@
     </div>
   </div>
 
-  <!-- Delete confirm modal -->
+  <!-- ── Create / Edit user drawer ─────────────────────────────────────────── -->
+  <div class="user-drawer-overlay" id="edit-overlay"></div>
+  <aside class="user-drawer" id="edit-drawer" aria-label="User form">
+
+    <div class="user-drawer__header">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="user-avatar user-avatar--lg" id="drawer-avatar">+</div>
+        <div>
+          <div class="user-drawer__title" id="drawer-title">New user</div>
+          <div class="user-drawer__subtitle" id="drawer-subtitle">Fill in the details below</div>
+        </div>
+      </div>
+      <button class="user-drawer__close" id="edit-close" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="user-drawer__body">
+      <div id="drawer-alert" class="profile-alert" style="display:none"></div>
+
+      <form id="edit-user-form" novalidate>
+        <input type="hidden" id="edit-user-id">
+
+        <div class="profile-field" style="margin-bottom:1rem">
+          <label class="profile-label" for="edit-name">Full name</label>
+          <input type="text" id="edit-name" class="profile-input" required>
+          <p class="edit-error" id="err-edit-name"></p>
+        </div>
+
+        <div class="profile-field" style="margin-bottom:1rem">
+          <label class="profile-label" for="edit-email">Email address</label>
+          <input type="email" id="edit-email" class="profile-input" required>
+          <p class="edit-error" id="err-edit-email"></p>
+        </div>
+
+        <!-- Password — only shown when creating -->
+        <div class="profile-field" id="password-field" style="margin-bottom:1rem;display:none">
+          <label class="profile-label" for="edit-password">Password</label>
+          <div class="profile-password-wrap">
+            <input type="password" id="edit-password" class="profile-input" autocomplete="new-password">
+            <button type="button" class="profile-toggle-pw" data-target="edit-password" aria-label="Toggle visibility">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <p class="edit-hint">Minimum 8 characters.</p>
+          <p class="edit-error" id="err-edit-password"></p>
+        </div>
+
+        <div class="profile-field" style="margin-bottom:1.5rem">
+          <label class="profile-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:500">
+            <input type="checkbox" id="edit-verified" class="edit-checkbox">
+            Mark email as verified
+          </label>
+          <p class="edit-hint">Manually set the verification status for this account.</p>
+        </div>
+
+        <div class="user-drawer__actions">
+          <button type="submit" class="admin-btn-primary" id="edit-save-btn">
+            Save
+          </button>
+          <button type="button" class="admin-btn-ghost" id="edit-cancel-btn">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </aside>
+
+  <!-- ── Delete confirm modal ───────────────────────────────────────────────── -->
   <div class="admin-modal-overlay" id="delete-modal" style="display:none">
     <div class="admin-modal">
       <div class="admin-modal__icon admin-modal__icon--danger">
@@ -104,7 +168,7 @@
     </div>
   </div>
 
-  <!-- Resend confirm modal -->
+  <!-- ── Resend confirm modal ───────────────────────────────────────────────── -->
   <div class="admin-modal-overlay" id="resend-modal" style="display:none">
     <div class="admin-modal">
       <div class="admin-modal__icon admin-modal__icon--info">

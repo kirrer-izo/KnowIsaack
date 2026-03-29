@@ -30,15 +30,11 @@ session_start();
 
 $request = $_SERVER['REQUEST_URI'];
 
-// Remove subdirectory prefix from path if running in a subdirectory
 $base_path = '/portfolio';
 $path = str_replace($base_path, '', $request);
-
-// Strip query string
 $path = strtok($path, '?');
 
 // ── Dynamic route pattern matching ───────────────────────────────────────────
-// Order matters: more-specific patterns first.
 
 $adminUserId    = null;
 $adminProjectId = null;
@@ -267,6 +263,8 @@ switch ($path) {
     case '/api/admin/users':
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $adminUserController->index();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminUserController->create();
         } else {
             http_response_code(405);
             echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
