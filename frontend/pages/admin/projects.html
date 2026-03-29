@@ -7,6 +7,117 @@
   <link rel="stylesheet" href="/frontend/css/main.css">
   <link rel="stylesheet" href="/frontend/css/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ── Project drawer — only what admin.css doesn't already cover ── */
+
+    /* Wider than the user drawer (400px) to fit the project form */
+    .project-drawer { width: 520px; }
+
+    /* Scrollable body nicety */
+    .user-drawer__body::-webkit-scrollbar { width: 4px; }
+    .user-drawer__body::-webkit-scrollbar-track { background: transparent; }
+    .user-drawer__body::-webkit-scrollbar-thumb {
+      background: var(--admin-border);
+      border-radius: 4px;
+    }
+
+    /* Section divider labels */
+    .drawer-section {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--admin-text3);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--admin-border);
+      margin: 0 0 14px;
+    }
+
+    /* Two-column row */
+    .drawer-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* Tag chip rendered inside .edit-tag-wrap */
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--admin-bg2);
+      border: 1px solid var(--admin-border);
+      border-radius: 5px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--admin-text);
+    }
+    .tag-chip__remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      color: var(--admin-text3);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
+    }
+    .tag-chip__remove:hover { color: var(--admin-red); }
+
+    /* Featured toggle */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border: 1px solid var(--admin-border);
+      border-radius: var(--admin-radius-sm);
+      background: var(--admin-bg2);
+    }
+    .toggle-label { font-size: 13px; font-weight: 500; color: var(--admin-text); margin: 0; }
+    .toggle-desc  { font-size: 12px; color: var(--admin-text3); margin: 2px 0 0; }
+    .toggle-switch {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--admin-bg3);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-track::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    }
+    .toggle-switch input:checked + .toggle-track { background: var(--admin-blue); }
+    .toggle-switch input:checked + .toggle-track::before { transform: translateX(18px); }
+
+    /* Character counter */
+    .char-counter {
+      font-size: 11px;
+      color: var(--admin-text3);
+    }
+    .char-counter.is-warn { color: var(--admin-amber); }
+    .char-counter.is-over { color: var(--admin-red); }
+  </style>
 </head>
 <body>
 
@@ -25,10 +136,10 @@
           <i class="fa-solid fa-download"></i>
           Export CSV
         </button>
-        <a href="/admin/edit" class="admin-btn-primary">
+        <button class="admin-btn-primary" id="open-create-drawer">
           <i class="fa-solid fa-plus"></i>
           Add project
-        </a>
+        </button>
       </div>
     </div>
 
@@ -91,6 +202,109 @@
 
     </div>
   </div>
+
+  <!-- ── Project Drawer ──────────────────────────────────────── -->
+  <div class="user-drawer-overlay" id="drawer-overlay"></div>
+
+  <aside
+    class="user-drawer project-drawer"
+    id="project-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Project form"
+  >
+    <!-- Header -->
+    <div class="user-drawer__header">
+      <div>
+        <p class="user-drawer__title"   id="drawer-title">Add project</p>
+        <p class="user-drawer__subtitle" id="drawer-subtitle">Fill in the details below</p>
+      </div>
+      <button class="user-drawer__close" id="drawer-close" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="user-drawer__body">
+
+      <!-- ── Basic info ──────────────────────────────────── -->
+      <p class="drawer-section">Basic info</p>
+
+      <div class="profile-field" style="margin-bottom:14px">
+        <label class="profile-label" for="field-title">
+          Title <span class="edit-required">*</span>
+        </label>
+        <input type="text" id="field-title" class="profile-input" placeholder="e.g. Portfolio Website" maxlength="120">
+        <span class="edit-error" id="err-title" style="display:none">Title is required.</span>
+      </div>
+
+      <div class="profile-field" style="margin-bottom:20px">
+        <label class="profile-label" for="field-description">Full description</label>
+        <textarea id="field-description" class="profile-input edit-textarea" placeholder="Detailed write-up: what it does, challenges solved…" maxlength="2000" style="min-height:100px"></textarea>
+        <div style="display:flex;justify-content:flex-end;margin-top:4px">
+          <span class="char-counter" id="counter-description">0 / 2000</span>
+        </div>
+      </div>
+
+      <!-- ── Links ───────────────────────────────────────── -->
+      <p class="drawer-section">Links</p>
+
+      <div class="drawer-row-2" style="margin-bottom:14px">
+        <div class="profile-field">
+          <label class="profile-label" for="field-live-url">Live URL</label>
+          <input type="url" id="field-live-url" class="profile-input" placeholder="https://…">
+          <span class="edit-error" id="err-live-url" style="display:none">Enter a valid URL.</span>
+        </div>
+        <div class="profile-field">
+          <label class="profile-label" for="field-github-url">GitHub URL</label>
+          <input type="url" id="field-github-url" class="profile-input" placeholder="https://github.com/…">
+          <span class="edit-error" id="err-github-url" style="display:none">Enter a valid URL.</span>
+        </div>
+      </div>
+
+<!-- ── Tech stack ──────────────────────────────────── -->
+      <p class="drawer-section">Tech stack</p>
+
+      <div class="profile-field" style="margin-bottom:20px">
+        <label class="profile-label">Technologies</label>
+        <div class="edit-tag-wrap" id="tag-wrap">
+          <!-- chips injected here by JS -->
+          <input
+            type="text"
+            id="tag-input"
+            class="edit-tag-input"
+            placeholder="Type a tech and press Enter…"
+            maxlength="40"
+          >
+        </div>
+        <p class="edit-hint">Press <kbd>Enter</kbd> or <kbd>,</kbd> to add. Click × to remove.</p>
+      </div>
+
+      <!-- ── Settings ────────────────────────────────────── -->
+      <p class="drawer-section">Settings</p>
+
+      <div class="toggle-row" style="margin-bottom:14px">
+        <div>
+          <p class="toggle-label">Featured project</p>
+          <p class="toggle-desc">Shown prominently on the public portfolio</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="field-featured">
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+
+<!-- ── Actions (inside body, scrolls naturally) ────── -->
+      <div class="user-drawer__actions">
+        <button class="admin-btn-primary" id="drawer-save" style="flex:1;justify-content:center">
+          <i class="fa-solid fa-floppy-disk"></i>
+          <span id="drawer-save-label">Save project</span>
+        </button>
+        <button class="admin-btn-ghost" id="drawer-cancel">Cancel</button>
+      </div>
+
+    </div><!-- /.user-drawer__body -->
+  </aside>
 
   <!-- Delete confirm modal -->
   <div class="admin-modal-overlay" id="delete-modal" style="display:none">

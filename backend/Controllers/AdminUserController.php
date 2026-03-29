@@ -226,7 +226,7 @@ class AdminUserController
         }
 
         try {
-            $this->userService->resendVerificationEmail($user);
+            $this->userService->resendVerificationEmail($user['id']);
             echo json_encode(['status' => 'success', 'message' => 'Verification email sent']);
         } catch (\Exception $e) {
             error_log('Resend verification error: ' . $e->getMessage());
