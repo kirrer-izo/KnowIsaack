@@ -80,6 +80,25 @@ class ProjectRepository {
         return (int) $stmt->fetchColumn();
     }
 
+    // Get the N most recently created projects — used by the dashboard
+    public function getRecent(int $limit = 5): array
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT id, title, description, tech_stack, github_url, detail_url, featured, created_at
+             FROM projects
+             ORDER BY created_at DESC
+             LIMIT :limit"
+        );
+        $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($rows as &$row) {
+            $row['tech_stack'] = json_decode($row['tech_stack'] ?? '[]', true) ?? [];
+        }
+        return $rows;
+    }
+
     // Get paginated projects with optional search and featured filter
     public function getPaginatedProjects(int $page, int $limit, ?string $search = null, ?bool $featured = null): array
     {

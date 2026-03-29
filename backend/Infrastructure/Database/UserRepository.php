@@ -77,6 +77,27 @@ class UserRepository {
         return (int) $stmt->fetchColumn();
     }
 
+    // Count users registered in the last N days — used for stat card delta
+    public function countNewSinceDays(int $days): int
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT COUNT(*) FROM users WHERE created_at >= NOW() - INTERVAL '{$days} days'"
+        );
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
+    }
+
+    // Count users who verified their email today — used for stat card delta
+    public function countVerifiedToday(): int
+    {
+        $stmt = $this->pdo->query(
+            "SELECT COUNT(*) FROM users
+             WHERE email_verified = true
+               AND updated_at >= CURRENT_DATE"
+        );
+        return (int) $stmt->fetchColumn();
+    }
+
     public function getAllUsers(): array
     {
         $stmt = $this->pdo->query(

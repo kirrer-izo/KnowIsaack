@@ -1,17 +1,15 @@
 /**
  * admin-dashboard.js
- * Handles: stat cards, login activity chart, activity feed, rate limit bars
- * All data comes from /api/admin/stats and /api/admin/activity
+ * All data pulled from /api/admin/stats and /api/admin/rate-limits.
+ * No hardcoded values anywhere.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     loadStats();
-    buildChart();
-    buildActivityFeed();
     buildRateLimits();
 });
 
-/* ── Stats ────────────────────────────────────────────────── */
+/* ── Stats (cards + chart + projects table) ───────────────── */
 
 async function loadStats() {
     try {
@@ -24,26 +22,30 @@ async function loadStats() {
         }
 
         const d = data.data;
-        setText('total-users',      d.total_users);
-        setText('verified-users',   d.verified_users);
-        setText('total-projects',   d.total_projects);
-        setText('featured-projects',d.featured_projects);
-        setText('failed-logins-24h',d.failed_logins_24h);
 
-        // Activity summary (reuse from stats if available)
-        if (d.logins_7d) {
-            const totals = d.logins_7d.reduce(
-                (acc, day) => ({
-                    success:  acc.success  + (day.success  || 0),
-                    failed:   acc.failed   + (day.failed   || 0),
-                    limited:  acc.limited  + (day.limited  || 0),
-                }),
-                { success: 0, failed: 0, limited: 0 }
-            );
-            setText('logins-success', totals.success);
-            setText('logins-failed',  totals.failed);
-            setText('logins-limited', totals.limited);
-            buildChartFromData(d.logins_7d);
+        // ── Stat card values
+        setText('total-users',       d.total_users);
+        setText('verified-users',    d.verified_users);
+        setText('total-projects',    d.total_projects);
+        setText('featured-projects', d.featured_projects);
+        setText('failed-logins-24h', d.failed_logins_24h);
+
+        // ── Stat card deltas
+        renderDelta('delta-users',    d.new_users_7d,       'this week');
+        renderDelta('delta-verified', d.new_verified_today, 'today');
+        renderFailedDelta('delta-failed', d.failed_logins_24h, d.failed_logins_yesterday);
+
+        // ── Login activity chart
+        if (Array.isArray(d.logins_7d) && d.logins_7d.length > 0) {
+            renderChart(d.logins_7d);
+            renderLoginSummary(d.logins_7d);
+        } else {
+            renderChartEmpty();
+        }
+
+        // ── Recent projects table
+        if (Array.isArray(d.recent_projects)) {
+            renderProjects(d.recent_projects);
         }
 
     } catch (err) {
@@ -51,40 +53,34 @@ async function loadStats() {
     }
 }
 
-function setText(id, value) {
+/* ── Stat card deltas ─────────────────────────────────────── */
+
+function renderDelta(id, count, label) {
     const el = document.getElementById(id);
-    if (el) el.textContent = value ?? '—';
+    if (!el) return;
+    if (count > 0) {
+        el.innerHTML = `<span class="delta-up">↑ ${count}</span> ${label}`;
+    } else {
+        el.innerHTML = `<span style="color:var(--admin-text3)">No change</span>`;
+    }
 }
 
-/* ── Login activity bar chart ─────────────────────────────── */
-
-function buildChart() {
-    // Placeholder data — replaced by buildChartFromData() once the API responds
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const vals  = [0, 0, 0, 0, 0, 0, 0];
-    renderChart(days, vals);
+function renderFailedDelta(id, today, yesterday) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const diff = (yesterday ?? 0) - (today ?? 0);
+    if (diff > 0) {
+        el.innerHTML = `<span class="delta-up">↓ ${diff}</span> vs yesterday`;
+    } else if (diff < 0) {
+        el.innerHTML = `<span class="delta-down">↑ ${Math.abs(diff)}</span> vs yesterday`;
+    } else {
+        el.innerHTML = `<span style="color:var(--admin-text3)">Same as yesterday</span>`;
+    }
 }
 
-function buildChartFromData(loginDays) {
-    // loginDays: array of { label: 'Mon', success: 5, failed: 1, limited: 0 }
-    const days = loginDays.map(d => d.label);
-    const vals  = loginDays.map(d => (d.success || 0) + (d.failed || 0));
-    renderChart(days, vals);
+/* ── Login activity chart ─────────────────────────────────── */
 
-    const totals = loginDays.reduce(
-        (acc, d) => ({
-            success: acc.success + (d.success || 0),
-            failed:  acc.failed  + (d.failed  || 0),
-            limited: acc.limited + (d.limited || 0),
-        }),
-        { success: 0, failed: 0, limited: 0 }
-    );
-    setText('logins-success', totals.success);
-    setText('logins-failed',  totals.failed);
-    setText('logins-limited', totals.limited);
-}
-
-function renderChart(days, vals) {
+function renderChart(logins7d) {
     const chart  = document.getElementById('login-chart');
     const labels = document.getElementById('chart-labels');
     if (!chart || !labels) return;
@@ -92,81 +88,104 @@ function renderChart(days, vals) {
     chart.innerHTML  = '';
     labels.innerHTML = '';
 
-    const max = Math.max(...vals, 1);
-    vals.forEach((v, i) => {
+    const vals = logins7d.map(d => (d.success || 0) + (d.failed || 0));
+    const max  = Math.max(...vals, 1);
+
+    logins7d.forEach((d, i) => {
+        const total = (d.success || 0) + (d.failed || 0);
+
         const bar = document.createElement('div');
-        bar.className = 'mini-chart__bar' + (i === vals.length - 1 ? ' mini-chart__bar--active' : '');
-        bar.style.height = Math.round((v / max) * 100) + '%';
-        bar.title = days[i] + ': ' + v + ' logins';
+        bar.className    = 'mini-chart__bar' + (i === logins7d.length - 1 ? ' mini-chart__bar--active' : '');
+        bar.style.height = Math.round((total / max) * 100) + '%';
+        bar.title        = `${d.label}: ${d.success || 0} successful, ${d.failed || 0} failed`;
         chart.appendChild(bar);
 
         const lbl = document.createElement('div');
-        lbl.className = 'mini-chart__label';
-        lbl.textContent = days[i];
+        lbl.className   = 'mini-chart__label';
+        lbl.textContent = d.label;
         labels.appendChild(lbl);
     });
 }
 
-/* ── Activity feed ────────────────────────────────────────── */
+function renderChartEmpty() {
+    const chart  = document.getElementById('login-chart');
+    const labels = document.getElementById('chart-labels');
+    if (!chart || !labels) return;
 
-async function buildActivityFeed() {
-    const feed = document.getElementById('activity-feed');
-    if (!feed) return;
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    chart.innerHTML  = days.map(() => `<div class="mini-chart__bar" style="height:4px"></div>`).join('');
+    labels.innerHTML = days.map(d => `<div class="mini-chart__label">${d}</div>`).join('');
 
-    // Default placeholder items while API loads
-    const placeholders = [
-        { icon: 'fa-right-to-bracket', colour: 'green',  title: 'Successful admin login',      sub: 'via GitHub OAuth · just now' },
-        { icon: 'fa-pen',              colour: 'purple', title: 'Project updated',              sub: 'Loading…' },
-        { icon: 'fa-user-check',       colour: 'blue',   title: 'New user verified email',      sub: 'Loading…' },
-        { icon: 'fa-ban',              colour: 'red',    title: 'Login rate limited',            sub: 'Loading…' },
-        { icon: 'fa-envelope',         colour: 'amber',  title: 'Verification email resent',    sub: 'Loading…' },
-    ];
+    setText('logins-success', 0);
+    setText('logins-failed',  0);
+    setText('logins-limited', '—');
+}
 
-    renderFeed(feed, placeholders);
+function renderLoginSummary(logins7d) {
+    const totals = logins7d.reduce(
+        (acc, d) => ({
+            success: acc.success + (d.success || 0),
+            failed:  acc.failed  + (d.failed  || 0),
+        }),
+        { success: 0, failed: 0 }
+    );
+    setText('logins-success', totals.success);
+    setText('logins-failed',  totals.failed);
+    setText('logins-limited', '—');
+}
 
-    try {
-        const res  = await fetch('/api/admin/activity');
-        const data = await res.json();
-        if (data.status === 'success' && Array.isArray(data.data)) {
-            renderFeed(feed, data.data.map(mapActivityItem));
-        }
-    } catch (err) {
-        // Keep placeholders visible — activity feed is non-critical
-        console.warn('Could not load activity feed:', err);
+/* ── Recent projects table ────────────────────────────────── */
+
+function renderProjects(projects) {
+    const tbody = document.getElementById('projects-body');
+    if (!tbody) return;
+
+    if (!projects.length) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" class="admin-table__empty">No projects yet</td>
+            </tr>`;
+        return;
     }
+
+    tbody.innerHTML = projects.map(p => {
+        const tags = (p.tech_stack || []).slice(0, 3)
+            .map(t => `<span class="badge badge--blue">${escapeHtml(t)}</span>`)
+            .join(' ');
+
+        const status = p.featured
+            ? `<span class="badge badge--amber"><i class="fa-solid fa-star" style="font-size:9px"></i> Featured</span>`
+            : `<span class="badge badge--blue">Public</span>`;
+
+        return `
+            <tr>
+                <td class="cell-primary">${escapeHtml(p.title)}</td>
+                <td>${tags}</td>
+                <td>${status}</td>
+                <td class="cell-actions">
+                    <a href="/admin/edit?id=${p.id}" class="table-btn">Edit</a>
+                </td>
+            </tr>`;
+    }).join('');
 }
 
-function mapActivityItem(item) {
-    const map = {
-        login_success:   { icon: 'fa-right-to-bracket', colour: 'green'  },
-        login_failed:    { icon: 'fa-xmark',            colour: 'red'    },
-        project_updated: { icon: 'fa-pen',              colour: 'purple' },
-        project_created: { icon: 'fa-plus',             colour: 'purple' },
-        user_verified:   { icon: 'fa-user-check',       colour: 'blue'   },
-        rate_limited:    { icon: 'fa-ban',              colour: 'red'    },
-        email_resent:    { icon: 'fa-envelope',         colour: 'amber'  },
-    };
-    const meta = map[item.type] || { icon: 'fa-circle-dot', colour: 'blue' };
-    return {
-        icon:   meta.icon,
-        colour: meta.colour,
-        title:  item.title || item.type,
-        sub:    item.description + ' · ' + formatRelativeTime(item.created_at),
-    };
-}
+/* ── Project search filter (client-side) ──────────────────── */
 
-function renderFeed(container, items) {
-    container.innerHTML = items.map(item => `
-        <div class="activity-item">
-            <div class="activity-item__dot activity-item__dot--${escapeHtml(item.colour)}">
-                <i class="fa-solid ${escapeHtml(item.icon)}" style="font-size:10px"></i>
-            </div>
-            <div>
-                <div class="activity-item__main">${escapeHtml(item.title)}</div>
-                <div class="activity-item__sub">${escapeHtml(item.sub)}</div>
-            </div>
-        </div>
-    `).join('');
+function filterProjects(query) {
+    const rows  = document.querySelectorAll('#projects-body tr');
+    const empty = document.getElementById('projects-empty');
+    let   shown = 0;
+    const q     = query.toLowerCase();
+
+    rows.forEach(row => {
+        const match = row.textContent.toLowerCase().includes(q);
+        row.style.display = match ? '' : 'none';
+        if (match) shown++;
+    });
+
+    if (empty) {
+        empty.style.display = (shown === 0 && query.length > 0) ? 'block' : 'none';
+    }
 }
 
 /* ── Rate limit bars ──────────────────────────────────────── */
@@ -180,18 +199,24 @@ async function buildRateLimits() {
         const data = await res.json();
 
         if (data.status === 'success' && Array.isArray(data.data) && data.data.length > 0) {
-            renderRateLimits(list, data.data.slice(0, 5)); // Show top 5
+            renderRateLimits(list, data.data.slice(0, 5));
         } else {
-            list.innerHTML = '<p style="font-size:13px;color:var(--admin-text3);text-align:center;padding:1rem 0">No active rate limits</p>';
+            list.innerHTML = `
+                <p style="font-size:13px;color:var(--admin-text3);text-align:center;padding:1rem 0">
+                    No active rate limits
+                </p>`;
         }
     } catch (err) {
-        list.innerHTML = '<p style="font-size:13px;color:var(--admin-text3);text-align:center;padding:1rem 0">Could not load data</p>';
+        list.innerHTML = `
+            <p style="font-size:13px;color:var(--admin-text3);text-align:center;padding:1rem 0">
+                Could not load data
+            </p>`;
         console.warn('Could not load rate limits:', err);
     }
 }
 
 function renderRateLimits(container, items) {
-    const maxAttempts = 5; // Matches PHP RateLimiterService MAX_ATTEMPTS
+    const maxAttempts = 5;
 
     container.innerHTML = items.map(item => {
         const pct   = Math.min(Math.round((item.attempts / maxAttempts) * 100), 100);
@@ -213,31 +238,16 @@ function renderRateLimits(container, items) {
                     </div>
                     <div class="rate-row__count">${item.attempts}/${maxAttempts}</div>
                 </div>
-            </div>
-        `;
+            </div>`;
     }).join('');
 }
 
-/* ── Project search filter ────────────────────────────────── */
-
-function filterProjects(query) {
-    const rows  = document.querySelectorAll('#projects-body tr');
-    const empty = document.getElementById('projects-empty');
-    let   shown = 0;
-    const q     = query.toLowerCase();
-
-    rows.forEach(row => {
-        const match = row.textContent.toLowerCase().includes(q);
-        row.style.display = match ? '' : 'none';
-        if (match) shown++;
-    });
-
-    if (empty) {
-        empty.style.display = (shown === 0 && query.length > 0) ? 'block' : 'none';
-    }
-}
-
 /* ── Helpers ──────────────────────────────────────────────── */
+
+function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value ?? '—';
+}
 
 function escapeHtml(str) {
     if (str == null) return '';
@@ -247,13 +257,4 @@ function escapeHtml(str) {
         .replace(/>/g,  '&gt;')
         .replace(/"/g,  '&quot;')
         .replace(/'/g,  '&#39;');
-}
-
-function formatRelativeTime(dateStr) {
-    if (!dateStr) return '';
-    const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
-    if (diff < 60)   return diff + 's ago';
-    if (diff < 3600) return Math.floor(diff / 60) + ' min ago';
-    if (diff < 86400) return Math.floor(diff / 3600) + ' hr ago';
-    return Math.floor(diff / 86400) + 'd ago';
 }

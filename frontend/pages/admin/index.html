@@ -14,84 +14,59 @@
 
     <div class="admin-page">
 
-        <!-- Page header -->
         <div class="admin-page-header">
             <div>
                 <h1 class="admin-page-title">Dashboard</h1>
                 <p class="admin-page-subtitle">Welcome back, Isaack — here's what's happening</p>
             </div>
-            <a href="/admin/projects/edit" class="admin-btn-primary">
+            <a href="/admin/edit" class="admin-btn-primary">
                 <i class="fa-solid fa-plus"></i>
                 Add project
             </a>
         </div>
 
-        <!-- Stats grid -->
         <div class="stats-grid">
             <div class="stat-card stat-card--blue">
                 <div class="stat-card__accent"></div>
-                <div class="stat-card__icon">
-                    <i class="fa-solid fa-users"></i>
-                </div>
+                <div class="stat-card__icon"><i class="fa-solid fa-users"></i></div>
                 <div class="stat-card__label">Total users</div>
                 <div class="stat-card__value" id="total-users">—</div>
-                <div class="stat-card__delta">
-                    <span class="delta-up">↑ 3</span> this week
-                </div>
+                <div class="stat-card__delta" id="delta-users">—</div>
             </div>
-
             <div class="stat-card stat-card--green">
                 <div class="stat-card__accent"></div>
-                <div class="stat-card__icon">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
+                <div class="stat-card__icon"><i class="fa-solid fa-circle-check"></i></div>
                 <div class="stat-card__label">Verified users</div>
                 <div class="stat-card__value" id="verified-users">—</div>
-                <div class="stat-card__delta">
-                    <span class="delta-up">↑ 1</span> today
-                </div>
+                <div class="stat-card__delta" id="delta-verified">—</div>
             </div>
-
             <div class="stat-card stat-card--purple">
                 <div class="stat-card__accent"></div>
-                <div class="stat-card__icon">
-                    <i class="fa-solid fa-folder-open"></i>
-                </div>
+                <div class="stat-card__icon"><i class="fa-solid fa-folder-open"></i></div>
                 <div class="stat-card__label">Total projects</div>
                 <div class="stat-card__value" id="total-projects">—</div>
-                <div class="stat-card__delta stat-card__delta--neutral">No change</div>
+                <div class="stat-card__delta stat-card__delta--neutral">All time</div>
             </div>
-
             <div class="stat-card stat-card--amber">
                 <div class="stat-card__accent"></div>
-                <div class="stat-card__icon">
-                    <i class="fa-solid fa-star"></i>
-                </div>
+                <div class="stat-card__icon"><i class="fa-solid fa-star"></i></div>
                 <div class="stat-card__label">Featured</div>
                 <div class="stat-card__value" id="featured-projects">—</div>
                 <div class="stat-card__delta stat-card__delta--neutral">Pinned to homepage</div>
             </div>
-
             <div class="stat-card stat-card--red">
                 <div class="stat-card__accent"></div>
-                <div class="stat-card__icon">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
+                <div class="stat-card__icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
                 <div class="stat-card__label">Failed logins (24h)</div>
                 <div class="stat-card__value" id="failed-logins-24h">—</div>
-                <div class="stat-card__delta">
-                    <span class="delta-down">↓ 2</span> vs yesterday
-                </div>
+                <div class="stat-card__delta" id="delta-failed">—</div>
             </div>
         </div>
 
-        <!-- Main two-column layout -->
         <div class="admin-main-grid">
 
-            <!-- Left column -->
             <div class="admin-col">
 
-                <!-- Recent projects table -->
                 <div class="admin-card">
                     <div class="admin-card__header">
                         <div class="admin-card__title">
@@ -111,7 +86,7 @@
                         >
                     </div>
                     <div class="admin-table-wrap">
-                        <table class="admin-table" id="projects-table">
+                        <table class="admin-table">
                             <thead>
                                 <tr>
                                     <th>Title</th>
@@ -121,7 +96,11 @@
                                 </tr>
                             </thead>
                             <tbody id="projects-body">
-                                <!-- Populated by JS -->
+                                <tr>
+                                    <td colspan="4" class="admin-table__loading">
+                                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading…
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <div class="admin-table__empty" id="projects-empty" style="display:none">
@@ -130,7 +109,6 @@
                     </div>
                 </div>
 
-                <!-- Login activity chart -->
                 <div class="admin-card">
                     <div class="admin-card__header">
                         <div class="admin-card__title">
@@ -161,10 +139,8 @@
 
             </div>
 
-            <!-- Right column -->
             <div class="admin-col">
 
-                <!-- Quick actions -->
                 <div class="admin-card">
                     <div class="admin-card__header">
                         <div class="admin-card__title">
@@ -174,7 +150,7 @@
                     </div>
                     <div class="admin-card__body admin-card__body--tight">
                         <div class="quick-actions">
-                            <a href="/admin/projects/edit" class="qa-btn">
+                            <a href="/admin/edit" class="qa-btn">
                                 <div class="qa-btn__icon qa-btn__icon--purple">
                                     <i class="fa-solid fa-plus"></i>
                                 </div>
@@ -192,13 +168,13 @@
                                     <div class="qa-btn__desc">View &amp; edit</div>
                                 </div>
                             </a>
-                            <a href="/admin/logs?export=csv" class="qa-btn">
+                            <a href="/api/admin/users/export" class="qa-btn">
                                 <div class="qa-btn__icon qa-btn__icon--green">
                                     <i class="fa-solid fa-download"></i>
                                 </div>
                                 <div>
-                                    <div class="qa-btn__label">Export CSV</div>
-                                    <div class="qa-btn__desc">Logs or users</div>
+                                    <div class="qa-btn__label">Export users</div>
+                                    <div class="qa-btn__desc">Download CSV</div>
                                 </div>
                             </a>
                             <a href="/admin/rate-limits" class="qa-btn">
@@ -214,22 +190,6 @@
                     </div>
                 </div>
 
-                <!-- Recent activity feed -->
-                <div class="admin-card">
-                    <div class="admin-card__header">
-                        <div class="admin-card__title">
-                            <i class="fa-solid fa-clock-rotate-left admin-card__title-icon"></i>
-                            Recent activity
-                        </div>
-                    </div>
-                    <div class="admin-card__body admin-card__body--tight">
-                        <div class="activity-feed" id="activity-feed">
-                            <!-- Populated by JS -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Active rate limits -->
                 <div class="admin-card">
                     <div class="admin-card__header">
                         <div class="admin-card__title">
@@ -240,7 +200,9 @@
                     </div>
                     <div class="admin-card__body admin-card__body--tight">
                         <div id="rate-list">
-                            <!-- Populated by JS -->
+                            <p style="font-size:13px;color:var(--admin-text3);text-align:center;padding:1rem 0">
+                                Loading…
+                            </p>
                         </div>
                     </div>
                 </div>

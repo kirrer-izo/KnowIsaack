@@ -29,16 +29,28 @@ class AdminController
         header('Content-Type: application/json');
 
         $stats = [
-            'total_users' => $this->userRepository->countAll(),
-            'verified_users' => $this->userRepository->countVerified(),
-            'total_projects' => $this->projectRepository->countAll(),
-            'featured_projects' => $this->projectRepository->countFeatured(),
-            'failed_logins_24h' => $this->loginActivityRepository->countFailedLast24Hours(),
+            // Stat card values
+            'total_users'             => $this->userRepository->countAll(),
+            'verified_users'          => $this->userRepository->countVerified(),
+            'total_projects'          => $this->projectRepository->countAll(),
+            'featured_projects'       => $this->projectRepository->countFeatured(),
+            'failed_logins_24h'       => $this->loginActivityRepository->countFailedLast24Hours(),
+
+            // Stat card deltas
+            'new_users_7d'            => $this->userRepository->countNewSinceDays(7),
+            'new_verified_today'      => $this->userRepository->countVerifiedToday(),
+            'failed_logins_yesterday' => $this->loginActivityRepository->countFailedYesterday(),
+
+            // Login activity bar chart — last 7 days
+            'logins_7d'               => $this->loginActivityRepository->getLast7DaysSummary(),
+
+            // Recent projects table — last 5
+            'recent_projects'         => $this->projectRepository->getRecent(5),
         ];
 
         echo json_encode([
             'status' => 'success',
-            'data' => $stats
+            'data'   => $stats,
         ]);
         exit;
     }
