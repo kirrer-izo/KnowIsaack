@@ -37,32 +37,48 @@ $path = str_replace($base_path, '', $request);
 // Strip query string e.g. ?code=xxx&state=yyy — we only need the path
 $path = strtok($path, '?');
 
-// Extract user ID for admin user actions
-$adminUserId = null;
-if (preg_match('#^/api/admin/users/(\d+)/resend-verification$#', $path, $matches)) {
-    $adminUserId = (int) $matches[1];
+// ── Dynamic route pattern matching ───────────────────────────────────────────
+// Resolve parameterised paths to a static route key before the switch.
+// Order matters: more-specific patterns first.
+
+$adminUserId    = null;
+$adminProjectId = null;
+
+// POST /api/admin/users/{id}/resend-verification
+if (preg_match('#^/api/admin/users/(\d+)/resend-verification$#', $path, $m)) {
+    $adminUserId = (int) $m[1];
     $path = '/api/admin/users/resend-verification';
 }
-if (preg_match('#^/api/admin/users/(\d+)$#', $path, $matches) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    $adminUserId = (int) $matches[1];
+
+// GET /api/admin/users/{id}
+elseif (preg_match('#^/api/admin/users/(\d+)$#', $path, $m) && $_SERVER['REQUEST_METHOD'] === 'GET') {
+    $adminUserId = (int) $m[1];
+    $path = '/api/admin/users/show';
+}
+
+// PUT /api/admin/users/{id}
+elseif (preg_match('#^/api/admin/users/(\d+)$#', $path, $m) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
+    $adminUserId = (int) $m[1];
+    $path = '/api/admin/users/update';
+}
+
+// DELETE /api/admin/users/{id}
+elseif (preg_match('#^/api/admin/users/(\d+)$#', $path, $m) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    $adminUserId = (int) $m[1];
     $path = '/api/admin/users/delete';
 }
 
-// Extract project ID for admin project actions
-$adminProjectId = null;
-if (preg_match('#^/api/admin/projects/(\d+)$#', $path, $matches) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    $adminProjectId = (int) $matches[1];
+// DELETE /api/admin/projects/{id}
+elseif (preg_match('#^/api/admin/projects/(\d+)$#', $path, $m) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    $adminProjectId = (int) $m[1];
     $path = '/api/admin/projects/delete';
 }
 
+// ── Remember me ──────────────────────────────────────────────────────────────
 
-// Remember me: if no session, try the cookie
 if (empty($_SESSION['authenticated'])) {
     if (isset($_COOKIE['remember_token'])) {
         $token = $_COOKIE['remember_token'];
-        // We need PDO – we can get it here, but only if we connect.
-        // However, connecting for every request is heavy if no token.
-        // We'll connect only if the cookie exists.
         $pdo = DatabaseConnection::getInstance()->getConnection();
         $rememberTokenRepository = new RememberTokenRepository($pdo);
         $userRepo = new UserRepository($pdo);
@@ -73,17 +89,17 @@ if (empty($_SESSION['authenticated'])) {
             $_SESSION['authenticated'] = true;
             $_SESSION['db_user'] = $user;
         } else {
-            // Invalid/expired token: delete the cookie
             setcookie('remember_token', '', time() - 3600, '/');
         }
     }
 }
 
-// Routes that require a database connection
-// Only these routes trigger PDO instantiation and dependency wiring
+// ── DB routes ────────────────────────────────────────────────────────────────
+// Only these routes trigger PDO instantiation and dependency wiring.
+
 $db_routes = [
-    '/api/projects', 
-    '/api/public-projects', 
+    '/api/projects',
+    '/api/public-projects',
     '/api/session',
     '/auth/login',
     '/auth/register',
@@ -93,10 +109,13 @@ $db_routes = [
     '/api/admin/stats',
     '/api/admin/users',
     '/api/admin/users/export',
+    '/api/admin/users/show',
+    '/api/admin/users/update',
+    '/api/admin/users/delete',
     '/api/admin/users/resend-verification',
-    '/api/admin/users/delete', 
     '/api/admin/projects',
-    '/api/admin/projects/export', 
+    '/api/admin/projects/export',
+    '/api/admin/projects/delete',
     '/api/admin/logs',
     '/api/admin/logs/export',
     '/api/admin/rate-limits',
@@ -105,39 +124,37 @@ $db_routes = [
     '/api/user/password',
 ];
 
-// Wire up database dependencies only when needed
 if (in_array($path, $db_routes)) {
     $pdo = DatabaseConnection::getInstance()->getConnection();
-    $projectRepository = new ProjectRepository($pdo);
-    $projectService = new ProjectService($projectRepository);
-
-    $userRepository = new UserRepository($pdo);
+    $projectRepository          = new ProjectRepository($pdo);
+    $projectService             = new ProjectService($projectRepository);
+    $userRepository             = new UserRepository($pdo);
     $emailVerificationRepository = new EmailVerificationRepository($pdo);
-    $passwordResetRepository = new PasswordResetRepository($pdo);
-    $rateLimitRepository = new RateLimitRepository($pdo);
-    $loginActivityRepository = new LoginActivityRepository($pdo);
-    $rateLimiterService = new RateLimiterService($rateLimitRepository);
-    $loginActivityService = new LoginActivityService($loginActivityRepository);
-    $rememberTokenRepository = new RememberTokenRepository($pdo);
-    $rememberTokenService = new RememberTokenService($rememberTokenRepository, $userRepository);
+    $passwordResetRepository    = new PasswordResetRepository($pdo);
+    $rateLimitRepository        = new RateLimitRepository($pdo);
+    $loginActivityRepository    = new LoginActivityRepository($pdo);
+    $rateLimiterService         = new RateLimiterService($rateLimitRepository);
+    $loginActivityService       = new LoginActivityService($loginActivityRepository);
+    $rememberTokenRepository    = new RememberTokenRepository($pdo);
+    $rememberTokenService       = new RememberTokenService($rememberTokenRepository, $userRepository);
+    $mailer                     = new ResendMailer();
+    $userService                = new UserService($userRepository, $emailVerificationRepository, $mailer, $passwordResetRepository);
 
-    $mailer = new ResendMailer();
-
-    $userService = new UserService($userRepository, $emailVerificationRepository, $mailer, $passwordResetRepository);
-
-    $userController = new UserController($userService, $rateLimiterService, $loginActivityService, $rememberTokenService);
-    $adminController = new AdminController($userRepository, $projectRepository, $loginActivityRepository);
-    $adminUserController = new AdminUserController($userRepository,$userService);
-    $adminProjectController = new AdminProjectController($projectRepository);
-    $adminLogController = new AdminLogController($loginActivityRepository);
+    $userController          = new UserController($userService, $rateLimiterService, $loginActivityService, $rememberTokenService);
+    $adminController         = new AdminController($userRepository, $projectRepository, $loginActivityRepository);
+    $adminUserController     = new AdminUserController($userRepository, $emailVerificationRepository, $userService);
+    $adminProjectController  = new AdminProjectController($projectRepository);
+    $adminLogController      = new AdminLogController($loginActivityRepository);
     $adminRateLimitController = new AdminRateLimitController($rateLimitRepository);
-    $userProfileController = new UserProfileController($userRepository);
+    $userProfileController   = new UserProfileController($userRepository);
 }
 
-
+// ── Router ───────────────────────────────────────────────────────────────────
 
 switch ($path) {
-    // Public pages
+
+    // ── Public pages ──────────────────────────────────────────────────────────
+
     case '/':
     case '/home':
         require __DIR__ . '/../frontend/pages/home.html';
@@ -149,11 +166,20 @@ switch ($path) {
         require __DIR__ . '/../frontend/pages/sole-proprietor-crm.html';
         break;
     case '/profile':
-        // require_once __DIR__ . '/config/guard_user.php';
         require __DIR__ . '/../frontend/pages/profile.html';
         break;
-    
-    // Auth Pages
+
+    // ── Auth pages ────────────────────────────────────────────────────────────
+
+    case '/login':
+        require __DIR__ . '/../frontend/pages/login.html';
+        break;
+    case '/register':
+        require __DIR__ . '/../frontend/pages/register.html';
+        break;
+
+    // ── Auth API ──────────────────────────────────────────────────────────────
+
     case '/auth/login':
         $userController->handleLoginRequest();
         break;
@@ -161,161 +187,19 @@ switch ($path) {
         $userController->handleRegisterRequest();
         break;
     case '/auth/logout':
-        // Destroy session and redirect — handles both GitHub and MySQL sessions
         session_unset();
         session_destroy();
         header('Location: /auth/login?message=logged_out');
         exit;
     case '/auth/verify':
-        // Handles email verification link clicked from inbox
         $userController->handleVerifyRequest();
         break;
     case '/auth/forgot-password':
         $userController->handleForgotPasswordRequest();
-    break;
+        break;
     case '/auth/reset-password':
         $userController->handleResetPasswordRequest();
-    break;
-
-    
-    // Admin Pages — protected by guard inside each controller
-    case '/admin':
-        // require_once __DIR__ . '/config/guard_user.php';
-        require __DIR__. '/../frontend/pages/admin/index.html';
         break;
-    case '/admin/edit':
-        // require_once __DIR__ . '/config/guard_user.php';
-        require __DIR__ . '/../frontend/pages/admin/edit.html';
-        break;
-    case '/admin/projects':
-        // require_once __DIR__ . '/config/guard_user.php';
-        require __DIR__ . '/../frontend/pages/admin/projects.html';
-        break;
-    case '/admin/users':
-        // require_once __DIR__ . '/config/guard_user.php';
-        require __DIR__ . '/../frontend/pages/admin/users.html';
-        break;
-    case '/admin/logs':
-        // require_once __DIR__ . '/config/guard_user.php';
-        require __DIR__ . '/../frontend/pages/admin/logs.html';
-        break;
-    case '/admin/rate-limits':
-        // require_once __DIR__ . '/config/guard_user.php';
-        require __DIR__ . '/../frontend/pages/admin/rate-limits.html';
-        break;
-
-    // API
-    case '/api/contact':
-        // Contact form submission — uses ResendMailer, no DB needed
-        $mailer = new ResendMailer();
-        $controller = new ContactController($mailer);
-        $controller->handleRequest();
-        break;
-    case '/api/session':
-        // Returns current session state for frontend auth checks
-        $controller = new ProjectsController($projectService);
-        $controller->session();
-        break;
-    case '/api/projects':
-        // Project CRUD — requires authentication via guard_user.php
-        $controller = new ProjectsController($projectService);
-        $controller->handleRequest();
-        break;
-    case '/api/public-projects':
-        // Public project feed — no authentication required
-        $controller = new PublicProjectsController($projectService);
-        $controller->handleRequest();
-        break;
-    case '/api/admin/stats':
-        // require_once __DIR__ . '/config/guard_user.php';
-        $adminController->stats();
-        break;
-    case '/api/admin/users':
-        // require_once __DIR__ . '/config/guard.php';
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $adminUserController->listUsers();
-        } else {
-            http_response_code(405);
-            echo 'Method Not Allowed';
-        }
-        break;
-    case '/api/admin/users/export':
-        // require_once __DIR__ . '/config/guard.php';
-        $adminUserController->exportCsv();
-        break;
-    case '/api/admin/users/resend-verification':
-    // require_once __DIR__ . '/config/guard.php';
-    $adminUserController->resendVerification($adminUserId);
-    break;
-    case '/api/admin/users/delete':
-        // require_once __DIR__ . '/config/guard.php';
-        $adminUserController->deleteUser($adminUserId);
-        break;
-    case '/api/admin/projects':
-        // require_once __DIR__ . '/config/guard.php';
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $adminProjectController->listProjects();
-        } else {
-            http_response_code(405);
-            echo 'Method Not Allowed';
-        }
-    break;
-    case '/api/admin/projects/export':
-        // require_once __DIR__ . '/config/guard.php';
-        $adminProjectController->exportCsv();
-        break;
-    case '/api/admin/projects/delete':
-        // require_once __DIR__ . '/config/guard.php';
-        $adminProjectController->deleteProject($adminProjectId);
-        break;
-    case '/api/admin/logs':
-        // require_once __DIR__ . '/config/guard.php';
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $adminLogController->listLogs();
-        } else {
-            http_response_code(405);
-            echo 'Method Not Allowed';
-        }
-        break;
-    case '/api/admin/logs/export':
-        // require_once __DIR__ . '/config/guard.php';
-        $adminLogController->exportCsv();
-        break;
-    case '/api/admin/rate-limits':
-        // require_once __DIR__ . '/config/guard.php';
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $adminRateLimitController->listRateLimits();
-        } else {
-            http_response_code(405);
-            echo 'Method Not Allowed';
-        }
-        break;
-    case '/api/admin/rate-limits/export':
-        // require_once __DIR__ . '/config/guard.php';
-        $adminRateLimitController->exportCsv();
-        break;
-    case '/api/user/profile':
-        // require_once __DIR__ . '/config/guard_user.php';
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userProfileController->getProfile();
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            $userProfileController->updateProfile();
-        } else {
-            http_response_code(405);
-            echo 'Method Not Allowed';
-        }
-        break;
-    case '/api/user/password':
-        // require_once __DIR__ . '/config/guard_user.php';
-        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            $userProfileController->updatePassword();
-        } else {
-            http_response_code(405);
-            echo 'Method Not Allowed';
-        }
-        break;
-
-    // GitHub OAuth flow
     case '/auth/authorize':
         $controller = new AuthController();
         $controller->authorize();
@@ -325,13 +209,160 @@ switch ($path) {
         $controller->callback();
         break;
 
-    // Health check endpoint
+    // ── Admin pages ───────────────────────────────────────────────────────────
+
+    case '/admin':
+        require __DIR__ . '/../frontend/pages/admin/index.html';
+        break;
+    case '/admin/edit':
+        require __DIR__ . '/../frontend/pages/admin/edit.html';
+        break;
+    case '/admin/projects':
+        require __DIR__ . '/../frontend/pages/admin/projects.html';
+        break;
+    case '/admin/users':
+        require __DIR__ . '/../frontend/pages/admin/users.html';
+        break;
+    case '/admin/logs':
+        require __DIR__ . '/../frontend/pages/admin/logs.html';
+        break;
+    case '/admin/rate-limits':
+        require __DIR__ . '/../frontend/pages/admin/rate-limits.html';
+        break;
+
+    // ── Public API ────────────────────────────────────────────────────────────
+
+    case '/api/contact':
+        $mailer     = new ResendMailer();
+        $controller = new ContactController($mailer);
+        $controller->handleRequest();
+        break;
+    case '/api/session':
+        $controller = new ProjectsController($projectService);
+        $controller->session();
+        break;
+    case '/api/projects':
+        $controller = new ProjectsController($projectService);
+        $controller->handleRequest();
+        break;
+    case '/api/public-projects':
+        $controller = new PublicProjectsController($projectService);
+        $controller->handleRequest();
+        break;
+
+    // ── Admin stats API ───────────────────────────────────────────────────────
+
+    case '/api/admin/stats':
+        $adminController->stats();
+        break;
+
+    // ── Admin users API ───────────────────────────────────────────────────────
+
+    case '/api/admin/users':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $adminUserController->index();
+        } else {
+            http_response_code(405);
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+        }
+        break;
+
+    case '/api/admin/users/export':
+        $adminUserController->export();
+        break;
+
+    case '/api/admin/users/show':
+        $adminUserController->show($adminUserId);
+        break;
+
+    case '/api/admin/users/update':
+        $adminUserController->update($adminUserId);
+        break;
+
+    case '/api/admin/users/delete':
+        $adminUserController->destroy($adminUserId);
+        break;
+
+    case '/api/admin/users/resend-verification':
+        $adminUserController->resendVerification($adminUserId);
+        break;
+
+    // ── Admin projects API ────────────────────────────────────────────────────
+
+    case '/api/admin/projects':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $adminProjectController->listProjects();
+        } else {
+            http_response_code(405);
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+        }
+        break;
+    case '/api/admin/projects/export':
+        $adminProjectController->exportCsv();
+        break;
+    case '/api/admin/projects/delete':
+        $adminProjectController->deleteProject($adminProjectId);
+        break;
+
+    // ── Admin logs API ────────────────────────────────────────────────────────
+
+    case '/api/admin/logs':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $adminLogController->listLogs();
+        } else {
+            http_response_code(405);
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+        }
+        break;
+    case '/api/admin/logs/export':
+        $adminLogController->exportCsv();
+        break;
+
+    // ── Admin rate limits API ─────────────────────────────────────────────────
+
+    case '/api/admin/rate-limits':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $adminRateLimitController->listRateLimits();
+        } else {
+            http_response_code(405);
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+        }
+        break;
+    case '/api/admin/rate-limits/export':
+        $adminRateLimitController->exportCsv();
+        break;
+
+    // ── User profile API ──────────────────────────────────────────────────────
+
+    case '/api/user/profile':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userProfileController->getProfile();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $userProfileController->updateProfile();
+        } else {
+            http_response_code(405);
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+        }
+        break;
+    case '/api/user/password':
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $userProfileController->updatePassword();
+        } else {
+            http_response_code(405);
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+        }
+        break;
+
+    // ── Health check ──────────────────────────────────────────────────────────
+
     case '/ping':
         http_response_code(200);
-        echo 'PONG'; 
+        echo 'PONG';
         exit;
 
-    default: 
+    // ── 404 ───────────────────────────────────────────────────────────────────
+
+    default:
         http_response_code(404);
         require __DIR__ . '/../frontend/pages/404.html';
         break;
