@@ -1487,3 +1487,120 @@ body {
         align-items: flex-start;
     }
 }
+
+/* ============================================================
+   EDIT / CREATE PROJECT FORM
+   ============================================================ */
+
+.admin-back-link {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--admin-text3);
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+}
+
+.admin-back-link:hover {
+    background: var(--admin-bg2);
+    color: var(--admin-text);
+}
+
+.edit-textarea {
+    height: auto;
+    min-height: 120px;
+    padding: 10px 12px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.edit-required {
+    color: var(--admin-red);
+    font-weight: 700;
+}
+
+.edit-hint {
+    font-size: 12px;
+    color: var(--admin-text3);
+    margin: 5px 0 0;
+    line-height: 1.5;
+}
+
+.edit-error {
+    font-size: 12px;
+    color: var(--admin-red);
+    margin: 4px 0 0;
+    min-height: 16px;
+    font-weight: 500;
+}
+
+.edit-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--admin-blue);
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+/* Tag input wrapper */
+.edit-tag-wrap {
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius-sm);
+    padding: 6px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    min-height: 42px;
+    cursor: text;
+    background: var(--admin-bg);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.edit-tag-wrap:focus-within {
+    border-color: var(--admin-blue);
+    box-shadow: 0 0 0 3px var(--admin-blue-bg);
+}
+
+.edit-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    font-size: 12px;
+}
+
+.edit-tag-remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: inherit;
+    opacity: 0.6;
+    transition: opacity 0.15s;
+}
+
+.edit-tag-remove:hover {
+    opacity: 1;
+}
+
+.edit-tag-input {
+    border: none;
+    outline: none;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--admin-text);
+    background: transparent;
+    flex: 1;
+    min-width: 160px;
+    padding: 3px 0;
+}

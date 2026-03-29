@@ -34,11 +34,10 @@ $request = $_SERVER['REQUEST_URI'];
 $base_path = '/portfolio';
 $path = str_replace($base_path, '', $request);
 
-// Strip query string e.g. ?code=xxx&state=yyy — we only need the path
+// Strip query string
 $path = strtok($path, '?');
 
 // ── Dynamic route pattern matching ───────────────────────────────────────────
-// Resolve parameterised paths to a static route key before the switch.
 // Order matters: more-specific patterns first.
 
 $adminUserId    = null;
@@ -49,25 +48,31 @@ if (preg_match('#^/api/admin/users/(\d+)/resend-verification$#', $path, $m)) {
     $adminUserId = (int) $m[1];
     $path = '/api/admin/users/resend-verification';
 }
-
 // GET /api/admin/users/{id}
 elseif (preg_match('#^/api/admin/users/(\d+)$#', $path, $m) && $_SERVER['REQUEST_METHOD'] === 'GET') {
     $adminUserId = (int) $m[1];
     $path = '/api/admin/users/show';
 }
-
 // PUT /api/admin/users/{id}
 elseif (preg_match('#^/api/admin/users/(\d+)$#', $path, $m) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
     $adminUserId = (int) $m[1];
     $path = '/api/admin/users/update';
 }
-
 // DELETE /api/admin/users/{id}
 elseif (preg_match('#^/api/admin/users/(\d+)$#', $path, $m) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $adminUserId = (int) $m[1];
     $path = '/api/admin/users/delete';
 }
-
+// GET /api/admin/projects/{id}
+elseif (preg_match('#^/api/admin/projects/(\d+)$#', $path, $m) && $_SERVER['REQUEST_METHOD'] === 'GET') {
+    $adminProjectId = (int) $m[1];
+    $path = '/api/admin/projects/show';
+}
+// PUT /api/admin/projects/{id}
+elseif (preg_match('#^/api/admin/projects/(\d+)$#', $path, $m) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
+    $adminProjectId = (int) $m[1];
+    $path = '/api/admin/projects/update';
+}
 // DELETE /api/admin/projects/{id}
 elseif (preg_match('#^/api/admin/projects/(\d+)$#', $path, $m) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $adminProjectId = (int) $m[1];
@@ -95,7 +100,6 @@ if (empty($_SESSION['authenticated'])) {
 }
 
 // ── DB routes ────────────────────────────────────────────────────────────────
-// Only these routes trigger PDO instantiation and dependency wiring.
 
 $db_routes = [
     '/api/projects',
@@ -115,6 +119,8 @@ $db_routes = [
     '/api/admin/users/resend-verification',
     '/api/admin/projects',
     '/api/admin/projects/export',
+    '/api/admin/projects/show',
+    '/api/admin/projects/update',
     '/api/admin/projects/delete',
     '/api/admin/logs',
     '/api/admin/logs/export',
@@ -126,27 +132,27 @@ $db_routes = [
 
 if (in_array($path, $db_routes)) {
     $pdo = DatabaseConnection::getInstance()->getConnection();
-    $projectRepository          = new ProjectRepository($pdo);
-    $projectService             = new ProjectService($projectRepository);
-    $userRepository             = new UserRepository($pdo);
+    $projectRepository           = new ProjectRepository($pdo);
+    $projectService              = new ProjectService($projectRepository);
+    $userRepository              = new UserRepository($pdo);
     $emailVerificationRepository = new EmailVerificationRepository($pdo);
-    $passwordResetRepository    = new PasswordResetRepository($pdo);
-    $rateLimitRepository        = new RateLimitRepository($pdo);
-    $loginActivityRepository    = new LoginActivityRepository($pdo);
-    $rateLimiterService         = new RateLimiterService($rateLimitRepository);
-    $loginActivityService       = new LoginActivityService($loginActivityRepository);
-    $rememberTokenRepository    = new RememberTokenRepository($pdo);
-    $rememberTokenService       = new RememberTokenService($rememberTokenRepository, $userRepository);
-    $mailer                     = new ResendMailer();
-    $userService                = new UserService($userRepository, $emailVerificationRepository, $mailer, $passwordResetRepository);
+    $passwordResetRepository     = new PasswordResetRepository($pdo);
+    $rateLimitRepository         = new RateLimitRepository($pdo);
+    $loginActivityRepository     = new LoginActivityRepository($pdo);
+    $rateLimiterService          = new RateLimiterService($rateLimitRepository);
+    $loginActivityService        = new LoginActivityService($loginActivityRepository);
+    $rememberTokenRepository     = new RememberTokenRepository($pdo);
+    $rememberTokenService        = new RememberTokenService($rememberTokenRepository, $userRepository);
+    $mailer                      = new ResendMailer();
+    $userService                 = new UserService($userRepository, $emailVerificationRepository, $mailer, $passwordResetRepository);
 
-    $userController          = new UserController($userService, $rateLimiterService, $loginActivityService, $rememberTokenService);
-    $adminController         = new AdminController($userRepository, $projectRepository, $loginActivityRepository);
-    $adminUserController     = new AdminUserController($userRepository, $emailVerificationRepository, $userService);
-    $adminProjectController  = new AdminProjectController($projectRepository);
-    $adminLogController      = new AdminLogController($loginActivityRepository);
+    $userController           = new UserController($userService, $rateLimiterService, $loginActivityService, $rememberTokenService);
+    $adminController          = new AdminController($userRepository, $projectRepository, $loginActivityRepository);
+    $adminUserController      = new AdminUserController($userRepository, $emailVerificationRepository, $userService);
+    $adminProjectController   = new AdminProjectController($projectRepository);
+    $adminLogController       = new AdminLogController($loginActivityRepository);
     $adminRateLimitController = new AdminRateLimitController($rateLimitRepository);
-    $userProfileController   = new UserProfileController($userRepository);
+    $userProfileController    = new UserProfileController($userRepository);
 }
 
 // ── Router ───────────────────────────────────────────────────────────────────
@@ -246,7 +252,7 @@ switch ($path) {
         $controller->handleRequest();
         break;
     case '/api/public-projects':
-        $controller = new PublicProjectsController($projectService);
+        $controller = new PublicProjectsController($projectRepository);
         $controller->handleRequest();
         break;
 
@@ -266,23 +272,18 @@ switch ($path) {
             echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
         }
         break;
-
     case '/api/admin/users/export':
         $adminUserController->export();
         break;
-
     case '/api/admin/users/show':
         $adminUserController->show($adminUserId);
         break;
-
     case '/api/admin/users/update':
         $adminUserController->update($adminUserId);
         break;
-
     case '/api/admin/users/delete':
         $adminUserController->destroy($adminUserId);
         break;
-
     case '/api/admin/users/resend-verification':
         $adminUserController->resendVerification($adminUserId);
         break;
@@ -292,6 +293,8 @@ switch ($path) {
     case '/api/admin/projects':
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $adminProjectController->listProjects();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $adminProjectController->createProject();
         } else {
             http_response_code(405);
             echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
@@ -299,6 +302,12 @@ switch ($path) {
         break;
     case '/api/admin/projects/export':
         $adminProjectController->exportCsv();
+        break;
+    case '/api/admin/projects/show':
+        $adminProjectController->getProject($adminProjectId);
+        break;
+    case '/api/admin/projects/update':
+        $adminProjectController->updateProject($adminProjectId);
         break;
     case '/api/admin/projects/delete':
         $adminProjectController->deleteProject($adminProjectId);

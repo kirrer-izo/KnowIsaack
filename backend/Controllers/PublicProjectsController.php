@@ -2,36 +2,35 @@
 
 namespace App\Controllers;
 
-use App\Services\ProjectService;
+use App\Infrastructure\Database\ProjectRepository;
 
-require_once './backend/config/config.php';
+// Public endpoint — no authentication required.
+// Reads directly from PostgreSQL via ProjectRepository.
 
-class PublicProjectsController {
-// Public endpoint - no authentication required.
-// Frontend calls this to display projects to visitors.
+class PublicProjectsController
+{
+    private ProjectRepository $projectRepository;
 
-private $projectService;
-
-public function __construct(ProjectService $projectService) {
-    $this->projectService = $projectService;
-}
-
-public function handleRequest(): void {
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Origin: *');    
-    
-    $projects = $this->projectService->getAllProjects();
-    // Only return featured projects if ?featured=1 is passed
-    if (isset($_GET['featured']) && $_GET['featured'] === '1') {
-        $projects = array_values(
-            array_filter($projects, fn($p) => !empty($p['featured']) )
-        );
+    public function __construct(ProjectRepository $projectRepository)
+    {
+        $this->projectRepository = $projectRepository;
     }
 
-    echo json_encode(['status' => 'success', 'projects' => $projects]);
-    exit;
-    
+    public function handleRequest(): void
+    {
+        header('Content-Type: application/json');
+        header('Access-Control-Allow-Origin: *');
+
+        $projects = $this->projectRepository->getAllProjects();
+
+        // Filter to featured only when ?featured=1 is passed
+        if (isset($_GET['featured']) && $_GET['featured'] === '1') {
+            $projects = array_values(
+                array_filter($projects, fn($p) => !empty($p['featured']))
+            );
+        }
+
+        echo json_encode(['status' => 'success', 'projects' => $projects]);
+        exit;
     }
-
 }
-
