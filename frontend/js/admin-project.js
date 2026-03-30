@@ -208,6 +208,8 @@ function openDrawer(mode = 'create', projectData = null) {
   document.getElementById('drawer-save-label').textContent =
     mode === 'edit' ? 'Save changes' : 'Save project';
 
+  document.getElementById('drawer-save').disabled = false;
+
   populateDrawer(projectData);
   clearDrawerErrors();
 
@@ -230,7 +232,7 @@ function closeDrawer() {
 function populateDrawer(data) {
   document.getElementById('field-title').value       = data?.title       ?? '';
   document.getElementById('field-description').value = data?.description ?? '';
-  document.getElementById('field-live-url').value    = data?.live_url    ?? '';
+  document.getElementById('field-live-url').value    = data?.detail_url  ?? '';   // map detail_url to the "Live URL" field
   document.getElementById('field-github-url').value  = data?.github_url  ?? '';
   document.getElementById('field-featured').checked  = data?.featured    ?? false;
 
@@ -330,12 +332,12 @@ function validateDrawer() {
 
 function collectPayload() {
   return {
-    title:             document.getElementById('field-title').value.trim(),
-    description:       document.getElementById('field-description').value.trim(),
-    live_url:          document.getElementById('field-live-url').value.trim()   || null,
-    github_url:        document.getElementById('field-github-url').value.trim() || null,
-    featured:          document.getElementById('field-featured').checked,
-    tech_stack:        techStack,
+    title:        document.getElementById('field-title').value.trim(),
+    description:  document.getElementById('field-description').value.trim(),
+    detail_url:   document.getElementById('field-live-url').value.trim() || null,   // use detail_url, not live_url
+    github_url:   document.getElementById('field-github-url').value.trim() || null,
+    featured:     document.getElementById('field-featured').checked,
+    tech_stack:   techStack,
   };
 }
 
