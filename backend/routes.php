@@ -151,6 +151,11 @@ if (in_array($path, $db_routes)) {
     $userProfileController    = new UserProfileController($userRepository);
 }
 
+// ── Admin Guard ──────────────────────────────────────────────────────────────
+if (str_starts_with($path, '/admin') || str_starts_with($path, '/api/admin')) {
+    require_once __DIR__ . '/config/guard_user.php';
+}
+
 // ── Router ───────────────────────────────────────────────────────────────────
 
 switch ($path) {
@@ -191,6 +196,7 @@ switch ($path) {
     case '/auth/logout':
         session_unset();
         session_destroy();
+        setcookie('remember_token', '', time() - 3600, '/', '', true, true);
         header('Location: /auth/login?message=logged_out');
         exit;
     case '/auth/verify':
