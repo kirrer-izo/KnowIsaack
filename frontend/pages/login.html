@@ -41,82 +41,6 @@
       margin-bottom: var(--spacing-lg);
     }
 
-    /* Tabs */
-    .login-tabs {
-      display: flex;
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .login-tab {
-      flex: 1;
-      padding: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      font-family: var(--font-family);
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .login-tab.active {
-      background: var(--color-accent);
-      color: white;
-    }
-
-    .login-tab:hover:not(.active) {
-      background: var(--bg-card-hover, rgba(0,0,0,0.05));
-    }
-
-    /* Tab panels */
-    .tab-panel {
-      display: none;
-      animation: fadeIn 0.25s ease;
-    }
-
-    .tab-panel.active {
-      display: block;
-    }
-
-    /* GitHub button */
-    .btn-github {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: var(--spacing-md);
-      height: 48px;
-      background-color: #24292e;
-      color: white;
-      font-family: var(--font-family);
-      font-weight: 700;
-      font-size: 15px;
-      border: none;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      text-decoration: none;
-      transition: background-color 0.2s ease, transform 0.2s ease;
-    }
-
-    .btn-github:hover {
-      background-color: #1a1e22;
-      transform: translateY(-1px);
-      color: white;
-    }
-
-    .btn-github:active {
-      transform: translateY(0);
-    }
-
-    .btn-github i {
-      font-size: 20px;
-    }
-
     /* Form */
     .form-group {
       margin-bottom: var(--spacing-md);
@@ -257,12 +181,6 @@
       font-weight: 600;
     }
 
-        .github-info {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: var(--spacing-md);
-    }
-
     .login-options {
       display: flex;
       justify-content: space-between;
@@ -278,6 +196,32 @@
       font-size: 13px;
     }
 
+    /* Password toggle */
+    .password-wrapper {
+      position: relative;
+    }
+    .password-wrapper .form-input {
+      padding-right: 40px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 16px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .toggle-password:hover {
+      color: var(--color-accent);
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(4px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -287,187 +231,141 @@
 <body>
 <div class="mesh-gradient"></div>
 
-  <div class="login-wrapper">
-    <div class="login-card reveal is-visible">
+<div class="login-wrapper">
+  <div class="login-card reveal is-visible">
 
-      <span class="label">PORTFOLIO</span>
-      <h1>Welcome <span class="color-accent">Back</span></h1>
-      <p>Sign in to access the dashboard.</p>
+    <span class="label">PORTFOLIO</span>
+    <h1>Welcome <span class="color-accent">Back</span></h1>
+    <p>Sign in to access the dashboard.</p>
 
-      <!-- Tabs -->
-      <div class="login-tabs">
-        <button class="login-tab active" onclick="switchTab('github')">
-          <i class="fa-brands fa-github"></i> GitHub
-        </button>
-        <button class="login-tab" onclick="switchTab('email')">
-          <i class="fa-solid fa-envelope"></i> Email
-        </button>
+    <!-- Error and success messages -->
+    <div class="login-error" id="emailError"></div>
+    <div class="login-success" id="emailSuccess"></div>
+
+    <form action="/auth/login" method="POST">
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <div class="password-wrapper">
+          <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required>
+          <button type="button" class="toggle-password" aria-label="Show password">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- GitHub Tab -->
-      <div class="tab-panel active" id="tab-github">
-        <div class="login-error" id="githubError"></div>
-        <p class="github-info">
-          Admin access only. Sign in with the portfolio owner's GitHub account.
-        </p>
-        <a href="/auth/authorize" class="btn-github">
-          <i class="fa-brands fa-github"></i>
-          Continue with GitHub
-        </a>
+      <!-- Row for Remember me and Forgot password -->
+      <div class="login-options">
+        <label>
+          <input type="checkbox" name="remember" value="on">
+          <span>Remember me</span>
+        </label>
+        <a href="/auth/forgot-password" class="forgot-link">Forgot password?</a>
       </div>
 
-      <!-- Email Tab -->
-      <div class="tab-panel" id="tab-email">
-        <div class="login-error" id="emailError"></div>
-        <div class="login-success" id="emailSuccess"></div>
+      <button type="submit" class="btn-submit">Sign In</button>
+    </form>
 
-        <form action="/auth/login" method="POST">
-          <div class="form-group">
-            <label class="form-label" for="email">Email address</label>
-            <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="password">Password</label>
-            <div class="password-wrapper">
-              <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required>
-              <button type="button" class="toggle-password" aria-label="Show password">
-                <i class="fa-regular fa-eye"></i>
-              </button>
-            </div>
-          </div>
+    <p class="register-link">
+      Don't have an account? <a href="/auth/register">Register</a>
+    </p>
 
-          <!-- Row for Remember me and Forgot password -->
-          <div class="login-options">
-            <label>
-              <input type="checkbox" name="remember" value="on">
-              <span>Remember me</span>
-            </label>
-            <a href="/auth/forgot-password" class="forgot-link">Forgot password?</a>
-          </div>
+    <p class="login-divider">——</p>
 
-          <button type="submit" class="btn-submit">Sign In</button>
-        </form>
+    <a href="/" class="back-to-portfolio">
+      <i class="fa-solid fa-arrow-left"></i>
+      Back to portfolio
+    </a>
 
-        <p class="register-link">
-          Don't have an account? <a href="/auth/register">Register</a>
-        </p>
-      </div>
-
-      <p class="login-divider">——</p>
-
-      <a href="/" class="back-to-portfolio">
-        <i class="fa-solid fa-arrow-left"></i>
-        Back to portfolio
-      </a>
-
-    </div>
   </div>
+</div>
 
+<script>
+  // Handle query params
+  const params = new URLSearchParams(window.location.search);
+  const error = params.get('error');
+  const message = params.get('message');
 
-  <script>
-    function switchTab(tab) {
-      document.querySelectorAll('.login-tab').forEach((t, i) => {
-        t.classList.toggle('active', (tab === 'github' && i === 0) || (tab === 'email' && i === 1));
-      });
-      document.getElementById('tab-github').classList.toggle('active', tab === 'github');
-      document.getElementById('tab-email').classList.toggle('active', tab === 'email');
-    }
+  const errorMessages = {
+    missing_fields: 'Please fill in all fields.',
+    invalid_credentials: 'Invalid email or password.',
+    email_not_verified: 'Please verify your email address. Check your inbox for a verification link.',
+    no_token: 'No verification token provided.',
+    invalid_token: 'Invalid verification link.',
+    token_expired: 'Verification link has expired. Please register again.',
+    too_many_attempts: 'Too many attempts. Please try again later.',
+  };
 
-    // Handle query params
-    const params = new URLSearchParams(window.location.search);
-    const error = params.get('error');
-    const message = params.get('message');
+  const successMessages = {
+    registered: 'Account created successfully. Please check your email to verify your account.',
+    logged_out: 'You have been signed out.',
+    email_verified: 'Email verified successfully. You can now sign in.',
+    password_reset_sent: 'If an account exists with that email, we have sent a password reset link.',
+    password_reset_success: 'Password reset successfully. You can now sign in with your new password.',
+  };
 
-    const errorMessages = {
-      unauthorized: 'Access denied. This admin panel is restricted to the site owner.',
-      oauth_failed: 'GitHub login failed. Please try again.',
-      missing_fields: 'Please fill in all fields.',
-      invalid_credentials: 'Invalid email or password.',
-      email_not_verified: 'Please verify your email address. Check your inbox for a verification link.',
-      no_token: 'No verification token provided.',
-      invalid_token: 'Invalid verification link.',
-      token_expired: 'Verification link has expired. Please register again.',
-      too_many_attempts: 'Too many attempts. Please try again later.',
-    };
+  const errorEl = document.getElementById('emailError');
+  const successEl = document.getElementById('emailSuccess');
 
-    const successMessages = {
-      registered: 'Account created successfully. Please check your email to verify your account.',
-      logged_out: 'You have been signed out.',
-      email_verified: 'Email verified successfully. You can now sign in.',
-      password_reset_sent: 'If an account exists with that email, we have sent a password reset link.',
-      password_reset_success: 'Password reset successfully. You can now sign in with your new password.',
-    };
+  if (error && errorMessages[error]) {
+    errorEl.textContent = errorMessages[error];
+    errorEl.classList.add('visible');
+  }
 
-    if (error && errorMessages[error]) {
-      // Show on correct tab
-      if (error === 'unauthorized' || error === 'oauth_failed') {
-        document.getElementById('githubError').textContent = errorMessages[error];
-        document.getElementById('githubError').classList.add('visible');
-      } else {
-        switchTab('email');
-        document.getElementById('emailError').textContent = errorMessages[error];
-        document.getElementById('emailError').classList.add('visible');
+  if (message && successMessages[message]) {
+    successEl.textContent = successMessages[message];
+    successEl.classList.add('visible');
+
+    setTimeout(() => {
+      successEl.classList.remove('visible');
+    }, 4000);
+  } else if (message && !successMessages[message]) {
+    // Fallback for unknown messages
+    successEl.textContent = decodeURIComponent(message);
+    successEl.classList.add('visible');
+    setTimeout(() => {
+      successEl.classList.remove('visible');
+    }, 4000);
+  }
+
+  // Remove query params from URL after handling (optional)
+  window.history.replaceState({}, document.title, window.location.pathname);
+
+  // Handle form submission loading state
+  const loginForm = document.querySelector('form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+      const submitBtn = this.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
+        submitBtn.setAttribute('data-original-text', originalText);
       }
-    }
-
-    if (message && successMessages[message]) {
-      switchTab('email');
-      const successEl = document.getElementById('emailSuccess');
-      successEl.textContent = successMessages[message];
-      successEl.classList.add('visible');
-
-      setTimeout(() => {
-        successEl.classList.remove('visible');
-      }, 4000);
-    } else if (message && !successMessages[message]) {
-      // Fallback for unknown messages
-      switchTab('email');
-      const successEl = document.getElementById('emailSuccess');
-      successEl.textContent = decodeURIComponent(message);
-      successEl.classList.add('visible');
-
-      setTimeout(() => {
-        successEl.classList.remove('visible');
-      }, 4000);
-    }
-
-    // Optional: remove query params from URL after handling
-    window.history.replaceState({}, document.title, window.location.pathname);
-
-    // Handle form submission loading state
-  const loginForm = document.querySelector('#tab-email form');
-    if (loginForm) {
-      loginForm.addEventListener('submit', function(e) {
-        const submitBtn = this.querySelector('button[type="submit"]');
-        if (submitBtn) {
-          submitBtn.classList.add('loading');
-          submitBtn.disabled = true;
-          // Change button text
-          const originalText = submitBtn.innerHTML;
-          submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
-          // Store original text to restore if needed (though page will redirect)
-          submitBtn.setAttribute('data-original-text', originalText);
-        }
-      });
+    });
   }
 
   // Toggle password visibility
-document.querySelectorAll('.toggle-password').forEach(button => {
-  button.addEventListener('click', function() {
-    const input = this.closest('.password-wrapper').querySelector('input');
-    const icon = this.querySelector('i');
-    
-    if (input.type === 'password') {
-      input.type = 'text';
-      icon.classList.remove('fa-eye');
-      icon.classList.add('fa-eye-slash');
-    } else {
-      input.type = 'password';
-      icon.classList.remove('fa-eye-slash');
-      icon.classList.add('fa-eye');
-    }
+  document.querySelectorAll('.toggle-password').forEach(button => {
+    button.addEventListener('click', function() {
+      const input = this.closest('.password-wrapper').querySelector('input');
+      const icon = this.querySelector('i');
+      
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    });
   });
-});
-  </script>
+</script>
 </body>
 </html>
