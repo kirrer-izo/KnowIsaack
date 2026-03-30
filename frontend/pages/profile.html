@@ -109,15 +109,13 @@
                 </button>
               </div>
               <!-- Strength meter -->
-              <div class="pw-strength" id="pw-strength" style="display:none">
-                <div class="pw-strength__bars">
-                  <div class="pw-strength__bar" id="pw-bar-1"></div>
-                  <div class="pw-strength__bar" id="pw-bar-2"></div>
-                  <div class="pw-strength__bar" id="pw-bar-3"></div>
-                  <div class="pw-strength__bar" id="pw-bar-4"></div>
+                <div id="pw-strength" style="display:none; align-items:center; gap:4px; margin-top:6px;">
+                  <div id="pw-bar-1" style="height:4px;width:40px;border-radius:2px;transition:background 0.2s;"></div>
+                  <div id="pw-bar-2" style="height:4px;width:40px;border-radius:2px;transition:background 0.2s;"></div>
+                  <div id="pw-bar-3" style="height:4px;width:40px;border-radius:2px;transition:background 0.2s;"></div>
+                  <div id="pw-bar-4" style="height:4px;width:40px;border-radius:2px;transition:background 0.2s;"></div>
+                  <span id="pw-strength-label" style="font-size:12px;margin-left:6px;"></span>
                 </div>
-                <span class="pw-strength__label" id="pw-strength-label"></span>
-              </div>
             </div>
 
             <div class="profile-field">
@@ -145,5 +143,22 @@
 
   <script src="/frontend/js/admin-component.js"></script>
   <script src="/frontend/js/profile.js"></script>
+  <script src="/frontend/js/password-strength.js"></script>
+  <script>
+    initPasswordStrength('password', 'pw-bar', 'pw-strength-label', 'pw-strength');
+    const checkMatch = initConfirmPassword('password', 'confirm_password', 'matchLabel');
+
+    // In your form submit guard:
+    form.addEventListener('submit', (e) => {
+      if (scorePassword(document.getElementById('password').value) < 4) {
+        e.preventDefault();
+        // show error
+      }
+      if (!checkMatch()) {
+        e.preventDefault();
+        // show error
+      }
+    });
+  </script>
 </body>
 </html>
