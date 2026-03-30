@@ -3,417 +3,188 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Project — Isaack Muchoki</title>
-  <link rel="stylesheet" href="/css/main.css">
+  <title>Edit Project — KnowIsaack</title>
+  <link rel="stylesheet" href="/frontend/css/main.css">
+  <link rel="stylesheet" href="/frontend/css/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* ── Admin Navbar ─────────────────────────────────────────────────────── */
-    .admin-navbar {
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border-card);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .admin-nav-inner {
-      max-width: var(--container-width);
-      margin: 0 auto;
-      height: 70px;
-      padding: 0 var(--spacing-lg);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .admin-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--text-primary);
-    }
-
-    .admin-logo i { color: var(--color-accent); }
-
-    .admin-badge {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      background: var(--color-primary-100);
-      color: var(--color-accent);
-      padding: 2px 8px;
-      border-radius: 999px;
-      margin-left: var(--spacing-sm);
-    }
-
-    .btn-logout {
-      font-size: 13px;
-      color: var(--text-muted);
-      background: none;
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-logout:hover { color: red; border-color: red; }
-
-    /* ── Main Layout ──────────────────────────────────────────────────────── */
-    .admin-main {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: var(--spacing-xl) var(--spacing-lg);
-    }
-
-    .page-header {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .page-header h1 {
-      font-size: 32px;
-      margin-bottom: 0;
-    }
-
-    .back-btn {
-      color: var(--text-muted);
-      font-size: 14px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-      white-space: nowrap;
-    }
-
-    .back-btn:hover { color: var(--color-accent); }
-
-    /* ── Form Card ────────────────────────────────────────────────────────── */
-    .form-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      padding: var(--spacing-xl);
-    }
-
-    .form-group {
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-bottom: var(--spacing-sm);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .form-group input[type="text"],
-    .form-group input[type="url"],
-    .form-group textarea {
-      width: 100%;
-      padding: var(--spacing-md);
-      border: 1.5px solid var(--color-neutral-200);
-      border-radius: var(--radius-sm);
-      font-size: 15px;
-      font-family: inherit;
-      color: var(--text-primary);
-      background: var(--bg-card);
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--color-accent);
-      box-shadow: var(--shadow-md);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .form-hint {
-      display: block;
-      margin-top: 6px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    /* ── Tag Input ────────────────────────────────────────────────────────── */
-    .tag-input-wrapper {
-      border: 1.5px solid var(--color-neutral-200);
-      border-radius: var(--radius-sm);
-      padding: 8px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      cursor: text;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      min-height: 50px;
-      align-items: center;
-    }
-
-    .tag-input-wrapper:focus-within {
-      border-color: var(--color-accent);
-      box-shadow: var(--shadow-md);
-    }
-
-    .tag-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--color-primary-100);
-      color: var(--color-accent);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 999px;
-    }
-
-    .tag-remove {
-      background: none;
-      border: none;
-      color: var(--color-accent);
-      cursor: pointer;
-      font-size: 14px;
-      padding: 0;
-      line-height: 1;
-      opacity: 0.6;
-      transition: opacity 0.2s;
-    }
-
-    .tag-remove:hover { opacity: 1; }
-
-    .tag-text-input {
-      border: none;
-      outline: none;
-      font-size: 14px;
-      font-family: inherit;
-      color: var(--text-primary);
-      flex: 1;
-      min-width: 140px;
-      background: transparent;
-      padding: 4px 0;
-    }
-
-    /* ── Checkbox ─────────────────────────────────────────────────────────── */
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .checkbox-row input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--color-accent);
-      cursor: pointer;
-    }
-
-    .checkbox-row label {
-      margin-bottom: 0;
-      text-transform: none;
-      letter-spacing: 0;
-      font-size: 15px;
-      color: var(--text-body);
-      cursor: pointer;
-    }
-
-    /* ── Form Actions ─────────────────────────────────────────────────────── */
-    .form-actions {
-      display: flex;
-      gap: var(--spacing-md);
-      align-items: center;
-      margin-top: var(--spacing-lg);
-      padding-top: var(--spacing-lg);
-      border-top: 1px solid var(--border-card);
-    }
-
-    .btn-cancel {
-      color: var(--text-muted);
-      background: none;
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: var(--spacing-md);
-      height: 48px;
-      font-size: 14px;
-      font-weight: 600;
-      font-family: var(--font-family);
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-
-    .btn-cancel:hover {
-      border-color: var(--text-muted);
-      color: var(--text-primary);
-    }
-
-    /* ── Toast ────────────────────────────────────────────────────────────── */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      padding: var(--spacing-md) var(--spacing-lg);
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-weight: 600;
-      box-shadow: var(--shadow-md);
-      z-index: 9999;
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .toast.success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
-    .toast.error   { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-  </style>
 </head>
 <body>
 
-  <!-- Admin Navbar -->
-  <nav class="admin-navbar">
-    <div class="admin-nav-inner">
-      <div style="display:flex;align-items:center">
-        <div class="admin-logo">
-          <i class="fa-solid fa-layer-group"></i>
-          kirrer
+  <div id="admin-navbar-placeholder"></div>
+
+  <div class="admin-page admin-page--narrow">
+
+    <!-- Page header -->
+    <div class="admin-page-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <a href="/admin/projects" class="admin-back-link">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <div>
+          <h1 class="admin-page-title" id="page-title">Add project</h1>
+          <p class="admin-page-subtitle" id="page-subtitle">Fill in the details below</p>
         </div>
-        <span class="admin-badge">Admin</span>
       </div>
-      <a href="/portfolio/auth/logout" class="btn-logout">
-        <i class="fa-solid fa-right-from-bracket"></i> Logout
-      </a>
-    </div>
-  </nav>
-
-  <!-- Main Content -->
-  <main class="admin-main">
-
-    <div class="page-header">
-      <a href="/portfolio/admin" class="back-btn">
-        <i class="fa-solid fa-arrow-left"></i> Back
-      </a>
-      <h1 id="pageTitle">Add Project</h1>
     </div>
 
-    <div class="form-card">
-      <form id="projectForm">
-        <input type="hidden" id="projectId">
+    <form id="projectForm" novalidate>
+      <input type="hidden" id="projectId">
 
-        <!-- Title -->
-        <div class="form-group">
-          <label for="title">Project Title *</label>
-          <input type="text" id="title" placeholder="e.g. Live Your Books" required>
-        </div>
-
-        <!-- Description -->
-        <div class="form-group">
-          <label for="description">Description *</label>
-          <textarea id="description" placeholder="Describe what the project does and why you built it..." required></textarea>
-        </div>
-
-        <!-- Tech Stack -->
-        <div class="form-group">
-          <label>Tech Stack *</label>
-          <div class="tag-input-wrapper" id="tagWrapper">
-            <input type="text" class="tag-text-input" id="tagInput" placeholder="Type a technology and press Enter...">
-          </div>
-          <span class="form-hint">Press Enter or comma after each technology — e.g. React, Laravel, MySQL</span>
-        </div>
-
-        <!-- GitHub URL -->
-        <div class="form-group">
-          <label for="githubUrl">GitHub URL</label>
-          <input type="url" id="githubUrl" placeholder="https://github.com/kirrer-izo/...">
-        </div>
-
-        <!-- Live URL -->
-        <div class="form-group">
-          <label for="liveUrl">Live URL</label>
-          <input type="url" id="liveUrl" placeholder="https://yourproject.com">
-        </div>
-
-        <!-- Detail Page URL -->
-        <div class="form-group">
-          <label for="detailUrl">Detail Page URL</label>
-          <input type="text" id="detailUrl" placeholder="/live-your-books">
-          <span class="form-hint">Internal path to this project's detail page on your portfolio</span>
-        </div>
-
-        <!-- Featured -->
-        <div class="form-group">
-          <div class="checkbox-row">
-            <input type="checkbox" id="featured">
-            <label for="featured">Feature this project on the homepage</label>
+      <!-- Title + Featured row -->
+      <div class="admin-card" style="margin-bottom:10px">
+        <div class="admin-card__header">
+          <div class="admin-card__title">
+            <i class="fa-solid fa-circle-info admin-card__title-icon"></i>
+            Basic details
           </div>
         </div>
+        <div class="admin-card__body">
 
-        <!-- Actions -->
-        <div class="form-actions">
-          <button type="submit" class="btn-primary" id="submitBtn">
-            <i class="fa-solid fa-floppy-disk"></i>&nbsp; Save Project
-          </button>
-          <a href="/portfolio/admin" class="btn-cancel">
-            <i class="fa-solid fa-xmark"></i> Cancel
-          </a>
+          <div class="profile-field" style="margin-bottom:1rem">
+            <label class="profile-label" for="title">Project title <span class="edit-required">*</span></label>
+            <input type="text" id="title" class="profile-input" placeholder="e.g. Live Your Books" required>
+            <p class="edit-error" id="err-title"></p>
+          </div>
+
+          <div class="profile-field" style="margin-bottom:1rem">
+            <label class="profile-label" for="description">Description <span class="edit-required">*</span></label>
+            <textarea id="description" class="profile-input edit-textarea" placeholder="Describe what the project does and why you built it…" required></textarea>
+            <p class="edit-error" id="err-description"></p>
+          </div>
+
+          <div class="profile-field">
+            <label class="profile-label">
+              <input type="checkbox" id="featured" class="edit-checkbox">
+              Feature on homepage
+            </label>
+            <p class="edit-hint">Featured projects are pinned to the top of your public portfolio.</p>
+          </div>
+
         </div>
+      </div>
 
-      </form>
+      <!-- Tech stack -->
+      <div class="admin-card" style="margin-bottom:10px">
+        <div class="admin-card__header">
+          <div class="admin-card__title">
+            <i class="fa-solid fa-tags admin-card__title-icon"></i>
+            Tech stack <span class="edit-required">*</span>
+          </div>
+        </div>
+        <div class="admin-card__body">
+          <div class="edit-tag-wrap" id="tagWrapper">
+            <input
+              type="text"
+              class="edit-tag-input"
+              id="tagInput"
+              placeholder="Type a technology and press Enter…"
+              autocomplete="off"
+            >
+          </div>
+          <p class="edit-hint" style="margin-top:6px">Press Enter or comma after each technology — e.g. React, PHP, PostgreSQL</p>
+          <p class="edit-error" id="err-tech"></p>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div class="admin-card" style="margin-bottom:10px">
+        <div class="admin-card__header">
+          <div class="admin-card__title">
+            <i class="fa-solid fa-link admin-card__title-icon"></i>
+            Links
+          </div>
+        </div>
+        <div class="admin-card__body">
+          <div class="profile-form-grid" style="margin-bottom:0">
+
+            <div class="profile-field">
+              <label class="profile-label" for="githubUrl">GitHub URL</label>
+              <input type="url" id="githubUrl" class="profile-input" placeholder="https://github.com/kirrer-izo/…">
+            </div>
+
+            <div class="profile-field">
+              <label class="profile-label" for="liveUrl">Live URL</label>
+              <input type="url" id="liveUrl" class="profile-input" placeholder="https://yourproject.com">
+            </div>
+
+            <div class="profile-field" style="grid-column:1/-1">
+              <label class="profile-label" for="detailUrl">Detail page path</label>
+              <input type="text" id="detailUrl" class="profile-input" placeholder="/live-your-books">
+              <p class="edit-hint">Internal path to this project's detail page on your portfolio.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Form actions -->
+      <div class="profile-form-actions" style="padding-top:.25rem">
+        <button type="submit" class="admin-btn-primary" id="submitBtn">
+          <i class="fa-solid fa-floppy-disk"></i>
+          Save project
+        </button>
+        <a href="/admin/projects" class="admin-btn-ghost">Cancel</a>
+        <!-- Delete button — only shown when editing -->
+        <button
+          type="button"
+          class="admin-btn-danger"
+          id="deleteBtn"
+          style="display:none;margin-left:auto"
+        >
+          <i class="fa-solid fa-trash"></i> Delete project
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Delete confirm modal -->
+  <div class="admin-modal-overlay" id="delete-modal" style="display:none">
+    <div class="admin-modal">
+      <div class="admin-modal__icon admin-modal__icon--danger">
+        <i class="fa-solid fa-trash"></i>
+      </div>
+      <h2 class="admin-modal__title">Delete project?</h2>
+      <p class="admin-modal__body" id="delete-modal-body">
+        This will permanently remove the project. This action cannot be undone.
+      </p>
+      <div class="admin-modal__actions">
+        <button class="admin-btn-ghost" id="delete-cancel">Cancel</button>
+        <button class="admin-btn-danger" id="delete-confirm">
+          <i class="fa-solid fa-trash"></i> Delete
+        </button>
+      </div>
     </div>
-  </main>
+  </div>
 
-  <div class="toast" id="toast"></div>
+  <!-- Toast -->
+  <div id="toast" class="admin-toast" role="alert" aria-live="polite"></div>
 
+  <script src="/frontend/js/admin-component.js"></script>
   <script>
-    // ── State ────────────────────────────────────────────────────────────────
-    let techStack = [];
+    // ── State ─────────────────────────────────────────────────────────────────
+    let techStack   = [];
+    let projectId   = null;
 
-    // ── Auth Check ───────────────────────────────────────────────────────────
-    async function checkSession() {
-      try {
-        const res = await fetch('/portfolio/api/session');
-        if (res.status === 401) {
-          window.location.href = '/portfolio/auth/login';
-          return false;
-        }
-        return true;
-      } catch {
-        window.location.href = '/portfolio/auth/login';
-        return false;
-      }
+    // ── Toast ─────────────────────────────────────────────────────────────────
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className   = `admin-toast admin-toast--${type} admin-toast--visible`;
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('admin-toast--visible'), 3500);
     }
 
-    // ── Tag Input ────────────────────────────────────────────────────────────
+    // ── Tag input ─────────────────────────────────────────────────────────────
     const tagInput   = document.getElementById('tagInput');
     const tagWrapper = document.getElementById('tagWrapper');
 
     tagWrapper.addEventListener('click', () => tagInput.focus());
 
-    tagInput.addEventListener('keydown', (e) => {
+    tagInput.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ',') {
         e.preventDefault();
         addTag(tagInput.value.trim().replace(/,/g, ''));
       }
-      // Backspace on empty input removes last tag
       if (e.key === 'Backspace' && tagInput.value === '' && techStack.length > 0) {
         removeTag(techStack[techStack.length - 1]);
       }
@@ -432,61 +203,86 @@
     }
 
     function renderTags() {
-      tagWrapper.querySelectorAll('.tag-item').forEach(el => el.remove());
+      tagWrapper.querySelectorAll('.edit-tag-pill').forEach(el => el.remove());
       techStack.forEach(tag => {
-        const el = document.createElement('span');
-        el.className = 'tag-item';
-        el.innerHTML = `${tag}<button type="button" class="tag-remove" onclick="removeTag('${tag.replace(/'/g, "\\'")}')">×</button>`;
-        tagWrapper.insertBefore(el, tagInput);
+        const pill = document.createElement('span');
+        pill.className = 'edit-tag-pill badge badge--blue';
+        pill.innerHTML = `${escapeHtml(tag)}<button type="button" class="edit-tag-remove" aria-label="Remove ${escapeHtml(tag)}">×</button>`;
+        pill.querySelector('.edit-tag-remove').addEventListener('click', () => removeTag(tag));
+        tagWrapper.insertBefore(pill, tagInput);
       });
     }
 
     // ── Load project for editing ──────────────────────────────────────────────
-    async function loadProjectForEdit(id) {
+    async function loadProject(id) {
       try {
-        const res  = await fetch('/portfolio/api/projects');
+        const res  = await fetch(`/api/admin/projects/${id}`);
         const data = await res.json();
-        const project = (data.projects ?? []).find(p => p.id === parseInt(id));
 
-        if (!project) {
-          showToast('Project not found.', 'error');
+        if (!res.ok || data.status !== 'success') {
+          showToast('Project not found', 'error');
           return;
         }
 
-        document.getElementById('pageTitle').textContent   = 'Edit Project';
-        document.getElementById('projectId').value         = project.id;
-        document.getElementById('title').value             = project.title;
-        document.getElementById('description').value       = project.description;
-        document.getElementById('githubUrl').value         = project.github_url  ?? '';
-        document.getElementById('liveUrl').value           = project.live_url    ?? '';
-        document.getElementById('detailUrl').value         = project.detail_url  ?? '';
-        document.getElementById('featured').checked        = project.featured    ?? false;
+        const p = data.data;
+        projectId = p.id;
 
-        techStack = project.tech_stack ?? [];
+        document.getElementById('page-title').textContent    = 'Edit project';
+        document.getElementById('page-subtitle').textContent = `Editing: ${p.title}`;
+        document.getElementById('projectId').value           = p.id;
+        document.getElementById('title').value               = p.title;
+        document.getElementById('description').value         = p.description;
+        document.getElementById('githubUrl').value           = p.github_url  ?? '';
+        document.getElementById('liveUrl').value             = p.live_url    ?? '';
+        document.getElementById('detailUrl').value           = p.detail_url  ?? '';
+        document.getElementById('featured').checked          = !!p.featured;
+
+        techStack = Array.isArray(p.tech_stack) ? p.tech_stack : [];
         renderTags();
-      } catch {
-        showToast('Failed to load project.', 'error');
+
+        // Show delete button when editing
+        document.getElementById('deleteBtn').style.display = 'inline-flex';
+
+      } catch (err) {
+        console.error(err);
+        showToast('Failed to load project', 'error');
       }
     }
 
-    // ── Form Submission ───────────────────────────────────────────────────────
-    document.getElementById('projectForm').addEventListener('submit', async (e) => {
+    // ── Form submission ───────────────────────────────────────────────────────
+    document.getElementById('projectForm').addEventListener('submit', async e => {
       e.preventDefault();
 
-      if (techStack.length === 0) {
-        showToast('Please add at least one technology.', 'error');
-        return;
+      // Clear previous errors
+      ['err-title', 'err-description', 'err-tech'].forEach(id => {
+        document.getElementById(id).textContent = '';
+      });
+
+      const title       = document.getElementById('title').value.trim();
+      const description = document.getElementById('description').value.trim();
+      let   valid       = true;
+
+      if (!title) {
+        document.getElementById('err-title').textContent = 'Title is required';
+        valid = false;
       }
+      if (!description) {
+        document.getElementById('err-description').textContent = 'Description is required';
+        valid = false;
+      }
+      if (techStack.length === 0) {
+        document.getElementById('err-tech').textContent = 'Add at least one technology';
+        valid = false;
+      }
+      if (!valid) return;
 
-      const id        = document.getElementById('projectId').value;
-      const submitBtn = document.getElementById('submitBtn');
-
-      submitBtn.disabled  = true;
-      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Saving...';
+      const btn = document.getElementById('submitBtn');
+      btn.disabled  = true;
+      btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" style="font-size:11px"></i> Saving…';
 
       const payload = {
-        title:       document.getElementById('title').value.trim(),
-        description: document.getElementById('description').value.trim(),
+        title,
+        description,
         tech_stack:  techStack,
         github_url:  document.getElementById('githubUrl').value.trim(),
         live_url:    document.getElementById('liveUrl').value.trim(),
@@ -494,48 +290,90 @@
         featured:    document.getElementById('featured').checked,
       };
 
-      // Only include id if editing an existing project
-      if (id) payload.id = id;
+      const isEdit  = !!projectId;
+      const url     = isEdit ? `/api/admin/projects/${projectId}` : '/api/admin/projects';
+      const method  = isEdit ? 'PUT' : 'POST';
 
       try {
-        const res  = await fetch('/portfolio/api/projects', {
-          method:  'POST',
+        const res  = await fetch(url, {
+          method,
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify(payload),
         });
         const data = await res.json();
 
-        if (data.status === 'success') {
-          showToast('Project saved!', 'success');
-          setTimeout(() => { window.location.href = '/portfolio/admin'; }, 1200);
+        if (res.ok && data.status === 'success') {
+          showToast(isEdit ? 'Project updated!' : 'Project created!', 'success');
+          setTimeout(() => { window.location.href = '/admin/projects'; }, 1200);
         } else {
-          showToast(data.message ?? 'Save failed.', 'error');
+          showToast(data.message ?? 'Save failed', 'error');
         }
-      } catch {
+      } catch (err) {
+        console.error(err);
         showToast('Network error. Please try again.', 'error');
       } finally {
-        submitBtn.disabled  = false;
-        submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i>&nbsp; Save Project';
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save project';
       }
     });
 
-    // ── Toast ─────────────────────────────────────────────────────────────────
-    function showToast(message, type = 'success') {
-      const toast         = document.getElementById('toast');
-      toast.textContent   = message;
-      toast.className     = `toast ${type}`;
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 3500);
+    // ── Delete modal ──────────────────────────────────────────────────────────
+    document.getElementById('deleteBtn').addEventListener('click', () => {
+      const title = document.getElementById('title').value || 'this project';
+      document.getElementById('delete-modal-body').textContent =
+        `"${title}" will be permanently removed. This action cannot be undone.`;
+      document.getElementById('delete-modal').style.display = 'flex';
+    });
+
+    document.getElementById('delete-cancel').addEventListener('click', () => {
+      document.getElementById('delete-modal').style.display = 'none';
+    });
+
+    document.getElementById('delete-modal').addEventListener('click', e => {
+      if (e.target === e.currentTarget) e.currentTarget.style.display = 'none';
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.getElementById('delete-modal').style.display = 'none';
+    });
+
+    document.getElementById('delete-confirm').addEventListener('click', async () => {
+      if (!projectId) return;
+
+      const btn = document.getElementById('delete-confirm');
+      btn.disabled  = true;
+      btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Deleting…';
+
+      try {
+        const res  = await fetch(`/api/admin/projects/${projectId}`, { method: 'DELETE' });
+        const data = await res.json();
+
+        if (res.ok) {
+          showToast('Project deleted', 'success');
+          setTimeout(() => { window.location.href = '/admin/projects'; }, 1000);
+        } else {
+          showToast(data.message ?? 'Delete failed', 'error');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Network error', 'error');
+      } finally {
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
+      }
+    });
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function escapeHtml(str) {
+      if (str == null) return '';
+      return String(str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
     // ── Init ──────────────────────────────────────────────────────────────────
-    (async () => {
-      const ok = await checkSession();
-      if (!ok) return;
-
-      const id = new URLSearchParams(window.location.search).get('id');
-      if (id) await loadProjectForEdit(id);
-    })();
+    const editId = new URLSearchParams(window.location.search).get('id');
+    if (editId) loadProject(parseInt(editId));
   </script>
 </body>
 </html>

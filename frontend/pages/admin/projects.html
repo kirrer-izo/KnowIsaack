@@ -3,221 +3,332 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Projects</title>
-  <link rel="stylesheet" href="/css/main.css">
+  <title>Admin — Projects · KnowIsaack</title>
+  <link rel="stylesheet" href="/frontend/css/main.css">
+  <link rel="stylesheet" href="/frontend/css/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    /* Copy the same CSS from users.html – adjust if needed */
-    .projects-container {
-      max-width: var(--container-width);
-      margin: 0 auto;
-      padding: var(--spacing-lg);
+    /* ── Project drawer — only what admin.css doesn't already cover ── */
+
+    /* Wider than the user drawer (400px) to fit the project form */
+    .project-drawer { width: 520px; }
+
+    /* Scrollable body nicety */
+    .user-drawer__body::-webkit-scrollbar { width: 4px; }
+    .user-drawer__body::-webkit-scrollbar-track { background: transparent; }
+    .user-drawer__body::-webkit-scrollbar-thumb {
+      background: var(--admin-border);
+      border-radius: 4px;
     }
-    .projects-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--spacing-lg);
-    }
-    .btn-add {
-      background: var(--color-accent);
-      color: white;
-      border: none;
-      border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-    }
-    .filters {
-      display: flex;
-      gap: var(--spacing-md);
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: var(--spacing-lg);
-    }
-    .search-input {
-      width: 250px;
-      height: 36px;
-      padding: 0 var(--spacing-md);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-    }
-    .filter-select {
-      height: 36px;
-      padding: 0 var(--spacing-md);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      background: var(--bg-card);
-    }
-    .btn-export {
-      background: var(--color-neutral-100);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-export:hover {
-      background: var(--color-neutral-200);
-    }
-    .table-container {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-md);
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: var(--spacing-md);
-      text-align: left;
-      border-bottom: 1px solid var(--border-card);
-    }
-    th {
-      background: var(--color-neutral-100);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    td {
-      font-size: 14px;
-      color: var(--text-body);
-    }
-    .tech-stack-cell {
-      max-width: 200px;
-      white-space: normal;
-      word-break: break-word;
-    }
-    .actions {
-      display: flex;
-      gap: 8px;
-    }
-    .btn-edit {
-      background: none;
-      border: none;
-      color: var(--color-accent);
-      cursor: pointer;
-      font-size: 13px;
-      text-decoration: none;
-    }
-    .btn-edit:hover {
-      text-decoration: underline;
-    }
-    .btn-delete {
-      background: none;
-      border: none;
-      color: #ef4444;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    .btn-delete:hover {
-      text-decoration: underline;
-    }
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: var(--spacing-md);
-      margin-top: var(--spacing-lg);
-    }
-    .pagination button {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      cursor: pointer;
-    }
-    .pagination button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: var(--spacing-md) var(--spacing-lg);
-      border-radius: var(--radius-sm);
+
+    /* Section divider labels */
+    .drawer-section {
+      font-size: 11px;
       font-weight: 600;
-      z-index: 9999;
-      display: none;
-      animation: fadeIn 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--admin-text3);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--admin-border);
+      margin: 0 0 14px;
     }
-    .toast.success {
-      background: #d1fae5;
-      color: #065f46;
-      border: 1px solid #a7f3d0;
+
+    /* Two-column row */
+    .drawer-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
     }
-    .toast.error {
-      background: #fee2e2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
+
+    /* Tag chip rendered inside .edit-tag-wrap */
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--admin-bg2);
+      border: 1px solid var(--admin-border);
+      border-radius: 5px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--admin-text);
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .tag-chip__remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      color: var(--admin-text3);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
     }
+    .tag-chip__remove:hover { color: var(--admin-red); }
+
+    /* Featured toggle */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border: 1px solid var(--admin-border);
+      border-radius: var(--admin-radius-sm);
+      background: var(--admin-bg2);
+    }
+    .toggle-label { font-size: 13px; font-weight: 500; color: var(--admin-text); margin: 0; }
+    .toggle-desc  { font-size: 12px; color: var(--admin-text3); margin: 2px 0 0; }
+    .toggle-switch {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--admin-bg3);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-track::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    }
+    .toggle-switch input:checked + .toggle-track { background: var(--admin-blue); }
+    .toggle-switch input:checked + .toggle-track::before { transform: translateX(18px); }
+
+    /* Character counter */
+    .char-counter {
+      font-size: 11px;
+      color: var(--admin-text3);
+    }
+    .char-counter.is-warn { color: var(--admin-amber); }
+    .char-counter.is-over { color: var(--admin-red); }
   </style>
 </head>
 <body>
+
   <div id="admin-navbar-placeholder"></div>
 
-  <div class="projects-container">
-    <div class="projects-header">
-      <h1>Manage Projects</h1>
-      <a href="/admin/edit" class="btn-add">
-        <i class="fa-solid fa-plus"></i> Add Project
-      </a>
+  <div class="admin-page">
+
+    <!-- Page header -->
+    <div class="admin-page-header">
+      <div>
+        <h1 class="admin-page-title">Projects</h1>
+        <p class="admin-page-subtitle">Manage your portfolio projects</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="admin-btn-secondary" id="export-csv">
+          <i class="fa-solid fa-download"></i>
+          Export CSV
+        </button>
+        <button class="admin-btn-primary" id="open-create-drawer">
+          <i class="fa-solid fa-plus"></i>
+          Add project
+        </button>
+      </div>
     </div>
 
-    <div class="filters">
-      <input type="text" id="search-input" class="search-input" placeholder="Search by title or description...">
-      <select id="featured-filter" class="filter-select">
-        <option value="all">All projects</option>
-        <option value="featured">Featured only</option>
-        <option value="not-featured">Not featured</option>
-      </select>
-      <button class="btn-export" id="export-csv">
-        <i class="fa-solid fa-download"></i> Export CSV
-      </button>
-    </div>
+    <!-- Main card -->
+    <div class="admin-card">
 
-    <div class="table-container">
-      <table id="projects-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Tech Stack</th>
-            <th>Featured</th>
-            <th>Created At</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="projects-table-body">
-          <tr><td colspan="7" style="text-align: center;">Loading projects...</td></tr>
-        </tbody>
-      </table>
-    </div>
+      <!-- Filters row -->
+      <div class="admin-filters">
+        <div class="admin-search-wrap">
+          <i class="fa-solid fa-magnifying-glass admin-search__icon"></i>
+          <input
+            type="text"
+            id="search-input"
+            class="admin-search__input"
+            placeholder="Search by title or description…"
+          >
+        </div>
+        <select id="featured-filter" class="admin-select">
+          <option value="all">All projects</option>
+          <option value="featured">Featured only</option>
+          <option value="not-featured">Not featured</option>
+        </select>
+        <div class="admin-filter-meta" id="results-meta"></div>
+      </div>
 
-    <div class="pagination" id="pagination-controls">
-      <button id="prev-page" disabled>Previous</button>
-      <span id="page-info">Page 1 of 1</span>
-      <button id="next-page" disabled>Next</button>
+      <!-- Table -->
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="projects-table">
+          <thead>
+            <tr>
+              <th style="width:48px">#</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Tech stack</th>
+              <th style="width:100px">Status</th>
+              <th style="width:130px">Created</th>
+              <th style="width:100px"></th>
+            </tr>
+          </thead>
+          <tbody id="projects-table-body">
+            <tr>
+              <td colspan="7" class="admin-table__loading">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> Loading projects…
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="admin-pagination">
+        <button class="admin-pagination__btn" id="prev-page" disabled>
+          <i class="fa-solid fa-chevron-left"></i> Previous
+        </button>
+        <span class="admin-pagination__info" id="page-info">Page 1 of 1</span>
+        <button class="admin-pagination__btn" id="next-page" disabled>
+          Next <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <div id="toast" class="toast"></div>
+  <!-- ── Project Drawer ──────────────────────────────────────── -->
+  <div class="user-drawer-overlay" id="drawer-overlay"></div>
 
-  <script src="../../js/admin-component.js"></script>
-  <script src="../../js/admin-project.js"></script>
+  <aside
+    class="user-drawer project-drawer"
+    id="project-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Project form"
+  >
+    <!-- Header -->
+    <div class="user-drawer__header">
+      <div>
+        <p class="user-drawer__title"   id="drawer-title">Add project</p>
+        <p class="user-drawer__subtitle" id="drawer-subtitle">Fill in the details below</p>
+      </div>
+      <button class="user-drawer__close" id="drawer-close" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="user-drawer__body">
+
+      <!-- ── Basic info ──────────────────────────────────── -->
+      <p class="drawer-section">Basic info</p>
+
+      <div class="profile-field" style="margin-bottom:14px">
+        <label class="profile-label" for="field-title">
+          Title <span class="edit-required">*</span>
+        </label>
+        <input type="text" id="field-title" class="profile-input" placeholder="e.g. Portfolio Website" maxlength="120">
+        <span class="edit-error" id="err-title" style="display:none">Title is required.</span>
+      </div>
+
+      <div class="profile-field" style="margin-bottom:20px">
+        <label class="profile-label" for="field-description">Full description</label>
+        <textarea id="field-description" class="profile-input edit-textarea" placeholder="Detailed write-up: what it does, challenges solved…" maxlength="2000" style="min-height:100px"></textarea>
+        <div style="display:flex;justify-content:flex-end;margin-top:4px">
+          <span class="char-counter" id="counter-description">0 / 2000</span>
+        </div>
+      </div>
+
+      <!-- ── Links ───────────────────────────────────────── -->
+      <p class="drawer-section">Links</p>
+
+      <div class="drawer-row-2" style="margin-bottom:14px">
+        <div class="profile-field">
+          <label class="profile-label" for="field-live-url">Live URL</label>
+          <input type="url" id="field-live-url" class="profile-input" placeholder="https://…">
+          <span class="edit-error" id="err-live-url" style="display:none">Enter a valid URL.</span>
+        </div>
+        <div class="profile-field">
+          <label class="profile-label" for="field-github-url">GitHub URL</label>
+          <input type="url" id="field-github-url" class="profile-input" placeholder="https://github.com/…">
+          <span class="edit-error" id="err-github-url" style="display:none">Enter a valid URL.</span>
+        </div>
+      </div>
+
+<!-- ── Tech stack ──────────────────────────────────── -->
+      <p class="drawer-section">Tech stack</p>
+
+      <div class="profile-field" style="margin-bottom:20px">
+        <label class="profile-label">Technologies</label>
+        <div class="edit-tag-wrap" id="tag-wrap">
+          <!-- chips injected here by JS -->
+          <input
+            type="text"
+            id="tag-input"
+            class="edit-tag-input"
+            placeholder="Type a tech and press Enter…"
+            maxlength="40"
+          >
+        </div>
+        <p class="edit-hint">Press <kbd>Enter</kbd> or <kbd>,</kbd> to add. Click × to remove.</p>
+      </div>
+
+      <!-- ── Settings ────────────────────────────────────── -->
+      <p class="drawer-section">Settings</p>
+
+      <div class="toggle-row" style="margin-bottom:14px">
+        <div>
+          <p class="toggle-label">Featured project</p>
+          <p class="toggle-desc">Shown prominently on the public portfolio</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="field-featured">
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+
+<!-- ── Actions (inside body, scrolls naturally) ────── -->
+      <div class="user-drawer__actions">
+        <button class="admin-btn-primary" id="drawer-save" style="flex:1;justify-content:center">
+          <i class="fa-solid fa-floppy-disk"></i>
+          <span id="drawer-save-label">Save project</span>
+        </button>
+        <button class="admin-btn-ghost" id="drawer-cancel">Cancel</button>
+      </div>
+
+    </div><!-- /.user-drawer__body -->
+  </aside>
+
+  <!-- Delete confirm modal -->
+  <div class="admin-modal-overlay" id="delete-modal" style="display:none">
+    <div class="admin-modal">
+      <div class="admin-modal__icon admin-modal__icon--danger">
+        <i class="fa-solid fa-trash"></i>
+      </div>
+      <h2 class="admin-modal__title">Delete project?</h2>
+      <p class="admin-modal__body" id="delete-modal-body">
+        This will permanently remove the project. This action cannot be undone.
+      </p>
+      <div class="admin-modal__actions">
+        <button class="admin-btn-ghost" id="delete-cancel">Cancel</button>
+        <button class="admin-btn-danger" id="delete-confirm">
+          <i class="fa-solid fa-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="admin-toast" role="alert" aria-live="polite"></div>
+
+  <script src="/frontend/js/admin-component.js"></script>
+  <script src="/frontend/js/admin-project.js"></script>
 </body>
 </html>

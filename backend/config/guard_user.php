@@ -8,6 +8,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
 if (empty($_SESSION['github_user']) && empty($_SESSION['db_user'])) {
     http_response_code(401);
-    header('Location: /auth/login.html');
+    header('Location: /auth/login');
     exit;
 }

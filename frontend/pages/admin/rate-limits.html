@@ -3,194 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Rate Limits</title>
-  <link rel="stylesheet" href="/css/main.css">
+  <title>Admin — Rate Limits · KnowIsaack</title>
+  <link rel="stylesheet" href="/frontend/css/main.css">
+  <link rel="stylesheet" href="/frontend/css/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    .rate-limits-container {
-      max-width: var(--container-width);
-      margin: 0 auto;
-      padding: var(--spacing-lg);
-    }
-    .rate-limits-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--spacing-lg);
-    }
-    .filters {
-      display: flex;
-      gap: var(--spacing-md);
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: var(--spacing-lg);
-    }
-    .search-input {
-      width: 300px;
-      height: 36px;
-      padding: 0 var(--spacing-md);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-    }
-    .filter-select {
-      height: 36px;
-      padding: 0 var(--spacing-md);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      background: var(--bg-card);
-    }
-    .btn-export {
-      background: var(--color-neutral-100);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-export:hover {
-      background: var(--color-neutral-200);
-    }
-    .table-container {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-md);
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: var(--spacing-md);
-      text-align: left;
-      border-bottom: 1px solid var(--border-card);
-    }
-    th {
-      background: var(--color-neutral-100);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    td {
-      font-size: 14px;
-      color: var(--text-body);
-      word-break: break-word;
-    }
-    .action-badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .action-login {
-      background: #e0e7ff;
-      color: #3730a3;
-    }
-    .action-forgot {
-      background: #fef3c7;
-      color: #92400e;
-    }
-    .attempts-high {
-      color: #dc2626;
-      font-weight: 700;
-    }
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: var(--spacing-md);
-      margin-top: var(--spacing-lg);
-    }
-    .pagination button {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      cursor: pointer;
-    }
-    .pagination button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: var(--spacing-md) var(--spacing-lg);
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-      z-index: 9999;
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-    .toast.success {
-      background: #d1fae5;
-      color: #065f46;
-      border: 1px solid #a7f3d0;
-    }
-    .toast.error {
-      background: #fee2e2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-  </style>
 </head>
 <body>
+
   <div id="admin-navbar-placeholder"></div>
 
-  <div class="rate-limits-container">
-    <div class="rate-limits-header">
-      <h1>Rate Limits Monitoring</h1>
-      <button class="btn-export" id="export-csv">
-        <i class="fa-solid fa-download"></i> Export CSV
+  <div class="admin-page">
+
+    <!-- Page header -->
+    <div class="admin-page-header">
+      <div>
+        <h1 class="admin-page-title">Rate Limits</h1>
+        <p class="admin-page-subtitle">Monitor blocked IPs and throttled identifiers</p>
+      </div>
+      <button class="admin-btn-secondary" id="export-csv">
+        <i class="fa-solid fa-download"></i>
+        Export CSV
       </button>
     </div>
 
-    <div class="filters">
-      <input type="text" id="search-input" class="search-input" placeholder="Search by identifier (IP/email) or action...">
-      <select id="action-filter" class="filter-select">
-        <option value="all">All actions</option>
-        <option value="login">Login attempts</option>
-        <option value="forgot_password">Password reset attempts</option>
-      </select>
+    <!-- Summary stat cards -->
+    <div class="stats-grid stats-grid--3" id="rate-stats">
+      <div class="stat-card stat-card--red">
+        <div class="stat-card__accent"></div>
+        <div class="stat-card__icon"><i class="fa-solid fa-ban"></i></div>
+        <div class="stat-card__label">Blocked identifiers</div>
+        <div class="stat-card__value" id="stat-total">—</div>
+        <div class="stat-card__delta stat-card__delta--neutral">Active right now</div>
+      </div>
+      <div class="stat-card stat-card--amber">
+        <div class="stat-card__accent"></div>
+        <div class="stat-card__icon"><i class="fa-solid fa-right-to-bracket"></i></div>
+        <div class="stat-card__label">Login blocks</div>
+        <div class="stat-card__value" id="stat-login">—</div>
+        <div class="stat-card__delta stat-card__delta--neutral">action: login</div>
+      </div>
+      <div class="stat-card stat-card--purple">
+        <div class="stat-card__accent"></div>
+        <div class="stat-card__icon"><i class="fa-solid fa-key"></i></div>
+        <div class="stat-card__label">Password reset blocks</div>
+        <div class="stat-card__value" id="stat-reset">—</div>
+        <div class="stat-card__delta stat-card__delta--neutral">action: forgot_password</div>
+      </div>
     </div>
 
-    <div class="table-container">
-      <table id="rate-limits-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Identifier (IP/Email)</th>
-            <th>Action</th>
-            <th>Attempts</th>
-            <th>First Attempt</th>
-            <th>Last Attempt</th>
-          </tr>
-        </thead>
-        <tbody id="rate-limits-table-body">
-          <tr><td colspan="6" style="text-align: center;">Loading rate limits...</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <!-- Main card -->
+    <div class="admin-card">
 
-    <div class="pagination" id="pagination-controls">
-      <button id="prev-page" disabled>Previous</button>
-      <span id="page-info">Page 1 of 1</span>
-      <button id="next-page" disabled>Next</button>
+      <!-- Filters row -->
+      <div class="admin-filters">
+        <div class="admin-search-wrap">
+          <i class="fa-solid fa-magnifying-glass admin-search__icon"></i>
+          <input
+            type="text"
+            id="search-input"
+            class="admin-search__input"
+            placeholder="Search by IP address or email…"
+          >
+        </div>
+        <select id="action-filter" class="admin-select">
+          <option value="all">All actions</option>
+          <option value="login">Login attempts</option>
+          <option value="forgot_password">Password reset</option>
+        </select>
+        <div class="admin-filter-meta" id="results-meta"></div>
+      </div>
+
+      <!-- Table -->
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="rate-limits-table">
+          <thead>
+            <tr>
+              <th style="width:48px">#</th>
+              <th>Identifier</th>
+              <th style="width:160px">Action</th>
+              <th style="width:120px">Attempts</th>
+              <th style="width:150px">First attempt</th>
+              <th style="width:150px">Last attempt</th>
+            </tr>
+          </thead>
+          <tbody id="rate-limits-table-body">
+            <tr>
+              <td colspan="6" class="admin-table__loading">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> Loading rate limits…
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="admin-pagination">
+        <button class="admin-pagination__btn" id="prev-page" disabled>
+          <i class="fa-solid fa-chevron-left"></i> Previous
+        </button>
+        <span class="admin-pagination__info" id="page-info">Page 1 of 1</span>
+        <button class="admin-pagination__btn" id="next-page" disabled>
+          Next <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <div id="toast" class="toast"></div>
+  <!-- Toast -->
+  <div id="toast" class="admin-toast" role="alert" aria-live="polite"></div>
 
-  <script src="../../js/admin-component.js"></script>
-  <script src="../../js/admin-rate-limits.js"></script>
+  <script src="/frontend/js/admin-component.js"></script>
+  <script src="/frontend/js/admin-rate-limits.js"></script>
 </body>
 </html>

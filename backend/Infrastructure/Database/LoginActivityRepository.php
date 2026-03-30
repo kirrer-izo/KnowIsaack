@@ -35,7 +35,7 @@ class LoginActivityRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Count failed login attemots in the last 24 hours
+    // Count failed login attempts in the last 24 hours
     public function countFailedLast24Hours(): int
     {
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM login_activities WHERE success = false AND created_at > NOW() - INTERVAL '24 hours'");
@@ -43,6 +43,59 @@ class LoginActivityRepository
         return (int) $stmt->fetchColumn();
     }
 
+    // Count failed logins yesterday (for stat card delta comparison)
+    public function countFailedYesterday(): int
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT COUNT(*) FROM login_activities
+             WHERE success = false
+               AND created_at >= NOW() - INTERVAL '48 hours'
+               AND created_at <  NOW() - INTERVAL '24 hours'"
+        );
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
+    }
+
+    // Last 7 days login summary grouped by day — used for the dashboard bar chart
+    // Returns array of { label: 'Mon', day: 'YYYY-MM-DD', success: int, failed: int }
+    public function getLast7DaysSummary(): array
+    {
+        $stmt = $this->pdo->query(
+            "SELECT
+                TO_CHAR(created_at AT TIME ZONE 'UTC', 'Dy')        AS label,
+                TO_CHAR(created_at AT TIME ZONE 'UTC', 'YYYY-MM-DD') AS day,
+                COUNT(*) FILTER (WHERE success = true)               AS success,
+                COUNT(*) FILTER (WHERE success = false)              AS failed
+             FROM login_activities
+             WHERE created_at >= NOW() - INTERVAL '7 days'
+             GROUP BY day, label
+             ORDER BY day ASC"
+        );
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Fill in missing days so we always return exactly 7 entries
+        $filled = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date  = date('Y-m-d', strtotime("-{$i} days"));
+            $label = date('D', strtotime($date));
+            $found = null;
+            foreach ($rows as $row) {
+                if ($row['day'] === $date) {
+                    $found = $row;
+                    break;
+                }
+            }
+            $filled[] = [
+                'label'   => $label,
+                'day'     => $date,
+                'success' => $found ? (int) $found['success'] : 0,
+                'failed'  => $found ? (int) $found['failed']  : 0,
+            ];
+        }
+
+        return $filled;
+    }
 
     //  Get paginated login logs with optional filters
     public function getPaginatedLogs(int $page, int $limit,?string $search = null, ?bool $success = null, ?string $dateFrom = null, ?string $dateTo = null ): array
@@ -93,7 +146,6 @@ class LoginActivityRepository
             'logs' => $logs
         ];
     }
-
 
     //  Get all logs for CSV export (with same filters)
     public function getAllLogsForExport(?string $search = null,?bool $success = null,?string $dateFrom = null,?string $dateTo = null): array

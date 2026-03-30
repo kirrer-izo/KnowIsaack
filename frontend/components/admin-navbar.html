@@ -1,19 +1,31 @@
 <nav class="navbar admin-navbar">
   <div class="nav-container">
-    <div class="logo">
-      <a href="/admin">
-        <i class="fa-solid fa-gauge-high"></i>
-        <span>Admin</span>
+
+    <div style="display:flex;align-items:center;gap:1.5rem">
+      <a href="/admin" class="logo" style="text-decoration:none">
+        <div class="logo-icon">
+          <i class="fa-solid fa-gauge-high"></i>
+        </div>
+        <span>KnowIsaack</span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="/admin">Dashboard</a></li>
+        <li><a href="/admin/projects">Projects</a></li>
+        <li><a href="/admin/users">Users</a></li>
+        <li><a href="/admin/logs">Login Activity</a></li>
+        <li><a href="/admin/rate-limits">Rate Limits</a></li>
+        <li><a href="/profile">Profile</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-right">
+      <div class="admin-avatar">IM</div>
+      <a href="/auth/logout" class="admin-logout-btn">
+        <i class="fa-solid fa-arrow-right-from-bracket" style="font-size:11px"></i>
+        Logout
       </a>
     </div>
-    <ul class="nav-menu">
-      <li><a href="/admin">Dashboard</a></li>
-      <li><a href="/admin/projects">Projects</a></li>
-      <li><a href="/admin/users">Users</a></li>
-      <li><a href="/admin/logs">Login Activity</a></li>
-      <li><a href="/admin/rate-limits">Rate Limits</a></li>
-      <li><a href="/profile">Profile</a></li>
-      <li><a href="/auth/logout" class="logout-link">Logout</a></li>
-    </ul>
+
   </div>
 </nav>
