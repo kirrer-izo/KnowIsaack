@@ -68,26 +68,41 @@ public function showRegister() : void {
 }
 
 public function handleRegister() : void {
+    // Set response header to JSON
+    header('Content-Type: application/json');
+
     $name = $_POST['name'] ?? '';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
     $confirm = $_POST['confirm_password'] ?? '';
 
     if (empty($name) || empty($email) || empty($password)) {
-        header('Location: /auth/register?error=missing_fields');
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'missing_fields',
+        ]);
         exit;
     }
 
     if ($password !== $confirm) {
-        header('Location: /auth/register?error=passwords_do_not_match');
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'passwords_do_not_match',
+        ]);
         exit;
     }
 
     try {
         $this->userService->register($name, $email, $password);
-        header('Location: /auth/login?message=registered');
+        echo json_encode([
+            'status' => 'success',
+            'redirect' => '/auth/login?message=registered',
+        ]);
     } catch (\Exception $e) {
-        header('Location: /auth/register?error=' . urlencode($e->getMessage()));
+        echo json_encode([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ]);
     }
 
     exit;

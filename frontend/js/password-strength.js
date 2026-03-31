@@ -1,18 +1,19 @@
 /**
  * password-strength.js
  * Reusable password strength meter and confirm password checker.
- * Include this script on any page that needs password validation.
+ *
  */
 
 const STRENGTH_CONFIG = [
-  { label: 'Very weak', color: '#f87171', bars: 1 },
-  { label: 'Weak',      color: '#f87171', bars: 1 },
-  { label: 'Fair',      color: '#fbbf24', bars: 2 },
-  { label: 'Good',      color: '#fbbf24', bars: 3 },
-  { label: 'Strong',    color: '#34d399', bars: 4 },
+  { label: 'Very weak', color: '#f87171', bars: 1 }, // Score 0
+  { label: 'Weak',      color: '#f87171', bars: 1 }, // Score 1
+  { label: 'Fair',      color: '#fbbf24', bars: 2 }, // Score 2
+  { label: 'Fair',      color: '#fbbf24', bars: 3 }, // Score 3
+  { label: 'Good',      color: '#fbbf24', bars: 4 }, // Score 4
+  { label: 'Strong',    color: '#34d399', bars: 5 }, // Score 5 (All criteria met)
 ];
 
-// Returns a score 0-4 based on password criteria
+// Returns a score 0-5 based on password criteria
 function scorePassword(pw) {
   let score = 0;
   if (pw.length >= 8)       score++;
@@ -20,26 +21,32 @@ function scorePassword(pw) {
   if (/[a-z]/.test(pw))     score++;
   if (/\d/.test(pw))        score++;
   if (/[@$!%*?&]/.test(pw)) score++;
-  return Math.min(score, 4);
+  
+  return score; // Max score is 5
 }
 
-// Renders the 4 bar strength meter
+// Renders the strength meter with 5 bars
 function renderStrengthMeter(score, barPrefix, labelId) {
   const cfg      = STRENGTH_CONFIG[score];
   const labelEl  = document.getElementById(labelId);
+  
   if (labelEl) {
     labelEl.textContent = cfg.label;
     labelEl.style.color = cfg.color;
   }
-  for (let i = 1; i <= 4; i++) {
+  
+  // Updates background for each of the 5 bars
+  for (let i = 1; i <= 5; i++) {
     const bar = document.getElementById(`${barPrefix}-${i}`);
-    if (bar) bar.style.background = i <= cfg.bars ? cfg.color : 'var(--border-card)';
+    if (bar) {
+      bar.style.background = i <= cfg.bars ? cfg.color : 'var(--border-card)';
+    }
   }
 }
 
 // Initialises the strength meter on a password input
 function initPasswordStrength(passwordInputId, barPrefix, labelId, strengthWrapperId) {
-  const input       = document.getElementById(passwordInputId);
+  const input        = document.getElementById(passwordInputId);
   const strengthWrap = strengthWrapperId ? document.getElementById(strengthWrapperId) : null;
 
   if (!input) return;
@@ -83,6 +90,5 @@ function initConfirmPassword(passwordInputId, confirmInputId, matchLabelId) {
   passwordInput.addEventListener('input', checkMatch);
   confirmInput.addEventListener('input', checkMatch);
 
-  // Returns true if passwords match — use in form submit guard
   return checkMatch;
 }

@@ -243,19 +243,61 @@
     
 
       // Handle form submission loading state
-    const registerForm = document.querySelector('form');
-    if (registerForm) {
-      registerForm.addEventListener('submit', function(e) {
-        const submitBtn = this.querySelector('button[type="submit"]');
-        if (submitBtn) {
-          submitBtn.classList.add('loading');
-          submitBtn.disabled = true;
-          const originalText = submitBtn.innerHTML;
-          submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating account...';
-          submitBtn.setAttribute('data-original-text', originalText);
-        }
+const registerForm = document.querySelector('form');
+if (registerForm) {
+  registerForm.addEventListener('submit', async function(e) {
+    e.preventDefault(); // CRITICAL: This stops the page reload
+
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const errorEl = document.getElementById('registerError');
+    
+    // UI Loading State
+    submitBtn.disabled = true;
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating account...';
+
+    // Collect Data
+    const formData = new FormData(this);
+
+    try {
+      const response = await fetch('/auth/register', {
+        method: 'POST',
+        body: formData
       });
+
+      const result = await response.json();
+
+      if (result.status === 'error') {
+        // Map slugs to user-friendly messages
+        const errorMessages = {
+          missing_fields: 'Please fill in all fields.',
+          passwords_do_not_match: 'Passwords do not match.',
+          password_too_short: 'Password must be at least 8 characters.',
+          password_no_uppercase: 'Include at least one uppercase letter.',
+          password_no_lowercase: 'Include at least one lowercase letter.',
+          password_no_number: 'Include at least one number.',
+          password_no_special: 'Include at least one special character.',
+          email_taken: 'This email is already registered.'
+        };
+
+        errorEl.textContent = errorMessages[result.message] || result.message;
+        errorEl.classList.add('visible');
+        
+        // Reset button but DO NOT clear inputs
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      } else if (result.status === 'success') {
+        window.location.href = result.redirect;
+      }
+    } catch (err) {
+      console.error('Registration failed:', err);
+      errorEl.textContent = 'A system error occurred. Please try again.';
+      errorEl.classList.add('visible');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
     }
+  });
+}
 
     // Toggle password visibility
 document.querySelectorAll('.toggle-password').forEach(button => {
