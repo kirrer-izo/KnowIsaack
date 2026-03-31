@@ -109,19 +109,27 @@ public function handleRegister() : void {
 }
 
 public function handleLogin() : void {
-
+    // Set response header to JSON
+    header('Content-Type: application/json');
+    
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
     if (empty($email) || empty($password)) {
-        header('Location: /auth/login?error=missing_fields');
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'missing_fields',
+        ]);
         exit;
     }
     $ip = $_SERVER['REMOTE_ADDR'] ?? '';
     $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
     $identifier = $email . '_' . $ip;
     if (!$this->rateLimiterService->attempt($identifier, 'login')) {
-        header('Location: /auth/login?error=too_many_attempts');
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'too_many_attempts',
+        ]);
         exit;
     }
 
@@ -141,12 +149,17 @@ public function handleLogin() : void {
         
         $_SESSION['authenticated'] = true;
         $_SESSION['db_user'] = $user;
-        header('Location: /admin');
+        echo json_encode([
+            'status' => 'success',
+            'redirect' => '/admin',
+        ]);
     } catch (\Exception $e) {
         // Log the failed attempt (store the email even if it doesn't exist)
         $this->loginActivityService->recordFailure($email, $ip, $userAgent);
-        
-        header('Location: /auth/login?error=' . urlencode($e->getMessage()));
+        echo json_encode([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ]);
     }
 
     exit;

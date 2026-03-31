@@ -239,7 +239,7 @@
     <p>Sign in to access the dashboard.</p>
 
     <!-- Error and success messages -->
-    <div class="login-error" id="emailError"></div>
+    <div class="login-error" id="loginError"></div>
     <div class="login-success" id="emailSuccess"></div>
 
     <form action="/auth/login" method="POST">
@@ -335,20 +335,53 @@
   window.history.replaceState({}, document.title, window.location.pathname);
 
   // Handle form submission loading state
-  const loginForm = document.querySelector('form');
-  if (loginForm) {
-    loginForm.addEventListener('submit', function(e) {
-      const submitBtn = this.querySelector('button[type="submit"]');
-      if (submitBtn) {
-        submitBtn.classList.add('loading');
-        submitBtn.disabled = true;
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
-        submitBtn.setAttribute('data-original-text', originalText);
-      }
-    });
-  }
+const loginForm = document.querySelector('form');
+if (loginForm) {
+  loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault(); // Stop page reload
 
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const errorEl = document.getElementById('loginError'); // Ensure this ID exists in your HTML
+    
+    // UI Loading State
+    submitBtn.disabled = true;
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
+
+    const formData = new FormData(this);
+
+    try {
+      const response = await fetch('/auth/login', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (result.status === 'error') {
+        const errorMessages = {
+          missing_fields: 'Please enter both email and password.',
+          too_many_attempts: 'Too many failed attempts. Please try again later.',
+          invalid_credentials: 'The email or password you entered is incorrect.'
+        };
+
+        errorEl.textContent = errorMessages[result.message] || result.message;
+        errorEl.classList.add('visible'); // Matches your CSS for displaying errors
+        
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      } else if (result.status === 'success') {
+        window.location.href = result.redirect; // Redirect to dashboard
+      }
+    } catch (err) {
+      console.error('Login failed:', err);
+      errorEl.textContent = 'A connection error occurred. Please try again.';
+      errorEl.classList.add('visible');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+    }
+  });
+}
   // Toggle password visibility
   document.querySelectorAll('.toggle-password').forEach(button => {
     button.addEventListener('click', function() {
