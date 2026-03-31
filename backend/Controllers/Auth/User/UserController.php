@@ -111,7 +111,7 @@ public function handleRegister() : void {
 public function handleLogin() : void {
     // Set response header to JSON
     header('Content-Type: application/json');
-    
+
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
@@ -136,6 +136,8 @@ public function handleLogin() : void {
     try {
         $user = $this->userService->login($email, $password);
          // Log the successful attempt
+
+         $this->rateLimiterService->clear($identifier, 'login');
         $this->loginActivityService->recordSuccess($user['id'], $ip, $userAgent);
 
         $remember = isset($_POST['remember']) && $_POST['remember'] === 'on';

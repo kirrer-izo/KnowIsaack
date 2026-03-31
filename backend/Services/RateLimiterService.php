@@ -49,4 +49,10 @@ class RateLimiterService {
         $this->rateLimitRepository->increment($identifier, $action);
         return true;
     }
+
+        // Clears the rate limit for a specific identifier and action
+    public function clear(string $identifier, string $action): void
+    {
+        $this->rateLimitRepository->reset($identifier, $action);
+    }
 }
