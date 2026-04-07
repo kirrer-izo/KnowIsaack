@@ -48,7 +48,7 @@ class RateLimitRepository {
     // Reset attempts to 1 and update first_attempt_at and last_attempt_at to NOW
     public function reset(string $identifier, string $action): void
     {
-        $stmt = $this->pdo->prepare("UPDATE rate_limits SET attempts = 1, first_attempt_at = NOW(), last_attempt_at = NOW() WHERE identifier= :identifier AND action = :action");
+        $stmt = $this->pdo->prepare("UPDATE rate_limits SET attempts = 1 WHERE identifier= :identifier AND action = :action");
         $stmt->execute([
             'identifier' => $identifier,
             'action' => $action

@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
+use App\Domain\Interfaces\EmailServiceInterface;
 use App\Infrastructure\Database\EmailVerificationRepository;
 use App\Infrastructure\Database\PasswordResetRepository;
 use App\Infrastructure\Database\UserRepository;
-use App\Infrastructure\Mail\ResendMailer;
 
 class UserService {
     private $userRepository;
@@ -13,7 +13,7 @@ class UserService {
     private $mailer;
     private $passwordResetRepository;
 
-    public function __construct(UserRepository $userRepository, EmailVerificationRepository $emailVerificationRepository, ResendMailer $mailer, PasswordResetRepository $passwordResetRepository)
+    public function __construct(UserRepository $userRepository, EmailVerificationRepository $emailVerificationRepository, EmailServiceInterface $mailer, PasswordResetRepository $passwordResetRepository)
     {
         $this->userRepository = $userRepository;
         $this->emailVerificationRepository = $emailVerificationRepository;
@@ -120,7 +120,7 @@ class UserService {
         $expires_at = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
         $this->passwordResetRepository->createToken($user['id'], $token, $expires_at);
-        $this->mailer->sendPasswordResetEmail($email, $user['name'], $token);
+        $this->mailer->sendEmail($email, $user['name'], $token);
 
     }
 
@@ -184,6 +184,6 @@ class UserService {
         $this->emailVerificationRepository->createToken($userId, $token, $expiresAt);
 
         // Send email
-        $this->mailer->sendVerificationEmail($user['email'], $user['name'], $token);
+        $this->mailer->sendEmail($user['email'], $user['name'], $token);
     }
     }
