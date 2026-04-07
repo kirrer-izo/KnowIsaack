@@ -39,4 +39,12 @@ class EmailVerificationRepository {
         $stmt->execute(['user_id' => $user_id]);
     }
 
+    public function findByUserId(int $userId): ?array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM email_verifications WHERE user_id = :user_id LIMIT 1");
+        $stmt->execute(['user_id' => $userId]);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result ?: null;
+    }
+
 }

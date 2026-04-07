@@ -2,42 +2,56 @@
 
 namespace App\Infrastructure\Database;
 
-require_once './backend/config/config.php';
+// Use a conditional require to prevent path issues during testing
+if (file_exists(__DIR__ . '/../../config/config.php')) {
+    require_once __DIR__ . '/../../config/config.php';
+}
 
 use PDO;
 use PDOException;
 
 class DatabaseConnection {
-    private static $instance = null; // holds the MySQLConnection object
-    private $pdo; // holds the PDO object inside it
+    private static $instance = null;
+    private $pdo;
 
-     //   Private constructor — nobody can do new MySQLConnection()
-    //    Only this class can create itself
     private function __construct()
     {
+        // 1. Get values from environment (PHPUnit) or fallback to constants (App)
+        $host = getenv('DB_HOST') ?: (defined('DB_HOST') ? \DB_HOST : 'localhost');
+        $port = getenv('DB_PORT') ?: '5432'; // Default to 5432 if not set
+        $db   = getenv('DB_DATABASE_TEST') ?: (defined('DB_NAME') ? \DB_NAME : '');
+        $user = getenv('DB_USER') ?: (defined('DB_USER') ? \DB_USER : '');
+        $pass = getenv('DB_PASS') ?: (defined('DB_PASSWORD') ? \DB_PASSWORD : '');
+
+        // 2. Add port= to the DSN!
+        $dsn = "pgsql:host=$host;port=$port;dbname=$db";
+
         try {
-            $dsn = "pgsql:host=" . \DB_HOST . ";dbname=" . \DB_NAME;
-            $this->pdo = new PDO($dsn, \DB_USER, \DB_PASSWORD);
+            $this->pdo = new PDO($dsn, $user, $pass);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
+            // If we are in CLI (Testing), don't die(), just throw it
+            if (PHP_SAPI === 'cli') {
+                throw $e;
+            }
             error_log($e->getMessage());
-            die("A database error occurred. Please try again later.");
+            die("A database error occurred.");
         }
     }
 
-    //    The only way to get the connection
-    //    If one exists, return it
-    //    If not, create it first then return it
     public static function getInstance()
     {
         if (self::$instance === null) {
             self::$instance = new self();
         }
-
         return self::$instance;
     }
 
-     // A method to hand the PDO to whoever needs it
+    public function setExternalConnection(PDO $pdo): void
+    {
+        $this->pdo = $pdo;
+    }
+
     public function getConnection()
     {
         return $this->pdo;

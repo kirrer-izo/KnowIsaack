@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
+use App\Domain\Interfaces\EmailServiceInterface;
 use App\Services\UserService;
 use App\Infrastructure\Database\UserRepository;
 use App\Infrastructure\Database\EmailVerificationRepository;
 use App\Infrastructure\Database\PasswordResetRepository;
-use App\Infrastructure\Mail\ResendMailer;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 // Add these imports for PHPUnit 11 Attributes
@@ -21,7 +21,7 @@ class UserServiceTest extends TestCase
     private $userRepo;
     /** @var EmailVerificationRepository|MockObject */
     private $emailRepo;
-    /** @var ResendMailer|MockObject */
+    /** @var EmailServiceInterface|MockObject */
     private $mailer;
     /** @var PasswordResetRepository|MockObject */
     private $resetRepo;
@@ -31,7 +31,7 @@ class UserServiceTest extends TestCase
     {
         $this->userRepo = $this->createMock(UserRepository::class);
         $this->emailRepo = $this->createMock(EmailVerificationRepository::class);
-        $this->mailer = $this->createMock(ResendMailer::class);
+        $this->mailer = $this->createMock(EmailServiceInterface::class);
         $this->resetRepo = $this->createMock(PasswordResetRepository::class);
 
         $this->userService = new UserService(
