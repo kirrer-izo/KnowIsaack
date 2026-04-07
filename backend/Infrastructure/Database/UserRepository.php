@@ -161,9 +161,13 @@ class UserRepository {
 
     public function deleteUser(int $id): bool
     {
-        $this->pdo->beginTransaction();
+        // Only start a transaction if one isn't already running
+        $alreadyInTransaction = $this->pdo->inTransaction();
+        if (!$alreadyInTransaction) {
+            $this->pdo->beginTransaction();
+        }
         try {
-            $tables = ['email_verification', 'password_resets', 'remember_tokens', 'login_activities'];
+            $tables = ['email_verifications', 'password_resets', 'remember_tokens', 'login_activities'];
             foreach ($tables as $table) {
                 $stmt = $this->pdo->prepare("DELETE FROM {$table} WHERE user_id = :user_id");
                 $stmt->execute(['user_id' => $id]);

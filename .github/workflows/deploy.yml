@@ -10,6 +10,21 @@ jobs:
     name: Lint & Test
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: knowisaack_test
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,12 +40,28 @@ jobs:
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
       - name: PHP syntax check
-        run: find . -name "*.php" \
-               -not -path "./vendor/*" \
-               -print0 | xargs -0 php -l
+        run: |
+          find . -name "*.php" \
+            -not -path "./vendor/*" \
+            -print0 | xargs -0 php -l
 
-      - name: Run PHPUnit tests
-        run: vendor/bin/phpunit --configuration phpunit.xml
+      - name: Setup Database Schema from Migrations
+        run: |
+          # Loop through all .sql files in order and apply them to the test DB
+          # Adjust the path below if your migrations folder is named differently
+          for f in backend/Infrastructure/Database/migrations/*.sql; do
+            echo "Applying migration: $f"
+            PGPASSWORD=password psql -h localhost -U postgres -d knowisaack_test -f "$f"
+          done
+
+      - name: Run Tests
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_DATABASE_TEST: knowisaack_test
+          DB_USER: postgres
+          DB_PASS: password
+        run: vendor/bin/phpunit
 
   deploy:
     name: Trigger Render Deploy

@@ -1,0 +1,13 @@
+services:
+  test-db:
+    image: postgres:15
+    container_name: knowisaack_test_db
+    environment:
+      POSTGRES_DB: knowisaack_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432" # Map to 5433 to avoid conflict with your main dev DB
+    volumes:
+      # THE MAGIC: Postgres automatically runs any .sql file in this folder on startup
+      - ./backend/Infrastructure/Database/migrations:/docker-entrypoint-initdb.d
