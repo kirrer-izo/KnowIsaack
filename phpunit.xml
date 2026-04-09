@@ -19,7 +19,7 @@
 
     <php>
         <env name="DB_HOST" value="127.0.0.1"/>
-        <env name="DB_PORT" value="5433"/> <env name="DB_DATABASE_TEST" value="knowisaack_test"/>
+        <env name="DB_PORT" value="5432"/> <env name="DB_DATABASE_TEST" value="knowisaack_test"/>
         <env name="DB_USER" value="postgres"/>
         <env name="DB_PASS" value="password"/>
     </php>
