@@ -87,14 +87,32 @@ if (empty($_SESSION['authenticated']) && isset($_COOKIE['remember_token'])) {
 // ── DB routes ────────────────────────────────────────────────────────────────
 
 $db_routes = [
-    '/api/projects', '/api/public-projects', '/api/session', '/auth/login',
-    '/auth/register', '/auth/verify', '/auth/forgot-password', '/auth/reset-password',
-    '/api/admin/stats', '/api/admin/users', '/api/admin/users/export', '/api/admin/users/show',
-    '/api/admin/users/update', '/api/admin/users/delete', '/api/admin/users/resend-verification',
-    '/api/admin/projects', '/api/admin/projects/export', '/api/admin/projects/show',
-    '/api/admin/projects/update', '/api/admin/projects/delete', '/api/admin/logs',
-    '/api/admin/logs/export', '/api/admin/rate-limits', '/api/admin/rate-limits/export',
-    '/api/user/profile', '/api/user/password',
+    '/api/projects',
+    '/api/public-projects',
+    '/api/session',
+    '/auth/login',
+    '/auth/register',
+    '/auth/verify',
+    '/auth/forgot-password',
+    '/auth/reset-password',
+    '/api/admin/stats',
+    '/api/admin/users',
+    '/api/admin/users/export',
+    '/api/admin/users/show',
+    '/api/admin/users/update',
+    '/api/admin/users/delete',
+    '/api/admin/users/resend-verification',
+    '/api/admin/projects',
+    '/api/admin/projects/export',
+    '/api/admin/projects/show',
+    '/api/admin/projects/update',
+    '/api/admin/projects/delete',
+    '/api/admin/logs',
+    '/api/admin/logs/export',
+    '/api/admin/rate-limits',
+    '/api/admin/rate-limits/export',
+    '/api/user/profile',
+    '/api/user/password',
 ];
 
 if (in_array($path, $db_routes)) {
@@ -114,16 +132,16 @@ if (in_array($path, $db_routes)) {
     // 2. Mocking logic: Use a Null Mailer if testing to avoid SSL/API key errors
     if (isset($GLOBALS['IS_TESTING']) && $GLOBALS['IS_TESTING'] === true) {
         $mailer = new class implements EmailServiceInterface { 
-        public function sendEmail($to, $subject, $body, $replyTo = null): bool { 
-            return true; 
-        }
-        public function sendVerificationEmail(string $to, string $name, string $token): bool {
-            return true;
-        }
-        public function sendPasswordResetEmail(string $to, string $name, string $token): bool {
-            return true;
-        }
-    };
+            public function sendEmail($to, $subject, $body, $replyTo = null): bool { 
+                return true; 
+            }
+            public function sendVerificationEmail(string $to, string $name, string $token): bool {
+                return true;
+            }
+            public function sendPasswordResetEmail(string $to, string $name, string $token): bool {
+                return true;
+            }
+        };
     } else {
         $mailer = new ResendMailer();
     }
@@ -154,6 +172,24 @@ switch ($path) {
     case '/home':
         require __DIR__ . '/../frontend/pages/home.html';
         break;
+    case '/live-your-books':
+        require __DIR__ . '/../frontend/pages/live-your-books.html';
+        break;
+    case '/sole-proprietor-crm':
+        require __DIR__ . '/../frontend/pages/sole-proprietor-crm.html';
+        break;
+    case '/profile':
+        require __DIR__ . '/../frontend/pages/profile.html';
+        break;
+
+    // ── Auth pages (HTML) ─────────────────────────────────────────────────────
+
+    case '/login':
+        require __DIR__ . '/../frontend/pages/login.html';
+        break;
+    case '/register':
+        require __DIR__ . '/../frontend/pages/register.html';
+        break;
 
     // ── Auth API ──────────────────────────────────────────────────────────────
 
@@ -181,8 +217,57 @@ switch ($path) {
     case '/auth/reset-password':
         $userController->handleResetPasswordRequest();
         break;
+    case '/auth/authorize':
+        $controller = new AuthController();
+        $controller->authorize();
+        break;
+    case '/auth/callback':
+        $controller = new AuthController();
+        $controller->callback();
+        break;
 
-    // ── Admin API ─────────────────────────────────────────────────────────────
+    // ── Admin pages (HTML) ────────────────────────────────────────────────────
+
+    case '/admin':
+        require __DIR__ . '/../frontend/pages/admin/index.html';
+        break;
+    case '/admin/edit':
+        require __DIR__ . '/../frontend/pages/admin/edit.html';
+        break;
+    case '/admin/projects':
+        require __DIR__ . '/../frontend/pages/admin/projects.html';
+        break;
+    case '/admin/users':
+        require __DIR__ . '/../frontend/pages/admin/users.html';
+        break;
+    case '/admin/logs':
+        require __DIR__ . '/../frontend/pages/admin/logs.html';
+        break;
+    case '/admin/rate-limits':
+        require __DIR__ . '/../frontend/pages/admin/rate-limits.html';
+        break;
+
+    // ── Public API ────────────────────────────────────────────────────────────
+
+    case '/api/contact':
+        $mailer     = new ResendMailer();
+        $controller = new ContactController($mailer);
+        $controller->handleRequest();
+        break;
+    case '/api/session':
+        $controller = new ProjectsController($projectService);
+        $controller->session();
+        break;
+    case '/api/projects':
+        $controller = new ProjectsController($projectService);
+        $controller->handleRequest();
+        break;
+    case '/api/public-projects':
+        $controller = new PublicProjectsController($projectRepository);
+        $controller->handleRequest();
+        break;
+
+    // ── Admin stats API ───────────────────────────────────────────────────────
 
     case '/api/admin/stats':
         $adminController->stats();
@@ -201,6 +286,21 @@ switch ($path) {
             terminate();
         }
         break;
+    case '/api/admin/users/export':
+        $adminUserController->export();
+        break;
+    case '/api/admin/users/show':
+        $adminUserController->show($adminUserId);
+        break;
+    case '/api/admin/users/update':
+        $adminUserController->update($adminUserId);
+        break;
+    case '/api/admin/users/delete':
+        $adminUserController->destroy($adminUserId);
+        break;
+    case '/api/admin/users/resend-verification':
+        $adminUserController->resendVerification($adminUserId);
+        break;
 
     // ── Admin projects API ────────────────────────────────────────────────────
 
@@ -209,6 +309,71 @@ switch ($path) {
             $adminProjectController->listProjects();
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adminProjectController->createProject();
+        } else {
+            http_response_code(405);
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+            terminate();
+        }
+        break;
+    case '/api/admin/projects/export':
+        $adminProjectController->exportCsv();
+        break;
+    case '/api/admin/projects/show':
+        $adminProjectController->getProject($adminProjectId);
+        break;
+    case '/api/admin/projects/update':
+        $adminProjectController->updateProject($adminProjectId);
+        break;
+    case '/api/admin/projects/delete':
+        $adminProjectController->deleteProject($adminProjectId);
+        break;
+
+    // ── Admin logs API ────────────────────────────────────────────────────────
+
+    case '/api/admin/logs':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $adminLogController->listLogs();
+        } else {
+            http_response_code(405);
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+            terminate();
+        }
+        break;
+    case '/api/admin/logs/export':
+        $adminLogController->exportCsv();
+        break;
+
+    // ── Admin rate limits API ─────────────────────────────────────────────────
+
+    case '/api/admin/rate-limits':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $adminRateLimitController->listRateLimits();
+        } else {
+            http_response_code(405);
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+            terminate();
+        }
+        break;
+    case '/api/admin/rate-limits/export':
+        $adminRateLimitController->exportCsv();
+        break;
+
+    // ── User profile API ──────────────────────────────────────────────────────
+
+    case '/api/user/profile':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userProfileController->getProfile();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $userProfileController->updateProfile();
+        } else {
+            http_response_code(405);
+            echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+            terminate();
+        }
+        break;
+    case '/api/user/password':
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $userProfileController->updatePassword();
         } else {
             http_response_code(405);
             echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
@@ -239,7 +404,7 @@ switch ($path) {
 
 /**
  * Stops execution only if we are not in a testing environment.
- * 3. Wrapped in function_exists to prevent fatal errors during multiple PHPUnit tests.
+ * Wrapped in function_exists to prevent fatal errors during multiple PHPUnit tests.
  */
 if (!function_exists('terminate')) {
     function terminate(): void 
