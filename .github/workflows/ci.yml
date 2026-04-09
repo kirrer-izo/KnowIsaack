@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   lint-and-test:
@@ -56,11 +56,18 @@ jobs:
             sleep 3
           done
 
+      - name: Setup Database Schema from Migrations
+        run: |
+          for f in backend/Infrastructure/Database/migrations/*.sql; do
+            echo "Applying migration: $f"
+            PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -d test_database -f "$f"
+          done
+
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit --configuration phpunit.xml
         env:
           DB_HOST: localhost
           DB_PORT: 5432
           DB_USER: postgres
-          DB_PASS: postgres               
-          DB_DATABASE_TEST: test_database   
+          DB_PASS: postgres
+          DB_DATABASE_TEST: test_database
