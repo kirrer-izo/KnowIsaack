@@ -51,7 +51,7 @@ jobs:
           # Adjust the path below if your migrations folder is named differently
           for f in backend/Infrastructure/Database/migrations/*.sql; do
             echo "Applying migration: $f"
-            PGPASSWORD=password psql -h localhost -U postgres -d knowisaack_test -f "$f"
+            PGPASSWORD=password psql -h localhost -p 5432 -U postgres -d knowisaack_test -f "$f"
           done
 
       - name: Run Tests
