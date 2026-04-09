@@ -3,7 +3,7 @@ name: Deploy to Render
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   ci:
@@ -28,6 +28,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 2
+          done
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
