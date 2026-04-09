@@ -309,6 +309,11 @@ function isValidUrl(str) {
   try { new URL(str); return true; } catch { return false; }
 }
 
+function isValidPath(path) {
+    const pathRegex = /^\/[a-zA-Z0-9\-\._\/]*$/;
+    return pathRegex.test(path);
+}
+
 function validateDrawer() {
   clearDrawerErrors();
   let valid = true;
@@ -316,7 +321,7 @@ function validateDrawer() {
   if (!document.getElementById('field-title').value.trim()) {
     showFieldError('field-title', 'err-title'); valid = false;
   }
-  if (!isValidUrl(document.getElementById('field-live-url').value.trim())) {
+  if (!isValidPath(document.getElementById('field-live-url').value.trim())) {
     showFieldError('field-live-url', 'err-live-url'); valid = false;
   }
   if (!isValidUrl(document.getElementById('field-github-url').value.trim())) {
