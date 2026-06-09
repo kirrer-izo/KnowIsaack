@@ -18,10 +18,12 @@ class DatabaseConnection {
     {
         // 1. Get values from environment (PHPUnit) or fallback to constants (App)
         $host = getenv('DB_HOST') ?: (defined('DB_HOST') ? \DB_HOST : 'localhost');
-        $port = getenv('DB_PORT') ?: '5432'; // Default to 5432 if not set
+        $port = getenv('DB_PORT') ?: '5432';
         $db   = getenv('DB_DATABASE_TEST') ?: (defined('DB_NAME') ? \DB_NAME : '');
         $user = getenv('DB_USER') ?: (defined('DB_USER') ? \DB_USER : '');
-        $pass = getenv('DB_PASS') ?: (defined('DB_PASSWORD') ? \DB_PASSWORD : '');
+        $pass = getenv('DB_PASSWORD') ?: (defined('DB_PASSWORD') ? \DB_PASSWORD : '');
+
+        $dsn = "pgsql:host=$host;port=$port;dbname=$db;sslmode=require";
 
         // 2. Add port= to the DSN!
         $dsn = "pgsql:host=$host;port=$port;dbname=$db";
