@@ -120,7 +120,7 @@ class UserService {
         $expires_at = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
         $this->passwordResetRepository->createToken($user['id'], $token, $expires_at);
-        $this->mailer->sendEmail($email, $user['name'], $token);
+        $this->mailer->sendPasswordResetEmail($email, $user['name'], $token);
 
     }
 

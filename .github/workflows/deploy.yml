@@ -67,7 +67,7 @@ jobs:
           DB_PORT: 5432
           DB_DATABASE_TEST: knowisaack_test
           DB_USER: postgres
-          DB_PASS: password
+          DB_PASSWORD: password
         run: vendor/bin/phpunit
 
   deploy:
