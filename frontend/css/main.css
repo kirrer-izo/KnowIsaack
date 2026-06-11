@@ -29,6 +29,8 @@
   --background: 210 40% 98%;
 
   --color-accent: var(--color-primary-500);
+  --color-accent-light: var(--color-primary-100);
+  --color-accent-dark: var(--color-primary-700);
   --color-primary-dark: var(--color-primary-700);
 
   --bg-page: var(--color-neutral-200);
@@ -57,11 +59,13 @@
 
   --radius-sm: 8px;
   --radius-md: 12px;
+  --radius-lg: 16px;
   --radius-circle: 50%;
 
   --shadow-card: 0px 25px 50px 0px rgba(0, 0, 0, 0.05);
   --shadow-sm: 0px 4px 10px 0px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 /* ========================================
@@ -190,10 +194,18 @@ section {
    ======================================== */
 
 /* Animation delays */
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-400 {
+  animation-delay: 400ms;
+}
+.delay-500 {
+  animation-delay: 500ms;
+}
 
 /* Background mesh gradient overlay */
 .mesh-gradient {
@@ -202,9 +214,21 @@ section {
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(at 20% 20%, hsl(var(--color-accent) / 0.04) 0%, transparent 50%),
-    radial-gradient(at 80% 80%, hsl(var(--glow-secondary) / 0.03) 0%, transparent 50%),
-    radial-gradient(at 50% 50%, hsl(var(--color-accent) / 0.02) 0%, transparent 70%);
+    radial-gradient(
+      at 20% 20%,
+      hsl(var(--color-accent) / 0.04) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 80% 80%,
+      hsl(var(--glow-secondary) / 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 50% 50%,
+      hsl(var(--color-accent) / 0.02) 0%,
+      transparent 70%
+    );
 }
 
 /* ========================================
@@ -467,7 +491,9 @@ section {
   gap: var(--spacing-md);
   padding: var(--spacing-lg);
   border-radius: var(--radius-md);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .skill-card-icon {
@@ -526,7 +552,10 @@ section {
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s,
+    border-color 0.2s;
   overflow: hidden;
 }
 
@@ -624,7 +653,9 @@ section {
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   background: transparent;
 }
 
@@ -662,7 +693,9 @@ section {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.3s;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s;
 }
 
 .btn-secondary {
@@ -710,7 +743,6 @@ section {
     transform: rotate(360deg);
   }
 }
-
 
 /* ========================================
    CONTACT MODAL
@@ -831,7 +863,9 @@ section {
   font-family: inherit;
   color: var(--text-primary);
   background: var(--bg-card);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   box-sizing: border-box;
 }
 
@@ -959,6 +993,15 @@ section {
   font-weight: 500;
   margin-bottom: var(--spacing-md);
   align-self: flex-start;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: var(--color-accent);
 }
 
 #backToTop {
@@ -976,7 +1019,9 @@ section {
   border-radius: var(--radius-circle);
   font-size: 18px;
   box-shadow: var(--shadow-md);
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 }
 
 .overview-grid {
@@ -1058,7 +1103,9 @@ section {
   height: 12px;
   border-radius: var(--radius-circle);
   background-color: #ffbd2e;
-  box-shadow: -24px 0 0 #ff5f56, 24px 0 0 #27c93f;
+  box-shadow:
+    -24px 0 0 #ff5f56,
+    24px 0 0 #27c93f;
 }
 
 .app-window img {
@@ -1329,7 +1376,9 @@ section {
   background: var(--color-neutral-100);
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-card);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .feature-pills-list li:hover {
@@ -1489,19 +1538,29 @@ section {
 }
 
 .hover-trigger:hover .glow-float-card:nth-child(2),
-.hover-trigger:hover .simple-float-card:nth-child(2) { transition-delay: 0.05s; }
+.hover-trigger:hover .simple-float-card:nth-child(2) {
+  transition-delay: 0.05s;
+}
 
 .hover-trigger:hover .glow-float-card:nth-child(3),
-.hover-trigger:hover .simple-float-card:nth-child(3) { transition-delay: 0.1s; }
+.hover-trigger:hover .simple-float-card:nth-child(3) {
+  transition-delay: 0.1s;
+}
 
 .hover-trigger:hover .glow-float-card:nth-child(4),
-.hover-trigger:hover .simple-float-card:nth-child(4) { transition-delay: 0.15s; }
+.hover-trigger:hover .simple-float-card:nth-child(4) {
+  transition-delay: 0.15s;
+}
 
 .hover-trigger:hover .glow-float-card:nth-child(5),
-.hover-trigger:hover .simple-float-card:nth-child(5) { transition-delay: 0.2s; }
+.hover-trigger:hover .simple-float-card:nth-child(5) {
+  transition-delay: 0.2s;
+}
 
 .hover-trigger:hover .glow-float-card:nth-child(6),
-.hover-trigger:hover .simple-float-card:nth-child(6) { transition-delay: 0.25s; }
+.hover-trigger:hover .simple-float-card:nth-child(6) {
+  transition-delay: 0.25s;
+}
 
 .btn-primary:hover {
   background-color: var(--color-primary-dark);
@@ -1518,7 +1577,9 @@ section {
 }
 
 .social-icon {
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .social-icon:hover {
@@ -1526,8 +1587,7 @@ section {
   transform: translateY(-3px);
 }
 
-
-  /* Gradient overlay that follows the mouse */
+/* Gradient overlay that follows the mouse */
 .project-card::before {
   content: "";
   position: absolute;
@@ -1565,7 +1625,6 @@ section {
 .skill-card:hover::before {
   opacity: 1;
 }
-
 
 /* ========================================
    ANIMATIONS
@@ -1653,6 +1712,186 @@ section {
 }
 
 /* ========================================
+   PROJECT PAGE SPECIFIC COMPONENTS
+   ======================================== */
+
+/* Contributions Grid */
+.contributions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-sm);
+  margin: var(--spacing-xl) 0;
+}
+
+.contribution-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.contribution-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.contribution-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--color-primary-100);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--spacing-md);
+}
+
+.contribution-icon i {
+  font-size: 1.5rem;
+  color: var(--color-accent);
+}
+
+/* Achievement categories */
+.achievement-category {
+  margin-bottom: var(--spacing-xl);
+}
+
+.category-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.category-title i {
+  color: var(--color-accent);
+  font-size: 1.25rem;
+}
+
+/* Integration grid */
+.integration-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-sm);
+  margin: var(--spacing-xl) 0;
+}
+
+.integration-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  text-align: center;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.integration-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.integration-icon {
+  font-size: 2.2rem;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-md);
+}
+
+.integration-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.integration-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Section intro (centered heading with muted description) */
+.section-intro {
+  text-align: center;
+  margin: var(--spacing-xl) 0 var(--spacing-lg);
+}
+
+.section-intro p {
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--text-muted);
+}
+
+/* Takeaways card – light variant */
+.takeaways-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-top: 4px solid var(--color-accent);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Section divider – replaces dark background with subtle borders */
+.section-divider {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-card);
+  border-bottom: 1px solid var(--border-card);
+  margin: var(--spacing-xl) 0;
+  padding: var(--spacing-xl) 0;
+}
+
+/* Challenge card icon – replaces inline styles */
+.challenge-card-icon {
+  font-size: 1.5rem;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-md);
+  display: block;
+}
+
+/* Footer link accent */
+.footer-link-accent {
+  color: var(--color-accent);
+  margin: 0 8px;
+  text-decoration: none;
+}
+
+.footer-link-accent:hover {
+  opacity: 0.75;
+}
+
+/* Code block */
+.code-block {
+  background: var(--color-neutral-900);
+  color: #e2e8f0;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  font-family: "Courier New", monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin: var(--spacing-lg) 0;
+}
+
+.code-block pre {
+  margin: 0;
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-800) 0%,
+    var(--color-accent) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 
@@ -1675,7 +1914,6 @@ section {
     flex: 1 1 100%;
     text-align: left;
   }
-
 
   .tech-stack {
     justify-content: center;
@@ -1725,5 +1963,14 @@ section {
 
   .project-header-stats {
     padding-top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .contributions-grid {
+    grid-template-columns: 1fr;
+  }
+  .integration-grid {
+    grid-template-columns: 1fr;
   }
 }
