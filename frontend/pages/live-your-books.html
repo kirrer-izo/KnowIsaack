@@ -1,469 +1,675 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Live Your Books — an AI-powered reading platform by Isaack Muchoki, built with React, Laravel, and the Gemini API as a final year project at Kabarak University."
+    />
+    <title>
+      Live Your Books - AI-Powered Reading Platform by Isaack Muchoki
+    </title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Your Books - Isaack Muchoki</title>
-  <link rel="stylesheet" href="../css/main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Your Books - Isaack Muchoki</title>
-  <link rel="stylesheet" href="../css/main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/main.css" />
+  </head>
 
-<body>
+  <body>
+    <div class="mesh-gradient"></div>
 
-  <!-- SHARED: Navbar injected by components.js -->
-  <div id="navbar-placeholder"></div>
+    <!-- SHARED: Navbar injected here by components.js -->
+    <div data-component="navbar"></div>
 
- <!-- Project Header -->
-<section id="project-header" class="project-header reveal">
-  <div class="container">
+    <!-- ══════════════════════════════════════════
+         PROJECT HEADER
+         ══════════════════════════════════════════ -->
+    <section class="project-header reveal">
+      <div class="container">
+        <a href="/#portfolio" class="back-link">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          Back to Portfolio
+        </a>
 
-    <a href="/#projects" class="back-link">
-      <i class="fa-solid fa-arrow-left"></i>
-      Back to Projects
-    </a>
-
-    <div class="project-header-content">
-
-      <!-- Left: Title & Meta -->
-      <div class="project-header-text">
-        <span class="label">FINAL YEAR PROJECT • FULL-STACK</span>
-        <h1 class="project-main-title">Live Your Books</h1>
-        <p class="project-tagline">
-          Turning passive reading into active growth — by borrowing the
-          habit-forming patterns of social media and applying them to
-          self-improvement.
-        </p>
-
-        <!-- Tech Stack -->
-        <div class="tech-stack" style="margin-top: var(--spacing-lg)">
-          <span class="tech-tag">React</span>
-          <span class="tech-tag">Laravel</span>
-          <span class="tech-tag">Gemini API</span>
-          <span class="tech-tag">MySQL</span>
-          <span class="tech-tag">Tailwind</span>
-        </div>
-      </div>
-
-      <!-- Right: Quick Stats -->
-      <div class="project-header-stats">
-        <div class="stat-pill">
-          <i class="fa-solid fa-layer-group"></i>
-          <div>
-            <span class="stat-pill-label">Type</span>
-            <span class="stat-pill-value">Full-Stack Web App</span>
-          </div>
-        </div>
-        <div class="stat-pill">
-          <i class="fa-solid fa-graduation-cap"></i>
-          <div>
-            <span class="stat-pill-label">Context</span>
-            <span class="stat-pill-value">Kabarak University</span>
-          </div>
-        </div>
-        <div class="stat-pill">
-          <i class="fa-solid fa-brain"></i>
-          <div>
-            <span class="stat-pill-label">Core Feature</span>
-            <span class="stat-pill-value">AI Mentor Chat</span>
-          </div>
-        </div>
-        <div class="stat-pill">
-          <i class="fa-brands fa-github"></i>
-          <div>
-            <span class="stat-pill-label">Source</span>
-            <a href="https://github.com/kirrer-izo/LiveYourBooks"
-               class="stat-pill-value stat-pill-link"
-               target="_blank" rel="noopener">View on GitHub</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- Project Overview -->
-<section id="project-overview" class="project-overview reveal delay-200">
-  <div class="container">
-    <div class="overview-grid">
-
-      <!-- Card 1: Why I Built This -->
-      <div class="overview-card simple-float-card hover-trigger">
-        <div class="card-icon-wrap">
-          <i class="fa-solid fa-book-open"></i>
-        </div>
-        <span class="card-label">MOTIVATION</span>
-        <h3>Why I Built This</h3>
-        <p>
-          Like most people my age, I found it much easier to spend hours on
-          social media than twenty minutes reading a book. Social media is
-          designed to be frictionless and addictive. Books, while valuable,
-          often feel like work.
-        </p>
-        <p>
-          I realised the problem wasn't the books — it was the delivery. I set
-          out to build an experience as engaging as the apps we can't put down.
-          This became my final-year project at Kabarak University.
-        </p>
-      </div>
-
-      <!-- Card 2: The Solution -->
-      <div class="overview-card simple-float-card hover-trigger">
-        <div class="card-icon-wrap">
-          <i class="fa-solid fa-bullseye"></i>
-        </div>
-        <span class="card-label">APPROACH</span>
-        <h3>The Solution</h3>
-        <p>
-          I borrowed the habit-forming patterns of modern apps and applied them
-          to self-improvement — three core ideas drove the design:
-        </p>
-        <ol class="solution-list">
-          <li>
-            <strong>Social-style Dashboard</strong>
-            <span>Your feed shows active habits, recent tasks, and reading
-            insights instead of strangers' posts.</span>
-          </li>
-          <li>
-            <strong>AI Mentors via Gemini API</strong>
-            <span>Chat with the persona of any author as easily as
-            sending a DM.</span>
-          </li>
-          <li>
-            <strong>Habit Tracker with Streaks</strong>
-            <span>Complete a book-derived task and get the same dopamine
-            hit as a "like" — with actual personal growth attached.</span>
-          </li>
-        </ol>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- Feature 1: Dashboard Overview -->
-<section id="project-feature-1" class="project-feature-dashboard reveal delay-300">
-  <div class="container">
-    <div class="feature-layout section-card hover-trigger">
-
-      <!-- Left: Text Content -->
-      <div class="feature-text">
-        <span class="label">MODULE 01 — DASHBOARD</span>
-        <h2 class="section-title">Everything at a Glance</h2>
-        <p>
-          A high-focus, low-friction interface built to surface what matters most —
-          your progress, habits, and reading activity — the moment you log in.
-        </p>
-
-        <!-- Key features — scannable -->
-        <ul class="feature-list">
-          <li>
-            <i class="fa-solid fa-chart-line"></i>
-            <div>
-              <strong>Growth Metrics</strong>
-              <span>Total Books, Active Tasks, Active Habits and Journal Entries visible at a glance</span>
+        <div class="project-header-content">
+          <div class="project-header-text">
+            <span class="label">
+              <i class="fa-regular fa-star" aria-hidden="true"></i>
+              FINAL YEAR PROJECT • FULL-STACK + AI
+            </span>
+            <h1 class="project-main-title gradient-text">Live Your Books</h1>
+            <p class="project-tagline">
+              Turning passive reading into active growth — by borrowing the
+              habit-forming patterns of social media and applying them to
+              self-improvement through AI-powered mentorship.
+            </p>
+            <div class="tech-stack">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">Laravel</span>
+              <span class="tech-tag">Gemini API</span>
+              <span class="tech-tag">MySQL</span>
+              <span class="tech-tag">Docker</span>
+              <span class="tech-tag">Tailwind</span>
             </div>
-          </li>
-          <li>
-            <i class="fa-solid fa-bolt"></i>
-            <div>
-              <strong>Real-time Data</strong>
-              <span>React frontend pulls live data from a Laravel backend on every load</span>
-            </div>
-          </li>
-          <li>
-            <i class="fa-solid fa-fire"></i>
-            <div>
-              <strong>Streak Tracking</strong>
-              <span>Visual progress cues keep habits consistent and completion rewarding</span>
-            </div>
-          </li>
-        </ul>
-
-        <!-- Tech used -->
-        <div class="tech-stack" style="margin-top: var(--spacing-lg)">
-          <span class="tech-tag">React</span>
-          <span class="tech-tag">Laravel</span>
-          <span class="tech-tag">REST API</span>
-        </div>
-      </div>
-
-      <!-- Right: Screenshot -->
-      <div class="feature-image">
-        <div class="app-window glow-float-card reveal delay-400">
-          <img src="../assets/Landing page.png" alt="Live Your Books Dashboard">
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-  <!-- Feature 2: AI Mentor Chat -->
-<section id="project-feature-2" class="project-feature reveal delay-300">
-  <div class="container">
-    <div class="feature-layout section-card hover-trigger">
-
-      <!-- Left: Text Content -->
-      <div class="feature-text">
-        <span class="label">MODULE 02 — AI MENTOR</span>
-        <h2 class="section-title">Talk to Your Books</h2>
-        <p>
-          Instead of highlighting a passage in Atomic Habits, I wanted to ask
-          James Clear directly — "How do I apply Chapter 1 to my schedule today?"
-          The AI Mentor Chat turns reading into a conversation.
-        </p>
-
-        <!-- Engineering challenge callout -->
-        <div class="challenge-callout">
-          <div class="challenge-callout-header">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            <span>The Hard Part</span>
           </div>
+
+          <div class="project-header-stats">
+            <div class="stat-pill">
+              <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+              <div>
+                <span class="stat-pill-label">Type</span>
+                <span class="stat-pill-value">Solo Final Year Project</span>
+              </div>
+            </div>
+            <div class="stat-pill">
+              <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+              <div>
+                <span class="stat-pill-label">Context</span>
+                <span class="stat-pill-value">Kabarak University</span>
+              </div>
+            </div>
+            <div class="stat-pill">
+              <i class="fa-solid fa-brain" aria-hidden="true"></i>
+              <div>
+                <span class="stat-pill-label">Core Innovation</span>
+                <span class="stat-pill-value"
+                  >AI Mentor Chat with Personas</span
+                >
+              </div>
+            </div>
+            <div class="stat-pill">
+              <i class="fa-brands fa-github" aria-hidden="true"></i>
+              <div>
+                <span class="stat-pill-label">Source</span>
+                <a
+                  href="https://github.com/kirrer-izo/LiveYourBooks"
+                  class="stat-pill-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View LiveYourBooks source on GitHub (opens in new tab)"
+                  >github.com/kirrer-izo/LiveYourBooks</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         TECHNICAL ACHIEVEMENTS
+         ══════════════════════════════════════════ -->
+    <section aria-labelledby="achievements-heading" class="reveal">
+      <div class="container">
+        <div class="section-intro">
+          <span class="label">
+            <i class="fa-solid fa-microchip" aria-hidden="true"></i> TECHNICAL
+            ACHIEVEMENTS
+          </span>
+          <h2 id="achievements-heading">
+            Built from Scratch — Solo Final Year Project
+          </h2>
           <p>
-            Preventing the AI from hallucinating or breaking character. I refined
-            system-level prompts and output constraints so that when you're
-            talking to a Stoic philosopher, the tone, vocabulary, and advice
-            stays authentically Stoic — not generic ChatGPT.
+            Every feature, every integration, every optimization — designed and
+            implemented.
           </p>
         </div>
 
-        <!-- Tech used -->
-        <div class="tech-stack" style="margin-top: var(--spacing-lg)">
-          <span class="tech-tag">Gemini API</span>
-          <span class="tech-tag">React</span>
-          <span class="tech-tag">Laravel</span>
-          <span class="tech-tag">Prompt Engineering</span>
-        </div>
-      </div>
-
-      <!-- Right: Screenshot -->
-      <div class="feature-image">
-        <div class="app-window glow-float-card reveal delay-500">
-          <img src="../assets/AI Mentor Chat.png" alt="AI Mentor Chat Interface">
-        </div>
-        <!-- Caption under image where it belongs -->
-        <p class="image-caption">
-          <i class="fa-solid fa-circle-info"></i>
-          Asking the Atomic Habits mentor for actionable steps from Chapter 1
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- Feature 3: AI Features -->
-<section id="project-feature-3" class="project-feature reveal delay-300">
-  <div class="container">
-    <div class="feature-layout feature-layout-reverse section-card hover-trigger">
-
-      <!-- Left: Screenshot -->
-      <div class="feature-image">
-        <div class="app-window glow-float-card reveal delay-500">
-          <img src="../assets/AIPoweredGrowth.png" alt="AI Personalized Advice">
-        </div>
-        <p class="image-caption">
-          <i class="fa-solid fa-circle-info"></i>
-          Buddhist Philosopher persona framing tasks through the lens of Right Effort
-        </p>
-      </div>
-
-      <!-- Right: Text Content -->
-      <div class="feature-text">
-        <span class="label">MODULE 03 — AI FEATURES</span>
-        <h2 class="section-title">Your Personal Growth Coach</h2>
-        <p>
-          A feature that connects the dots between the books you're reading and
-          the life you're actually living — surfacing insights, habits, and
-          advice that are specific to you.
-        </p>
-
-        <!-- Engineering challenge callout -->
-        <div class="challenge-callout">
-          <div class="challenge-callout-header">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            <span>The Hard Part</span>
+        <!-- Category: AI & Core Features -->
+        <div class="achievement-category">
+          <div class="category-title">
+            <i class="fa-solid fa-brain" aria-hidden="true"></i>
+            <span>AI & Intelligent Features</span>
           </div>
-          <p>
-            Data Synthesis. I had to architect the Laravel backend to aggregate
-            tasks, habits, and journal entries into a structured context payload —
-            feeding the right information into Gemini API without overwhelming
-            its context window.
-          </p>
+          <div class="contributions-grid" style="margin-top: 0">
+            <div class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-robot" aria-hidden="true"></i>
+              </div>
+              <h3>AI Mentor Chat</h3>
+              <p>
+                Gemini API integration with streaming responses, conversation
+                history, fallback mechanisms, and customizable author personas.
+              </p>
+            </div>
+            <div class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-chart-bar" aria-hidden="true"></i>
+              </div>
+              <h3>Weekly Progress Report</h3>
+              <p>
+                AI-generated snapshot of habits, tasks, and reading evolution —
+                delivered directly to users.
+              </p>
+            </div>
+            <div class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
+              </div>
+              <h3>Customizable Personas</h3>
+              <p>
+                Chat with Stoics, Buddhists, or create your own mentor persona.
+                Each persona maintains strict character constraints.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <!-- Available features — with icons -->
-        <div class="available-features">
-          <p class="features-heading">What It Does</p>
-          <ul class="feature-pills-list">
-            <li>
-              <i class="fa-solid fa-chart-bar"></i>
-              <div>
-                <strong>Weekly Progress Report</strong>
-                <span>Data-driven snapshot of your habits, tasks and reading evolution</span>
+        <!-- Category: Performance & Architecture -->
+        <div class="achievement-category">
+          <div class="category-title">
+            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+            <span>Performance & Architecture</span>
+          </div>
+          <div class="contributions-grid" style="margin-top: 0">
+            <div class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-database" aria-hidden="true"></i>
               </div>
+              <h3>Query Optimization</h3>
+              <p>
+                Reduced dashboard queries from 6 to 2 using Eloquent aggregation
+                — 66% reduction in database load.
+              </p>
+            </div>
+            <div class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-shield-alt" aria-hidden="true"></i>
+              </div>
+              <h3>Security &amp; Privacy</h3>
+              <p>
+                Encrypted sensitive data, HTTPS enforcement, proper
+                authentication — protecting personal journals.
+              </p>
+            </div>
+            <div class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-bell" aria-hidden="true"></i>
+              </div>
+              <h3>Notifications Module</h3>
+              <p>
+                Complete notification system with UTC timezone selector and
+                real-time alerts for user engagement.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category: DevOps & Integrations -->
+        <div class="achievement-category">
+          <div class="category-title">
+            <i class="fa-solid fa-cloud-upload-alt" aria-hidden="true"></i>
+            <span>DevOps & External Integrations</span>
+          </div>
+          <div class="contributions-grid" style="margin-top: 0">
+            <div class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-brands fa-docker" aria-hidden="true"></i>
+              </div>
+              <h3>Docker Deployment</h3>
+              <p>
+                Full Docker configuration with PHP 8.3, Nginx, MySQL — ready for
+                any cloud deployment.
+              </p>
+            </div>
+            <div class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-brands fa-google" aria-hidden="true"></i>
+              </div>
+              <h3>Google Books API + OCR</h3>
+              <p>
+                Auto-fetch book metadata and OCR integration for automatic book
+                information.
+              </p>
+            </div>
+            <div class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-camera" aria-hidden="true"></i>
+              </div>
+              <h3>OCR Text Extraction</h3>
+              <p>
+                Extract text from book covers and pages to automatically
+                populate reading lists.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         MODULE 01 — DASHBOARD
+         ══════════════════════════════════════════ -->
+    <section aria-labelledby="dashboard-heading" class="reveal">
+      <div class="container">
+        <div class="feature-layout">
+          <div class="feature-text">
+            <span class="label">
+              <i class="fa-solid fa-chart-simple" aria-hidden="true"></i> MODULE
+              01 — DASHBOARD
+            </span>
+            <h2 id="dashboard-heading">Everything at a Glance</h2>
+            <p>
+              A high-focus, low-friction interface built to surface what matters
+              most — your progress, habits, and reading activity — the moment
+              you log in.
+            </p>
+
+            <div class="code-block">
+              <pre
+                style="margin: 0; overflow-x: auto"
+              ><span style="color:#90cdf4">// DashboardController.php - Query Optimization</span>
+<span style="color:#fbbf24">// BEFORE: 6 separate queries causing N+1 problem</span>
+<span style="color:#fbbf24">// AFTER: 2 optimized aggregated queries</span>
+
+<span style="color:#fbbf24">private function</span> <span style="color:#93c5fd">getDashboardStats</span>(User $user)
+{
+    <span style="color:#fbbf24">return</span> [
+        'total_books'    => Book::where('user_id', $user->id)->count(),
+        'active_tasks'   => Task::where('user_id', $user->id)
+                                ->where('status', 'pending')->count(),
+        'active_habits'  => Habit::where('user_id', $user->id)
+                                 ->where('active', true)->count(),
+        'journal_entries'=> Journal::where('user_id', $user->id)->count(),
+    ];
+}
+<span style="color:#90cdf4">// ⚡ 66% reduction in database queries</span></pre>
+            </div>
+
+            <ul class="feature-list">
+              <li>
+                <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                <div>
+                  <strong>Growth Metrics</strong>
+                  <span
+                    >Total Books, Active Tasks, Habits, and Journal Entries
+                    visible at a glance</span
+                  >
+                </div>
+              </li>
+              <li>
+                <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                <div>
+                  <strong>Real-time Data</strong>
+                  <span
+                    >React frontend pulling live data from Laravel backend</span
+                  >
+                </div>
+              </li>
+              <li>
+                <i class="fa-solid fa-fire" aria-hidden="true"></i>
+                <div>
+                  <strong>Streak Tracking</strong>
+                  <span
+                    >Visual progress cues keep habits consistent and completion
+                    rewarding</span
+                  >
+                </div>
+              </li>
+            </ul>
+
+            <div class="tech-stack" style="margin-top: var(--spacing-lg)">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">Laravel</span>
+              <span class="tech-tag">Eloquent</span>
+              <span class="tech-tag">Query Optimization</span>
+            </div>
+          </div>
+
+          <div class="feature-image">
+            <div class="app-window">
+              <img
+                src="../assets/Landing page.png"
+                alt="Live Your Books dashboard showing growth metrics and reading activity"
+              />
+            </div>
+            <p class="image-caption">
+              <i class="fa-regular fa-image" aria-hidden="true"></i>
+              Main dashboard showing progress metrics and reading activity
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         MODULE 02 — AI MENTOR CHAT
+         ══════════════════════════════════════════ -->
+    <section aria-labelledby="mentor-heading" class="reveal">
+      <div class="container">
+        <div class="feature-layout feature-layout-reverse">
+          <div class="feature-image">
+            <div class="app-window">
+              <img
+                src="../assets/AI Mentor Chat.png"
+                alt="AI Mentor Chat interface showing a conversation with the Atomic Habits persona"
+              />
+            </div>
+            <p class="image-caption">
+              <i class="fa-regular fa-image" aria-hidden="true"></i>
+              Chatting with Atomic Habits mentor for actionable steps
+            </p>
+          </div>
+
+          <div class="feature-text">
+            <span class="label">
+              <i class="fa-solid fa-comment-dots" aria-hidden="true"></i> MODULE
+              02 — AI MENTOR
+            </span>
+            <h2 id="mentor-heading">Talk to Your Books</h2>
+            <p>
+              Instead of highlighting a passage in Atomic Habits, ask James
+              Clear directly — "How do I apply Chapter 1 to my schedule today?"
+              The AI Mentor Chat turns reading into a conversation.
+            </p>
+
+            <div class="code-block">
+              <pre
+                style="margin: 0; overflow-x: auto"
+              ><span style="color:#90cdf4">// Streaming response with conversation history</span>
+<span style="color:#fbbf24">public function</span> <span style="color:#93c5fd">chat</span>(Request $request)
+{
+    <span style="color:#fbbf24">try</span> {
+        <span style="color:#fbbf24">return</span> response()->stream(<span style="color:#fbbf24">function</span>() use ($request) {
+            $response = $this->gemini->streamGenerateContent(
+                $this->buildContextWithHistory($request->messages)
+            );
+
+            <span style="color:#fbbf24">foreach</span> ($response as $chunk) {
+                <span style="color:#fbbf24">echo</span> "data: " . json_encode($chunk) . "\n\n";
+                ob_flush();
+                flush();
+            }
+        }, 200, ['Content-Type' => 'text/event-stream']);
+    } <span style="color:#fbbf24">catch</span> (Exception $e) {
+        <span style="color:#90cdf4">// Fallback: graceful degradation</span>
+        <span style="color:#fbbf24">return</span> response()->json(['error' => 'AI temporarily unavailable'], 503);
+    }
+}</pre>
+            </div>
+
+            <div class="challenge-callout">
+              <div class="challenge-callout-header">
+                <i
+                  class="fa-solid fa-triangle-exclamation"
+                  aria-hidden="true"
+                ></i>
+                <span>Engineering Challenge Solved</span>
+              </div>
+              <p>
+                <strong>Maintaining authentic personas:</strong> Implemented
+                strict system-level prompt constraints to prevent hallucination.
+                When the AI breaks character or API fails, fallback mechanisms
+                ensure graceful degradation — users never see broken
+                functionality.
+              </p>
+            </div>
+
+            <div class="tech-stack">
+              <span class="tech-tag">Gemini API</span>
+              <span class="tech-tag">Server-Sent Events</span>
+              <span class="tech-tag">Prompt Engineering</span>
+              <span class="tech-tag">Fallback Patterns</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         MODULE 03 — AI FEATURES
+         ══════════════════════════════════════════ -->
+    <section aria-labelledby="ai-features-heading" class="reveal">
+      <div class="container">
+        <div class="feature-layout">
+          <div class="feature-text">
+            <span class="label">
+              <i class="fa-solid fa-mask" aria-hidden="true"></i> MODULE 03 — AI
+              FEATURES
+            </span>
+            <h2 id="ai-features-heading">Your Personal Growth Coach</h2>
+            <p>
+              A feature that connects the dots between the books you're reading
+              and the life you're actually living — surfacing insights, habits,
+              and advice specific to you through customizable author personas.
+            </p>
+
+            <ul class="feature-list">
+              <li>
+                <i class="fa-solid fa-chart-bar" aria-hidden="true"></i>
+                <div>
+                  <strong>Weekly Progress Report</strong>
+                  <span
+                    >AI-generated snapshot of habits, tasks, and reading
+                    evolution</span
+                  >
+                </div>
+              </li>
+              <li>
+                <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
+                <div>
+                  <strong>Customizable Personas</strong>
+                  <span
+                    >Chat with Stoics, Buddhists, or create your own mentor
+                    persona</span
+                  >
+                </div>
+              </li>
+              <li>
+                <i class="fa-solid fa-seedling" aria-hidden="true"></i>
+                <div>
+                  <strong>Habit Suggestions</strong>
+                  <span
+                    >AI recommends habits based on books you're currently
+                    reading</span
+                  >
+                </div>
+              </li>
+              <li>
+                <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+                <div>
+                  <strong>Routine Builder</strong>
+                  <span
+                    >Transforms book-derived tasks into structured daily
+                    routines</span
+                  >
+                </div>
+              </li>
+            </ul>
+
+            <div class="tech-stack" style="margin-top: var(--spacing-lg)">
+              <span class="tech-tag">Gemini API</span>
+              <span class="tech-tag">Context Aggregation</span>
+              <span class="tech-tag">Persona Management</span>
+            </div>
+          </div>
+
+          <div class="feature-image">
+            <div class="app-window">
+              <img
+                src="../assets/AIPoweredGrowth.png"
+                alt="AI Personalized Advice screen showing a Buddhist Philosopher persona framing a task through the Right Effort lens"
+              />
+            </div>
+            <p class="image-caption">
+              <i class="fa-regular fa-image" aria-hidden="true"></i>
+              Buddhist Philosopher persona framing tasks through Right Effort
+              lens
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         TECHNICAL EXECUTION
+         ══════════════════════════════════════════ -->
+    <section aria-labelledby="tech-execution-heading" class="section-divider">
+      <div class="container">
+        <div class="section-intro">
+          <span class="label">
+            <i class="fa-solid fa-cogs" aria-hidden="true"></i> TECHNICAL
+            EXECUTION
+          </span>
+          <h2 id="tech-execution-heading">Engineering Decisions That Matter</h2>
+          <p>From Docker deployment to AI integration — built for production</p>
+        </div>
+
+        <div class="challenges-grid">
+          <div class="challenge-card reveal">
+            <i
+              class="fa-solid fa-database challenge-card-icon"
+              aria-hidden="true"
+            ></i>
+            <h3>Database Architecture</h3>
+            <p>
+              Designed relationships between Books, Habits, Tasks, Journals, and
+              AI conversation history — supporting complex user growth tracking.
+            </p>
+          </div>
+
+          <div class="challenge-card reveal">
+            <i
+              class="fa-solid fa-chart-line challenge-card-icon"
+              aria-hidden="true"
+            ></i>
+            <h3>Performance Optimization</h3>
+            <p>
+              Reduced dashboard queries from 6 to 2 using Eloquent aggregation.
+              Analytics now responsive with flash messages for user feedback.
+            </p>
+          </div>
+
+          <div class="challenge-card reveal">
+            <i
+              class="fa-brands fa-docker challenge-card-icon"
+              aria-hidden="true"
+            ></i>
+            <h3>Containerization</h3>
+            <p>
+              Full Docker setup with PHP 8.3, Nginx, MySQL — ready for any cloud
+              deployment. Fixed build failures and SSL verification issues.
+            </p>
+          </div>
+
+          <div class="challenge-card reveal">
+            <i
+              class="fa-solid fa-shield-halved challenge-card-icon"
+              aria-hidden="true"
+            ></i>
+            <h3>Security &amp; Privacy</h3>
+            <p>
+              Encrypted sensitive user data, HTTPS enforcement, and proper
+              authentication — handling personal journal entries with care.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         INTEGRATIONS
+         ══════════════════════════════════════════ -->
+    <section aria-labelledby="integrations-heading" class="reveal">
+      <div class="container">
+        <div class="section-intro">
+          <span class="label">
+            <i class="fa-solid fa-plug" aria-hidden="true"></i> INTEGRATIONS
+          </span>
+          <h2 id="integrations-heading">External APIs &amp; Services</h2>
+          <p>Seamlessly connected services that power the platform</p>
+        </div>
+
+        <div class="integration-grid">
+          <div class="integration-card">
+            <div class="integration-icon" aria-hidden="true">
+              <i class="fa-brands fa-google"></i>
+            </div>
+            <h4>Google Books API</h4>
+            <p>Auto-fetch book metadata, covers, and descriptions</p>
+          </div>
+          <div class="integration-card">
+            <div class="integration-icon" aria-hidden="true">
+              <i class="fa-solid fa-robot"></i>
+            </div>
+            <h4>Gemini AI</h4>
+            <p>
+              Streaming responses, persona management, and context-aware
+              conversations
+            </p>
+          </div>
+          <div class="integration-card">
+            <div class="integration-icon" aria-hidden="true">
+              <i class="fa-solid fa-camera"></i>
+            </div>
+            <h4>OCR Integration</h4>
+            <p>
+              Extract text from book covers and pages for automatic population
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         KEY TAKEAWAYS
+         ══════════════════════════════════════════ -->
+    <section
+      aria-labelledby="takeaways-heading"
+      class="reveal"
+      style="margin-bottom: var(--spacing-xl)"
+    >
+      <div class="container">
+        <div class="overview-card takeaways-card">
+          <div class="card-icon-wrap">
+            <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+          </div>
+          <h3 id="takeaways-heading">
+            Key Takeaways from My Final Year Project
+          </h3>
+          <ul class="solution-list">
+            <li>
+              <strong>🤖 AI integration is more than API calls:</strong>
+              Prompt engineering, context management, and fallback strategies
+              separate good from great.
             </li>
             <li>
-              <i class="fa-solid fa-user-tie"></i>
-              <div>
-                <strong>Personalized Advice</strong>
-                <span>AI frames guidance through your chosen persona — Stoic, Buddhist, or others</span>
-              </div>
+              <strong>⚡ Query optimization has immediate impact:</strong>
+              Reducing 6 queries to 2 made the dashboard feel snappy and
+              professional.
             </li>
             <li>
-              <i class="fa-solid fa-seedling"></i>
-              <div>
-                <strong>Habit Suggestions</strong>
-                <span>App suggests habits based on books you're currently reading</span>
-              </div>
+              <strong>🐳 Docker from day one:</strong>
+              Containerization made deployment thinking natural — even for a
+              local project.
             </li>
             <li>
-              <i class="fa-solid fa-calendar-check"></i>
-              <div>
-                <strong>Routine Builder</strong>
-                <span>Turns book-derived tasks into a structured daily routine</span>
-              </div>
+              <strong>📦 Handle edge cases gracefully:</strong>
+              AI fallbacks, SSL verification issues, and build failures taught
+              me resilience.
+            </li>
+            <li>
+              <strong>🎯 Build for real users:</strong>
+              The habit-forming patterns borrowed from social media actually
+              work when done right.
             </li>
           </ul>
         </div>
-
       </div>
+    </section>
 
-    </div>
-  </div>
-</section>
+    <!-- SHARED: Footer injected here by components.js -->
+    <div data-component="footer"></div>
+    <!-- SHARED: Contact me modal injected here by components.js -->
+    <div data-component="modal"></div>
+    <!-- SHARED: Back to Top injected here by components.js -->
+    <div data-component="back_to_top"></div>
 
-  <!-- Feature 4: Technical Execution -->
-<section id="project-feature-4" class="project-challenges reveal delay-300">
-  <div class="container">
-    <div class="section-card hover-trigger">
-
-      <!-- Section Header -->
-      <div class="challenges-header">
-        <span class="label">MODULE 04 — ENGINEERING</span>
-        <h2 class="section-title">Technical Execution</h2>
-        <p class="challenges-subtitle">
-          The decisions made under the hood that made the product feel alive.
-        </p>
-      </div>
-
-      <!-- Cards Grid -->
-      <div class="challenges-grid">
-
-        <!-- Card 1: Architecting the Core -->
-        <div class="challenge-card glow-float-card hover-trigger reveal delay-400">
-          <div class="challenge-card-header">
-            <div class="challenge-number">01</div>
-            <div class="challenge-icon">
-              <i class="fa-solid fa-server"></i>
-            </div>
-          </div>
-          <h3>Architecting the Core</h3>
-          <p class="challenge-description">
-            Built a Laravel backend capable of handling complex relationships
-            between book modules, journals, and habit tracking. Implemented
-            caching layers for frequently accessed data like habit streaks —
-            reducing database latency and keeping the experience frictionless.
-          </p>
-          <div class="challenge-tags">
-            <span class="tech-tag">Laravel</span>
-            <span class="tech-tag">Caching</span>
-            <span class="tech-tag">MySQL</span>
-          </div>
-        </div>
-
-        <!-- Card 2: AI Integration -->
-        <div class="challenge-card glow-float-card hover-trigger reveal delay-500">
-          <div class="challenge-card-header">
-            <div class="challenge-number">02</div>
-            <div class="challenge-icon">
-              <i class="fa-solid fa-robot"></i>
-            </div>
-          </div>
-          <h3>AI Integration & Prompt Engineering</h3>
-          <p class="challenge-description">
-            Integrating Gemini API was about more than API calls — it was about
-            maintaining authentic personas. Designed strict system-level
-            constraints to minimise hallucinations and keep the Mentor grounded
-            in the specific book being discussed.
-          </p>
-          <div class="challenge-tags">
-            <span class="tech-tag">Gemini API</span>
-            <span class="tech-tag">Prompt Engineering</span>
-          </div>
-        </div>
-
-        <!-- Card 3: Resource Optimization -->
-        <div class="challenge-card glow-float-card hover-trigger reveal delay-400">
-          <div class="challenge-card-header">
-            <div class="challenge-number">03</div>
-            <div class="challenge-icon">
-              <i class="fa-solid fa-gauge-high"></i>
-            </div>
-          </div>
-          <h3>Resource Optimisation</h3>
-          <p class="challenge-description">
-            Avoided heavy full-file uploads by developing a name-input system.
-            This reduced storage usage while maintaining enough metadata for the
-            AI to provide highly relevant, content-aware responses.
-          </p>
-          <div class="challenge-tags">
-            <span class="tech-tag">Storage</span>
-            <span class="tech-tag">Metadata</span>
-          </div>
-        </div>
-
-        <!-- Card 4: Security by Design -->
-        <div class="challenge-card glow-float-card hover-trigger reveal delay-500">
-          <div class="challenge-card-header">
-            <div class="challenge-number">04</div>
-            <div class="challenge-icon">
-              <i class="fa-solid fa-shield-halved"></i>
-            </div>
-          </div>
-          <h3>Security by Design</h3>
-          <p class="challenge-description">
-            This app handles deeply personal journal entries and growth data.
-            Built with privacy at the core — all sensitive user information and
-            passwords are encrypted at rest within the database.
-          </p>
-          <div class="challenge-tags">
-            <span class="tech-tag">Encryption</span>
-            <span class="tech-tag">Laravel Auth</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- SHARED: Footer injected by components.js -->
-  <div id="footer-placeholder"></div>
-
-  <!-- Back to Top Button -->
-  <button onclick="topFunction()" id="backToTop" title="Go to top">
-    <i class="fa-solid fa-arrow-up"></i>
-  </button>
-  <!-- SHARED: Footer injected by components.js -->
-  <div id="footer-placeholder"></div>
-
-  <!-- Back to Top Button -->
-  <button onclick="topFunction()" id="backToTop" title="Go to top">
-    <i class="fa-solid fa-arrow-up"></i>
-  </button>
-
-  <script src="../js//component.js"></script>
-  <script src="../js/main.js"></script>
-  <script src="../js/project-page.js"></script>
-
-</body>
-
+    <script src="../js/component.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/back-to-top.js"></script>
+  </body>
 </html>

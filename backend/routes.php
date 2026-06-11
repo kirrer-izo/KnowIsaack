@@ -178,8 +178,8 @@ switch ($path) {
     case '/sole-proprietor-crm':
         require __DIR__ . '/../frontend/pages/sole-proprietor-crm.html';
         break;
-    case '/profile':
-        require __DIR__ . '/../frontend/pages/profile.html';
+    case '/knowisaack-platform':
+        require __DIR__ . '/../frontend/pages/portfolio.html';
         break;
 
     // ── Auth pages (HTML) ─────────────────────────────────────────────────────
@@ -245,6 +245,9 @@ switch ($path) {
         break;
     case '/admin/rate-limits':
         require __DIR__ . '/../frontend/pages/admin/rate-limits.html';
+        break;
+    case 'admin/profile':
+        require __DIR__ . '/../frontend/pages/admin/profile.html';
         break;
 
     // ── Public API ────────────────────────────────────────────────────────────

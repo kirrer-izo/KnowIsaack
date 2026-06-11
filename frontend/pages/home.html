@@ -1,324 +1,280 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Isaack Muchoki - Developer Portfolio</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Isaack Muchoki - Developer Portfolio</title>
-  <link rel="stylesheet" href="../css/main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+  <body>
+    <div class="mesh-gradient"></div>
 
-<body>
+    <!-- SHARED: Navbar injected here by components.js -->
+    <div data-component="navbar"></div>
 
-  <div class="mesh-gradient"></div>
+    <!-- Hero Section -->
+    <section id="about" class="hero-section reveal delay-200">
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Left: Content -->
+          <div class="hero-content">
+            <span class="label">AVAILABLE FOR WORK • NAIROBI, KE</span>
 
-  <!-- SHARED: Navbar injected here by components.js -->
-  <div id="navbar-placeholder"></div>
+            <h1 class="hero-title">
+              Full-Stack Developer<br />
+              building apps people<br />
+              <span class="color-accent">actually use.</span>
+            </h1>
 
-<!-- Hero Section -->
-<section id="about" class="hero-section reveal delay-200">
-  <div class="container">
-    <div class="hero-grid">
+            <p class="hero-description">
+              I'm Isaack Muchoki — I build scalable web applications with React
+              and Laravel, with a focus on AI integration and user experience.
+              Currently finishing my CS degree at Kabarak University.
+            </p>
 
-      <!-- Left: Content -->
-      <div class="hero-content">
-        <span class="label">AVAILABLE FOR WORK • NAIROBI, KE</span>
-
-        <h1 class="hero-title">
-          Full-Stack Developer<br>
-          building apps people<br>
-          <span class="color-accent">actually use.</span>
-        </h1>
-
-        <p class="hero-description">
-          I'm Isaack Muchoki — I build scalable web applications with React
-          and Laravel, with a focus on AI integration and user experience.
-          Currently finishing my CS degree at Kabarak University.
-        </p>
-
-        <!-- CTAs -->
-        <div class="hero-actions">
-          <a href="#projects" class="btn-primary">
-            View My Work
-          </a>
-          <a href="#contact" class="btn-secondary">
-            <i class="fa-solid fa-envelope"></i>
-            Get in Touch
-          </a>
-        </div>
-
-        <!-- Social + quick facts -->
-        <div class="hero-footer">
-          <div class="social-links">
-            <a href="https://github.com/kirrer-izo"
-               class="social-icon" aria-label="GitHub" target="_blank">
-              <i class="fa-brands fa-github"></i>
-            </a>
-            <a href="https://discord.com/invite/aJh572WK"
-               class="social-icon" aria-label="Discord" target="_blank">
-              <i class="fa-brands fa-discord"></i>
-            </a>
-            <a href="mailto:isaackmuchoki55@gmail.com"
-               class="social-icon" aria-label="Email">
-              <i class="fa-solid fa-envelope"></i>
-            </a>
-          </div>
-          <span class="hero-divider">—</span>
-          <span class="hero-stack-label">React · Laravel · Gemini API · MySQL</span>
-        </div>
-      </div>
-
-      <!-- Right: Photo -->
-      <div class="hero-image-wrap">
-        <div class="hero-image-frame simple-float-card">
-          <img src="../assets/Profilepic.png"
-               alt="Isaack Muchoki"
-               class="hero-photo">
-        </div>
-        <!-- Floating badge -->
-        <div class="hero-badge reveal delay-500">
-          <i class="fa-solid fa-code"></i>
-          <span>2+ Years Building</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-  <!-- Skills Section -->
-<section id="skills" class="skills-section reveal delay-300">
-  <div class="container section-card">
-
-    <!-- Section Header -->
-    <div class="section-description">
-      <span class="label">TECHNICAL EXPERTISE</span>
-      <h2 class="section-title">What I Build With</h2>
-      <p>
-        A focused stack built around shipping production-grade full-stack
-        applications — from UI to database to deployment.
-      </p>
-    </div>
-
-    <!-- Skill Groups -->
-    <div class="skills-groups">
-
-      <!-- Frontend -->
-      <div class="skill-group">
-        <p class="skill-group-label">
-          <i class="fa-solid fa-display"></i>
-          Frontend
-        </p>
-        <div class="skill-cards-row">
-          <div class="skill-card hover-trigger simple-float-card">
-            <div class="skill-card-icon">
-              <i class="fa-brands fa-react"></i>
+            <!-- CTAs -->
+            <div class="hero-actions">
+              <a href="#projects" class="btn-primary"> View My Work </a>
+              <a href="#contact" class="btn-secondary">
+                <i class="fa-solid fa-envelope"></i>
+                Get in Touch
+              </a>
             </div>
-            <div class="skill-card-info">
-              <strong>React</strong>
-              <span>Component-based UIs with hooks, context, and REST integration</span>
+
+            <!-- Social + quick facts -->
+            <div class="hero-footer">
+              <div class="social-links">
+                <a
+                  href="https://github.com/kirrer-izo"
+                  class="social-icon"
+                  aria-label="GitHub"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-github"></i>
+                </a>
+                <a
+                  href="https://discord.com/invite/aJh572WK"
+                  class="social-icon"
+                  aria-label="Discord"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-discord"></i>
+                </a>
+                <a
+                  href="mailto:isaackmuchoki55@gmail.com"
+                  class="social-icon"
+                  aria-label="Email"
+                >
+                  <i class="fa-solid fa-envelope"></i>
+                </a>
+              </div>
+              <span class="hero-divider">—</span>
+              <span class="hero-stack-label"
+                >React · Laravel · Gemini API · MySQL</span
+              >
             </div>
           </div>
-          <div class="skill-card hover-trigger simple-float-card">
-            <div class="skill-card-icon">
-              <i class="fa-brands fa-js"></i>
+
+          <!-- Right: Photo -->
+          <div class="hero-image-wrap">
+            <div class="hero-image-frame simple-float-card">
+              <img
+                src="../assets/Profilepic.png"
+                alt="Isaack Muchoki"
+                class="hero-photo"
+              />
             </div>
-            <div class="skill-card-info">
-              <strong>JavaScript</strong>
-              <span>Vanilla JS, async/await, DOM manipulation, fetch API</span>
-            </div>
-          </div>
-          <div class="skill-card hover-trigger simple-float-card">
-            <div class="skill-card-icon">
-              <i class="fa-brands fa-css3-alt"></i>
-            </div>
-            <div class="skill-card-info">
-              <strong>CSS / Tailwind</strong>
-              <span>Responsive layouts, custom properties, animations</span>
+            <!-- Floating badge -->
+            <div class="hero-badge reveal delay-500">
+              <i class="fa-solid fa-code"></i>
+              <span>2+ Years Building</span>
             </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Backend -->
-      <div class="skill-group">
-        <p class="skill-group-label">
-          <i class="fa-solid fa-server"></i>
-          Backend
-        </p>
-        <div class="skill-cards-row">
-          <div class="skill-card hover-trigger simple-float-card">
-            <div class="skill-card-icon">
-              <i class="fa-brands fa-laravel"></i>
-            </div>
-            <div class="skill-card-info">
-              <strong>Laravel</strong>
-              <span>RESTful APIs, Eloquent ORM, authentication, queues</span>
-            </div>
-          </div>
-          <div class="skill-card hover-trigger simple-float-card">
-            <div class="skill-card-icon">
-              <i class="fa-brands fa-php"></i>
-            </div>
-            <div class="skill-card-info">
-              <strong>PHP</strong>
-              <span>MVC architecture, routing, session management, OOP</span>
-            </div>
-          </div>
-          <div class="skill-card hover-trigger simple-float-card">
-            <div class="skill-card-icon">
-              <i class="fa-brands fa-node-js"></i>
-            </div>
-            <div class="skill-card-info">
-              <strong>Node.js</strong>
-              <span>Server-side JavaScript, Express, npm ecosystem</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Data & DevOps -->
-      <div class="skill-group">
-        <p class="skill-group-label">
-          <i class="fa-solid fa-database"></i>
-          Data & DevOps
-        </p>
-        <div class="skill-cards-row">
-          <div class="skill-card hover-trigger simple-float-card">
-            <div class="skill-card-icon">
-              <i class="fa-solid fa-database"></i>
-            </div>
-            <div class="skill-card-info">
-              <strong>MySQL</strong>
-              <span>Schema design, relationships, indexing, raw queries</span>
-            </div>
-          </div>
-          <div class="skill-card hover-trigger simple-float-card">
-            <div class="skill-card-icon">
-              <i class="fa-brands fa-docker"></i>
-            </div>
-            <div class="skill-card-info">
-              <strong>Docker</strong>
-              <span>Containerised dev environments, docker-compose, deployment</span>
-            </div>
-          </div>
-          <div class="skill-card hover-trigger simple-float-card">
-            <div class="skill-card-icon">
-              <i class="fa-brands fa-git-alt"></i>
-            </div>
-            <div class="skill-card-info">
-              <strong>Git & GitHub</strong>
-              <span>Version control, branching, pull requests, GitHub API</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-  <!-- Projects Section -->
- <section id="projects" class="projects-section reveal delay-500">
-  <div class="container section-card">
-    <div class="section-description">
-      <span class="label">PORTFOLIO • FULL-STACK DEVELOPMENT</span>
-      <h2 class="section-title">Things I've Built</h2>
-      <p>A selection of full-stack projects — from AI-powered web apps to team collaborations.</p>
-    </div>
-    <div class="projects-grid" id="projects-container"></div>
-  </div>
-</section>
-
-  <!-- SHARED: Footer injected here by components.js -->
-  <div id="footer-placeholder"></div>
-
-  <!-- Contact Modal (index-page specific) -->
-  <section class="contact-section">
-  <div id="contactModal" class="modal">
-    <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <div>
-          <span class="label">GET IN TOUCH</span>
-          <h2 class="modal-title">Let's Build Something Together</h2>
-          <p class="modal-description">
-            Have an idea you'd like to discuss? Send me a message and
-            I'll get back to you within 24 hours.
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section reveal delay-300">
+      <div class="container section-card">
+        <!-- Section Header -->
+        <div class="section-description">
+          <span class="label">TECHNICAL EXPERTISE</span>
+          <h2 class="section-title">What I Build With</h2>
+          <p>
+            A focused stack built around shipping production-grade full-stack
+            applications — from UI to database to deployment.
           </p>
         </div>
-        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+
+        <!-- Skill Groups -->
+        <div class="skills-groups">
+          <!-- Frontend -->
+          <div class="skill-group">
+            <p class="skill-group-label">
+              <i class="fa-solid fa-display"></i>
+              Frontend
+            </p>
+            <div class="skill-cards-row">
+              <div class="skill-card hover-trigger simple-float-card">
+                <div class="skill-card-icon">
+                  <i class="fa-brands fa-react"></i>
+                </div>
+                <div class="skill-card-info">
+                  <strong>React</strong>
+                  <span
+                    >Component-based UIs with hooks, context, and REST
+                    integration</span
+                  >
+                </div>
+              </div>
+              <div class="skill-card hover-trigger simple-float-card">
+                <div class="skill-card-icon">
+                  <i class="fa-brands fa-js"></i>
+                </div>
+                <div class="skill-card-info">
+                  <strong>JavaScript</strong>
+                  <span
+                    >Vanilla JS, async/await, DOM manipulation, fetch API</span
+                  >
+                </div>
+              </div>
+              <div class="skill-card hover-trigger simple-float-card">
+                <div class="skill-card-icon">
+                  <i class="fa-brands fa-css3-alt"></i>
+                </div>
+                <div class="skill-card-info">
+                  <strong>CSS / Tailwind</strong>
+                  <span>Responsive layouts, custom properties, animations</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Backend -->
+          <div class="skill-group">
+            <p class="skill-group-label">
+              <i class="fa-solid fa-server"></i>
+              Backend
+            </p>
+            <div class="skill-cards-row">
+              <div class="skill-card hover-trigger simple-float-card">
+                <div class="skill-card-icon">
+                  <i class="fa-brands fa-laravel"></i>
+                </div>
+                <div class="skill-card-info">
+                  <strong>Laravel</strong>
+                  <span
+                    >RESTful APIs, Eloquent ORM, authentication, queues</span
+                  >
+                </div>
+              </div>
+              <div class="skill-card hover-trigger simple-float-card">
+                <div class="skill-card-icon">
+                  <i class="fa-brands fa-php"></i>
+                </div>
+                <div class="skill-card-info">
+                  <strong>PHP</strong>
+                  <span
+                    >MVC architecture, routing, session management, OOP</span
+                  >
+                </div>
+              </div>
+              <div class="skill-card hover-trigger simple-float-card">
+                <div class="skill-card-icon">
+                  <i class="fa-brands fa-node-js"></i>
+                </div>
+                <div class="skill-card-info">
+                  <strong>Node.js</strong>
+                  <span>Server-side JavaScript, Express, npm ecosystem</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data & DevOps -->
+          <div class="skill-group">
+            <p class="skill-group-label">
+              <i class="fa-solid fa-database"></i>
+              Data & DevOps
+            </p>
+            <div class="skill-cards-row">
+              <div class="skill-card hover-trigger simple-float-card">
+                <div class="skill-card-icon">
+                  <i class="fa-solid fa-database"></i>
+                </div>
+                <div class="skill-card-info">
+                  <strong>MySQL</strong>
+                  <span
+                    >Schema design, relationships, indexing, raw queries</span
+                  >
+                </div>
+              </div>
+              <div class="skill-card hover-trigger simple-float-card">
+                <div class="skill-card-icon">
+                  <i class="fa-brands fa-docker"></i>
+                </div>
+                <div class="skill-card-info">
+                  <strong>Docker</strong>
+                  <span
+                    >Containerised dev environments, docker-compose,
+                    deployment</span
+                  >
+                </div>
+              </div>
+              <div class="skill-card hover-trigger simple-float-card">
+                <div class="skill-card-icon">
+                  <i class="fa-brands fa-git-alt"></i>
+                </div>
+                <div class="skill-card-info">
+                  <strong>Git & GitHub</strong>
+                  <span
+                    >Version control, branching, pull requests, GitHub API</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <!-- Modal Body -->
-      <div class="modal-body">
-        <form id="contactForm">
-
-          <div class="form-group">
-            <label class="form-label" for="name">Full Name</label>
-            <input
-              id="name"
-              type="text"
-              name="name"
-              placeholder="e.g. Jane Smith"
-              required>
-            <span class="form-error" id="nameError"></span>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="email">Email Address</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="e.g. jane@company.com"
-              required>
-            <span class="form-error" id="emailError"></span>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              placeholder="Tell me about your project or idea..."
-              rows="5"
-              required></textarea>
-            <span class="form-error" id="messageError"></span>
-          </div>
-
-          <!-- Modal Footer -->
-          <div class="modal-footer">
-            <button type="submit" class="btn-primary">
-              <i class="fa-solid fa-paper-plane"></i>
-              Send Message
-            </button>
-            <button type="button" class="btn-cancel" onclick="closeModal()">
-              Cancel
-            </button>
-          </div>
-
-        </form>
-
-        <div id="formStatus"></div>
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section reveal delay-500">
+      <div class="container section-card">
+        <div class="section-description">
+          <span class="label">PORTFOLIO • FULL-STACK DEVELOPMENT</span>
+          <h2 class="section-title">Things I've Built</h2>
+          <p>
+            A selection of full-stack projects — from AI-powered web apps to
+            team collaborations.
+          </p>
+        </div>
+        <div class="projects-grid" id="projects-container"></div>
       </div>
+    </section>
 
-    </div>
-  </div>
-</section>
+    <!-- SHARED: Footer injected here by components.js -->
+    <div data-component="footer"></div>
+    <!-- SHARED: Contact me modal injected here by components.js -->
+    <div data-component="modal"></div>
 
-  <!--
+    <!-- SHARED: Back to Top injected here by components.js -->
+    <div data-component="back_to_top"></div>
+
+    <!--
     Script load order:
     1. components.js  — fetches & injects navbar + footer HTML
     2. main.js        — page logic (waits for components:loaded before nav init)
   -->
-  <script src="../js/component.js"></script>
-  <script src="../js/project-loader.js"></script>
-  <script src="../js/main.js"></script>
-</body>
-
+    <script src="../js/component.js"></script>
+    <script src="../js/project-loader.js"></script>
+    <script src="../js/back-to-top.js"></script>
+    <script src="../js/main.js"></script>
+  </body>
 </html>

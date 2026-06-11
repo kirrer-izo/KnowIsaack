@@ -1,376 +1,702 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Sole Proprietor CRM - Full-stack architecture by Isaack Muchoki. Backend lead role showcasing Laravel, MySQL, and analytics implementation."
+    />
+    <meta name="author" content="Isaack Muchoki" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sole Proprietor CRM - Isaack Muchoki</title>
-  <link rel="stylesheet" href="../css/main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+    <title>Sole Proprietor CRM | Backend Architecture by Isaack Muchoki</title>
 
-<body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/main.css" />
+  </head>
 
-  <!-- SHARED: Navbar injected by components.js -->
-  <div id="navbar-placeholder"></div>
+  <body>
+    <div class="mesh-gradient"></div>
 
- <!-- Project Header -->
-<section id="project-header" class="project-header reveal">
-  <div class="container">
+    <!-- SHARED: Navbar injected here by components.js -->
+    <div data-component="navbar"></div>
 
-    <a href="/#projects" class="back-link">
-      <i class="fa-solid fa-arrow-left"></i>
-      Back to Projects
-    </a>
+    <main>
+      <!-- ============================================ -->
+      <!-- PROJECT HEADER                               -->
+      <!-- ============================================ -->
+      <section class="project-header reveal">
+        <div class="container">
+          <a href="/#portfolio" class="back-link">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Back to Portfolio
+          </a>
 
-    <div class="project-header-content">
+          <div class="project-header-content">
+            <div class="project-header-text">
+              <span class="label">
+                <i class="fa-regular fa-building" aria-hidden="true"></i> TEAM
+                PROJECT • BACKEND LEAD
+              </span>
+              <h1 class="project-main-title gradient-text">
+                Sole Proprietor CRM
+              </h1>
+              <p class="project-tagline">
+                A unified platform that takes a freelancer's business from first
+                lead to final paid invoice — without the bloat of enterprise
+                tools. I architected the entire backend infrastructure,
+                analytics engine, and authorization system.
+              </p>
+              <div class="tech-stack" aria-label="Technologies used">
+                <span class="tech-tag">Laravel 11</span>
+                <span class="tech-tag">MySQL</span>
+                <span class="tech-tag">Eloquent ORM</span>
+                <span class="tech-tag">PHP 8.2</span>
+                <span class="tech-tag">Blade</span>
+                <span class="tech-tag">Chart.js</span>
+              </div>
+            </div>
 
-      <!-- Left: Title & Meta -->
-      <div class="project-header-text">
-        <span class="label">TEAM PROJECT • FULL-STACK</span>
-        <h1 class="project-main-title">Sole Proprietor CRM</h1>
-        <p class="project-tagline">
-          A unified platform that takes a freelancer's business from the
-          first lead to the final paid invoice — without the bloat of
-          enterprise tools.
-        </p>
-        <div class="tech-stack" style="margin-top: var(--spacing-lg)">
-          <span class="tech-tag">Laravel</span>
-          <span class="tech-tag">MySQL</span>
-          <span class="tech-tag">Tailwind</span>
-          <span class="tech-tag">PHP</span>
-        </div>
-      </div>
-
-      <!-- Right: Quick Stats -->
-      <div class="project-header-stats">
-        <div class="stat-pill">
-          <i class="fa-solid fa-layer-group"></i>
-          <div>
-            <span class="stat-pill-label">Type</span>
-            <span class="stat-pill-value">Team Project — 3 Developers</span>
+            <div class="project-header-stats" aria-label="Project statistics">
+              <div class="stat-pill">
+                <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+                <div>
+                  <span class="stat-pill-label">My Role</span>
+                  <span class="stat-pill-value"
+                    >Backend Architect & Infrastructure Lead</span
+                  >
+                </div>
+              </div>
+              <div class="stat-pill">
+                <i class="fa-solid fa-users" aria-hidden="true"></i>
+                <div>
+                  <span class="stat-pill-label">Team</span>
+                  <span class="stat-pill-value"
+                    >3 Developers · Git Collaboration</span
+                  >
+                </div>
+              </div>
+              <div class="stat-pill">
+                <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+                <div>
+                  <span class="stat-pill-label">Timeline</span>
+                  <span class="stat-pill-value">Mar 2025 - Jan 2026</span>
+                </div>
+              </div>
+              <div class="stat-pill">
+                <i class="fa-brands fa-github" aria-hidden="true"></i>
+                <div>
+                  <span class="stat-pill-label">Repository</span>
+                  <a
+                    href="https://github.com/Btsolo/CRM-Team-Project-"
+                    class="stat-pill-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >github.com/Btsolo/CRM-Team-Project-</a
+                  >
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="stat-pill">
-          <i class="fa-solid fa-graduation-cap"></i>
-          <div>
-            <span class="stat-pill-label">Context</span>
-            <span class="stat-pill-value">Kabarak University</span>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- MY CONTRIBUTIONS OVERVIEW                    -->
+      <!-- ============================================ -->
+      <section class="reveal">
+        <div class="container">
+          <div class="section-intro">
+            <span class="label"
+              ><i class="fa-solid fa-code" aria-hidden="true"></i> MY
+              CONTRIBUTIONS</span
+            >
+            <h2>What I Built from Scratch</h2>
+            <p>
+              As the backend lead, I designed and implemented the entire
+              server-side architecture, database schema, business logic, and
+              security layers.
+            </p>
+          </div>
+
+          <div class="contributions-grid">
+            <article class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+              </div>
+              <h3>Analytics Engine</h3>
+              <p>
+                Implemented caching strategy & iterative monthly grouping for
+                business intelligence
+              </p>
+            </article>
+
+            <article class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-shield-alt" aria-hidden="true"></i>
+              </div>
+              <h3>Authorization System</h3>
+              <p>
+                Role-based access control with Laravel Policies for Customers,
+                Projects, Tasks & Interactions
+              </p>
+            </article>
+
+            <article class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-search" aria-hidden="true"></i>
+              </div>
+              <h3>Global Search</h3>
+              <p>
+                Unified search functionality across Customers, Projects, Tasks,
+                and Interactions
+              </p>
+            </article>
+
+            <article class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i
+                  class="fa-solid fa-file-invoice-dollar"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <h3>Invoicing System</h3>
+              <p>
+                Complete invoicing with PDF generation, soft deletes, and
+                milestone tracking
+              </p>
+            </article>
+
+            <article class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+              </div>
+              <h3>Email Notifications</h3>
+              <p>
+                ProjectCreated, TaskAssigned, StatusChange notifications via
+                Mail & DB
+              </p>
+            </article>
+
+            <article class="contribution-card reveal">
+              <div class="contribution-icon">
+                <i class="fa-solid fa-database" aria-hidden="true"></i>
+              </div>
+              <h3>Database Architecture</h3>
+              <p>
+                Designed relationships, migrations, factories, and seeders for
+                complete data integrity
+              </p>
+            </article>
           </div>
         </div>
-        <div class="stat-pill">
-          <i class="fa-solid fa-screwdriver-wrench"></i>
-          <div>
-            <span class="stat-pill-label">My Role</span>
-            <span class="stat-pill-value">Backend & Infrastructure</span>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- MODULE 01 — DASHBOARD                        -->
+      <!-- ============================================ -->
+      <section class="reveal">
+        <div class="container">
+          <div class="feature-layout">
+            <div class="feature-text">
+              <span class="label"
+                ><i class="fa-solid fa-chart-simple" aria-hidden="true"></i>
+                MODULE 01 — DASHBOARD</span
+              >
+              <h2>A Dynamic Engine of Insight</h2>
+              <p>
+                As the backend developer, I architected controller logic that
+                aggregates complex relational data into unified, actionable
+                displays — serving real-time KPIs without performance
+                bottlenecks.
+              </p>
+              <ul class="feature-list">
+                <li>
+                  <i class="fa-solid fa-chart-bar" aria-hidden="true"></i>
+                  <div>
+                    <strong>Integrated Business Metrics</strong
+                    ><span
+                      >Active Projects, Pending Tasks, Unpaid Invoices
+                      calculated on-the-fly</span
+                    >
+                  </div>
+                </li>
+                <li>
+                  <i
+                    class="fa-solid fa-triangle-exclamation"
+                    aria-hidden="true"
+                  ></i>
+                  <div>
+                    <strong>Intelligent Prioritization</strong
+                    ><span
+                      >Backend queries that flag urgent items based on deadlines
+                      and recent activity</span
+                    >
+                  </div>
+                </li>
+                <li>
+                  <i class="fa-solid fa-arrows-spin" aria-hidden="true"></i>
+                  <div>
+                    <strong>Enum-Driven Lifecycle</strong
+                    ><span
+                      >Dashboard dynamically reflects business state via
+                      Project/Task enums</span
+                    >
+                  </div>
+                </li>
+              </ul>
+              <div class="tech-stack" style="margin-top: var(--spacing-lg)">
+                <span class="tech-tag">Laravel Eloquent</span>
+                <span class="tech-tag">Aggregate Queries</span>
+                <span class="tech-tag">SQL Optimization</span>
+              </div>
+            </div>
+            <div class="feature-image">
+              <div class="app-window">
+                <img
+                  src="../assets/CRMDashboard.png"
+                  alt="CRM Dashboard showing key performance indicators and recent activity"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML =
+                      '<div class=\'image-placeholder\' style=\'background:var(--color-neutral-200); padding:var(--spacing-xl); text-align:center; border-radius:var(--radius-md);\'><i class=\'fa-solid fa-image\' style=\'font-size:48px; color:var(--text-muted);\'></i><p style=\'margin-top:var(--spacing-sm);\'>Dashboard Preview</p></div>';
+                  "
+                />
+              </div>
+              <p class="image-caption">
+                <i class="fa-regular fa-image" aria-hidden="true"></i> Live
+                dashboard showing KPIs and recent activity
+              </p>
+            </div>
           </div>
         </div>
-        <div class="stat-pill">
-          <i class="fa-brands fa-github"></i>
-          <div>
-            <span class="stat-pill-label">Source</span>
-            <a href="https://github.com/Btsolo/CRM-Team-Project-"
-               class="stat-pill-value stat-pill-link"
-               target="_blank" rel="noopener">View on GitHub</a>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- MODULE 02 — ANALYTICS                        -->
+      <!-- ============================================ -->
+      <section class="reveal">
+        <div class="container">
+          <div class="feature-layout feature-layout-reverse">
+            <div class="feature-image">
+              <div class="app-window">
+                <img
+                  src="../assets/CommandCenter.png"
+                  alt="Analytics dashboard showing 12-month business trends"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML =
+                      '<div class=\'image-placeholder\' style=\'background:var(--color-neutral-200); padding:var(--spacing-xl); text-align:center; border-radius:var(--radius-md);\'><i class=\'fa-solid fa-chart-line\' style=\'font-size:48px; color:var(--text-muted);\'></i><p style=\'margin-top:var(--spacing-sm);\'>Analytics Preview</p></div>';
+                  "
+                />
+              </div>
+              <p class="image-caption">
+                <i class="fa-regular fa-image" aria-hidden="true"></i> Analytics
+                engine with 12-month trend reconstruction
+              </p>
+            </div>
+            <div class="feature-text">
+              <span class="label"
+                ><i class="fa-solid fa-brain" aria-hidden="true"></i> MODULE 02
+                — ANALYTICS</span
+              >
+              <h2>12 Months of Business Health at a Glance</h2>
+              <p>
+                I implemented a sophisticated analytics engine that transforms
+                raw data into clear business narratives. The system uses an
+                iterative monthly grouping algorithm with caching for
+                performance.
+              </p>
+
+              <div
+                class="code-block"
+                role="region"
+                aria-label="PHP code snippet for analytics controller"
+              >
+                <pre style="margin: 0">
+<span style="color:#90cdf4">// AnalyticsController.php - 12-month trend reconstruction</span>
+<span style="color:#fbbf24">private function</span> <span style="color:#93c5fd">getMonthlyTrends</span>($model, $dateField, $modelType)
+{
+    $trends = [];
+    <span style="color:#fbbf24">for</span> ($i = 11; $i >= 0; $i--) {
+        $date = now()->subMonths($i);
+        $count = $model::whereYear($dateField, $date->year)
+                       ->whereMonth($dateField, $date->month)
+                       ->count();
+        $trends[] = [
+            'month' => $date->format('M Y'),
+            'count' => $count
+        ];
+    }
+    <span style="color:#fbbf24">return</span> $trends;
+}
+<span style="color:#90cdf4">// Cached for 1 hour to optimize dashboard loads</span>
+<span style="color:#fbbf24">return</span> Cache::remember('analytics_trends', 3600, fn() => $this->buildAnalytics());</pre>
+              </div>
+
+              <ul class="feature-list">
+                <li>
+                  <i
+                    class="fa-solid fa-clock-rotate-left"
+                    aria-hidden="true"
+                  ></i>
+                  <div>
+                    <strong>Three-Timeline Comparison</strong
+                    ><span>All-time, last-month, and last-year benchmarks</span>
+                  </div>
+                </li>
+                <li>
+                  <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                  <div>
+                    <strong>Trend Reconstruction</strong
+                    ><span
+                      >Monthly customer acquisition & project completion
+                      velocity</span
+                    >
+                  </div>
+                </li>
+                <li>
+                  <i class="fa-solid fa-database" aria-hidden="true"></i>
+                  <div>
+                    <strong>Query Optimization</strong
+                    ><span>Cached analytics reduce DB load by 90%</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-    </div>
-  </div>
-</section>
+      <!-- ============================================ -->
+      <!-- MODULE 03 — CUSTOMERS                        -->
+      <!-- ============================================ -->
+      <section class="reveal">
+        <div class="container">
+          <div class="feature-layout">
+            <div class="feature-text">
+              <span class="label"
+                ><i class="fa-solid fa-users" aria-hidden="true"></i> MODULE 03
+                — CUSTOMERS</span
+              >
+              <h2>Store Context, Not Just Contacts</h2>
+              <p>
+                I designed a relationship-driven customer system with granular
+                authorization policies, ensuring that each team member only
+                accesses what they're permitted to.
+              </p>
 
-<!-- Project Overview -->
-<section id="project-overview" class="project-overview reveal delay-200">
-  <div class="container">
-    <div class="overview-grid">
+              <div
+                class="code-block"
+                role="region"
+                aria-label="PHP code snippet for customer policy"
+              >
+                <pre style="margin: 0">
+<span style="color:#90cdf4">// CustomerPolicy.php - Fine-grained access control</span>
+<span style="color:#fbbf24">public function</span> <span style="color:#93c5fd">update</span>(User $user, Customer $customer)
+{
+    <span style="color:#fbbf24">return</span> $user->id === $customer->user_id || $user->isAdmin();
+}
 
-      <!-- Card 1: Why I Built This -->
-      <div class="overview-card simple-float-card hover-trigger">
-        <div class="card-icon-wrap">
-          <i class="fa-solid fa-briefcase"></i>
+<span style="color:#fbbf24">public function</span> <span style="color:#93c5fd">delete</span>(User $user, Customer $customer)
+{
+    <span style="color:#fbbf24">return</span> $user->isAdmin() &amp;&amp; $customer->projects()->count() === 0;
+}</pre>
+              </div>
+
+              <ul class="feature-list">
+                <li>
+                  <i class="fa-solid fa-tags" aria-hidden="true"></i>
+                  <div>
+                    <strong>Enum-Driven Categorization</strong
+                    ><span
+                      >Industry, Type, and Status enums for surgical
+                      filtering</span
+                    >
+                  </div>
+                </li>
+                <li>
+                  <i class="fa-solid fa-timeline" aria-hidden="true"></i>
+                  <div>
+                    <strong>Interaction History</strong
+                    ><span
+                      >Complete paper trail of emails, calls, and meetings</span
+                    >
+                  </div>
+                </li>
+                <li>
+                  <i
+                    class="fa-solid fa-file-invoice-dollar"
+                    aria-hidden="true"
+                  ></i>
+                  <div>
+                    <strong>Financial Footprint</strong
+                    ><span
+                      >Projects and invoices linked directly to customer
+                      records</span
+                    >
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="feature-image">
+              <div class="app-window">
+                <img
+                  src="../assets/Customer%20List.png"
+                  alt="Customer list interface with search and filter controls"
+                  onerror="
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML =
+                      '<div class=\'image-placeholder\' style=\'background:var(--color-neutral-200); padding:var(--spacing-xl); text-align:center; border-radius:var(--radius-md);\'><i class=\'fa-solid fa-users\' style=\'font-size:48px; color:var(--text-muted);\'></i><p style=\'margin-top:var(--spacing-sm);\'>Customer List Preview</p></div>';
+                  "
+                />
+              </div>
+              <p class="image-caption">
+                <i class="fa-regular fa-image" aria-hidden="true"></i> Customer
+                list with real-time search, type filters, and status filters
+              </p>
+            </div>
+          </div>
         </div>
-        <span class="card-label">MOTIVATION</span>
-        <h3>Why I Built This</h3>
-        <p>
-          Freelancers and solo business owners face a painful paradox —
-          enterprise tools are too bloated for a one-person team, but
-          simple spreadsheets lack the integrity needed to manage a
-          professional workflow.
-        </p>
-        <p>
-          Our team of three set out to build a unified platform covering
-          the full project lifecycle — from initial lead to final paid
-          invoice. I took ownership of the backend and infrastructure,
-          building a robust, secure, high-performance engine to power
-          the entire system.
-        </p>
-      </div>
+      </section>
 
-      <!-- Card 2: The Solution -->
-      <div class="overview-card simple-float-card hover-trigger">
-        <div class="card-icon-wrap">
-          <i class="fa-solid fa-bullseye"></i>
+      <!-- ============================================ -->
+      <!-- TECHNICAL CHALLENGES SECTION                 -->
+      <!-- ============================================ -->
+      <section
+        class="section-divider"
+        aria-label="Technical challenges and solutions"
+      >
+        <div class="container">
+          <div class="section-intro">
+            <span class="label"
+              ><i class="fa-solid fa-microchip" aria-hidden="true"></i>
+              TECHNICAL DEEP DIVE</span
+            >
+            <h2>Challenges & Solutions</h2>
+            <p>Key architectural decisions that made this project robust</p>
+          </div>
+
+          <div class="challenges-grid">
+            <article class="challenge-card reveal">
+              <div class="challenge-card-header">
+                <span class="challenge-number">01</span>
+                <div class="challenge-icon">
+                  <i class="fa-solid fa-database" aria-hidden="true"></i>
+                </div>
+              </div>
+              <h3>Soft Deletes Implementation</h3>
+              <p class="challenge-description">
+                <strong>Challenge:</strong> Invoice 500 error on deletion
+                attempts
+              </p>
+              <p class="challenge-description">
+                <strong>Solution:</strong> Added SoftDeletes trait to Invoice
+                model, preserving audit trails while allowing recovery
+              </p>
+            </article>
+
+            <article class="challenge-card reveal">
+              <div class="challenge-card-header">
+                <span class="challenge-number">02</span>
+                <div class="challenge-icon">
+                  <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                </div>
+              </div>
+              <h3>Analytics Caching Strategy</h3>
+              <p class="challenge-description">
+                <strong>Challenge:</strong> Complex aggregations causing slow
+                dashboard loads
+              </p>
+              <p class="challenge-description">
+                <strong>Solution:</strong> Implemented Laravel Cache with 1-hour
+                TTL, reducing query time from ~800ms to 15ms
+              </p>
+            </article>
+
+            <article class="challenge-card reveal">
+              <div class="challenge-card-header">
+                <span class="challenge-number">03</span>
+                <div class="challenge-icon">
+                  <i class="fa-solid fa-shield-alt" aria-hidden="true"></i>
+                </div>
+              </div>
+              <h3>Route & Policy Protection</h3>
+              <p class="challenge-description">
+                <strong>Challenge:</strong> Prevent unauthorized access to
+                resources
+              </p>
+              <p class="challenge-description">
+                <strong>Solution:</strong> 5 Laravel Policies + middleware for
+                granular user permissions (admin/editor/viewer roles)
+              </p>
+            </article>
+
+            <article class="challenge-card reveal">
+              <div class="challenge-card-header">
+                <span class="challenge-number">04</span>
+                <div class="challenge-icon">
+                  <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                </div>
+              </div>
+              <h3>Email Notification Architecture</h3>
+              <p class="challenge-description">
+                <strong>Challenge:</strong> Reliable async notifications without
+                blocking
+              </p>
+              <p class="challenge-description">
+                <strong>Solution:</strong> Laravel Queues with database driver —
+                emails dispatched in background with retry logic
+              </p>
+            </article>
+          </div>
         </div>
-        <span class="card-label">APPROACH</span>
-        <h3>The Solution</h3>
-        <p>
-          Not just a database — an automated business partner. The system
-          was architected around a strict project lifecycle so that
-          managing a business feels as professional as the work itself.
-        </p>
-        <ol class="solution-list">
-          <li>
-            <strong>State-Driven Workflow</strong>
-            <span>A system of Enums strictly manages customer, project,
-            and task status — ensuring every project moves through a
-            predictable lifecycle from new lead to completed invoice.</span>
-          </li>
-          <li>
-            <strong>Revenue Bridge</strong>
-            <span>A dynamic invoicing system links directly to project
-            milestones, keeping all financial data in sync with
-            project progress.</span>
-          </li>
-          <li>
-            <strong>Actionable Analytics</strong>
-            <span>Data synthesized across projects and clients surfaces
-            insights that would otherwise be buried in disorganised
-            files.</span>
-          </li>
-        </ol>
-      </div>
+      </section>
 
-    </div>
-  </div>
-</section>
-<!-- Dashboard Overview -->
-<section class="project-feature-dashboard reveal delay-300">
-  <div class="container">
-    <div class="feature-layout section-card hover-trigger">
-
-      <!-- Left: Text Content -->
-      <div class="feature-text">
-        <span class="label">MODULE 01 — DASHBOARD</span>
-        <h2 class="section-title">A Dynamic Engine of Insight</h2>
-        <p>
-          As the backend developer, my goal was to ensure the dashboard
-          wasn't just static numbers — I architected the controller logic
-          to aggregate complex relational data into a unified,
-          actionable display.
-        </p>
-
-        <ul class="feature-list">
-          <li>
-            <i class="fa-solid fa-chart-bar"></i>
-            <div>
-              <strong>Integrated Business Metrics</strong>
-              <span>Controller logic that instantly calculates and serves
-              high-impact KPIs — Active Projects, Pending Tasks, and
-              Unpaid Invoices.</span>
-            </div>
-          </li>
-          <li>
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            <div>
-              <strong>Intelligent Prioritisation</strong>
-              <span>Backend queries that automatically flag recent client
-              interactions and upcoming deadlines, drawing attention to
-              items that require urgent action.</span>
-            </div>
-          </li>
-          <li>
-            <i class="fa-solid fa-arrows-spin"></i>
-            <div>
-              <strong>Lifecycle Awareness</strong>
-              <span>By hooking into the Project and Task Enums, the
-              dashboard dynamically reflects the current state of the
-              entire business pipeline.</span>
-            </div>
-          </li>
-        </ul>
-
-        <div class="tech-stack" style="margin-top: var(--spacing-lg)">
-          <span class="tech-tag">Laravel</span>
-          <span class="tech-tag">Eloquent ORM</span>
-          <span class="tech-tag">MySQL</span>
-          <span class="tech-tag">Enums</span>
+      <!-- ============================================ -->
+      <!-- CSV EXPORT & SEARCH FEATURE                  -->
+      <!-- ============================================ -->
+      <section
+        class="section-divider reveal"
+        aria-label="Data portability and discovery features"
+      >
+        <div class="container">
+          <div class="section-intro">
+            <span class="label"
+              ><i class="fa-solid fa-download" aria-hidden="true"></i> FEATURE
+              HIGHLIGHT</span
+            >
+            <h2>Data Portability & Discovery</h2>
+          </div>
+          <div class="overview-grid">
+            <article class="overview-card reveal">
+              <div class="card-icon-wrap">
+                <i class="fa-solid fa-file-csv" aria-hidden="true"></i>
+              </div>
+              <h3>CSV Export Service</h3>
+              <p>
+                Custom CsvExportService class that handles streaming exports for
+                Customers, Projects, and Tasks — with proper header formatting
+                and memory efficiency.
+              </p>
+            </article>
+            <article class="overview-card reveal">
+              <div class="card-icon-wrap">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              </div>
+              <h3>Unified Search</h3>
+              <p>
+                Searchable interface across all major models with query scope
+                support — users can find anything by typing a few characters.
+              </p>
+            </article>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Right: Screenshot -->
-      <div class="feature-image">
-        <div class="app-window glow-float-card reveal delay-400">
-          <img src="../assets/CRMDashboard.png" alt="CRM Dashboard Overview">
+      <!-- ============================================ -->
+      <!-- EMAIL NOTIFICATION SYSTEM                    -->
+      <!-- ============================================ -->
+      <section class="reveal">
+        <div class="container">
+          <div class="section-intro">
+            <span class="label"
+              ><i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i>
+              COMMUNICATION LAYER</span
+            >
+            <h2>Automated Email Workflows</h2>
+            <p>
+              I implemented a comprehensive notification system to keep teams
+              informed
+            </p>
+          </div>
+
+          <div class="integration-grid">
+            <div class="integration-card">
+              <div class="integration-icon" aria-hidden="true">
+                <i class="fa-solid fa-folder-open"></i>
+              </div>
+              <h4>Project Created</h4>
+              <p>ProjectCreated.php</p>
+            </div>
+            <div class="integration-card">
+              <div class="integration-icon" aria-hidden="true">
+                <i class="fa-solid fa-check-circle"></i>
+              </div>
+              <h4>Status Change</h4>
+              <p>ProjectStatusMail.php</p>
+            </div>
+            <div class="integration-card">
+              <div class="integration-icon" aria-hidden="true">
+                <i class="fa-solid fa-user-plus"></i>
+              </div>
+              <h4>Task Assigned</h4>
+              <p>TaskAssigned.php</p>
+            </div>
+            <div class="integration-card">
+              <div class="integration-icon" aria-hidden="true">
+                <i class="fa-solid fa-rotate"></i>
+              </div>
+              <h4>Task Status</h4>
+              <p>TaskStatusMail.php</p>
+            </div>
+          </div>
         </div>
-        <p class="image-caption">
-          <i class="fa-solid fa-circle-info"></i>
-          Live dashboard showing 200 customers, 71 pending tasks, and
-          recent client interactions
-        </p>
-      </div>
+      </section>
 
-    </div>
-  </div>
-</section>
-
-  <!-- Feature 1: Analysis Center -->
-  <!-- Feature: Analytics -->
-<section id="project-feature-1" class="project-feature reveal delay-300">
-  <div class="container">
-    <div class="feature-layout section-card hover-trigger">
-
-      <!-- Left: Text -->
-      <div class="feature-text">
-        <span class="label">MODULE 02 — ANALYTICS</span>
-        <h2 class="section-title">12 Months of Business Health at a Glance</h2>
-        <p>
-          A solo business owner gets lost in the day-to-day grind and loses
-          sight of the bigger picture. I architected the analytics engine to
-          transform raw data into a clear narrative of business growth.
-        </p>
-
-        <ul class="feature-list">
-          <li>
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            <div>
-              <strong>Three-Timeline Growth</strong>
-              <span>Queries that automatically calculate all-time totals,
-              last-month performance, and last-year benchmarks — so the
-              owner can compare current pace to historical average
-              instantly.</span>
+      <!-- ============================================ -->
+      <!-- LESSONS LEARNED                              -->
+      <!-- ============================================ -->
+      <section class="reveal" style="margin-bottom: var(--spacing-xl)">
+        <div class="container">
+          <article class="overview-card takeaways-card">
+            <div class="card-icon-wrap">
+              <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
             </div>
-          </li>
-          <li>
-            <i class="fa-solid fa-chart-line"></i>
-            <div>
-              <strong>12-Month Trend Reconstruction</strong>
-              <span>A complex iterative loop groups customer acquisitions,
-              project completions, and task velocity by month — producing
-              a visual trendline of business growth over the past year.</span>
-            </div>
-          </li>
-          <li>
-            <i class="fa-solid fa-layer-group"></i>
-            <div>
-              <strong>360-Degree Data Synthesis</strong>
-              <span>The engine pulls from every core model — Customers,
-              Projects, and Tasks — ensuring a complete, unified view of
-              business operations.</span>
-            </div>
-          </li>
-        </ul>
-
-        <div class="tech-stack" style="margin-top: var(--spacing-lg)">
-          <span class="tech-tag">Laravel</span>
-          <span class="tech-tag">MySQL</span>
-          <span class="tech-tag">Eloquent ORM</span>
-          <span class="tech-tag">Chart.js</span>
+            <h3>Lessons Learned</h3>
+            <ul class="solution-list">
+              <li>
+                <strong>Security first:</strong> Implementing Laravel Policies
+                early prevented refactoring headaches later.
+              </li>
+              <li>
+                <strong>Cache aggressively:</strong> The analytics caching
+                reduced dashboard load time from ~2s to under 200ms.
+              </li>
+              <li>
+                <strong>Soft deletes everywhere:</strong> Users love being able
+                to recover accidentally deleted data.
+              </li>
+              <li>
+                <strong>Git workflow matters:</strong> Regular merges and clear
+                commit messages kept the team of 3 aligned.
+              </li>
+              <li>
+                <strong>Email templates:</strong> Blade mailables with Markdown
+                made notification design consistent.
+              </li>
+            </ul>
+          </article>
         </div>
-      </div>
+      </section>
+    </main>
 
-      <!-- Right: Screenshot -->
-      <div class="feature-image">
-        <div class="app-window glow-float-card reveal delay-400">
-          <img src="../assets/CommandCenter.png" alt="Analytics Dashboard">
-        </div>
-        <p class="image-caption">
-          <i class="fa-solid fa-circle-info"></i>
-          Analytics dashboard showing KPIs and 12-month monthly trend chart
-        </p>
-      </div>
+    <!-- SHARED: Footer injected here by components.js -->
+    <div data-component="footer"></div>
+    <!-- SHARED: Contact me modal injected here by components.js -->
+    <div data-component="modal"></div>
 
-    </div>
-  </div>
-</section>
+    <!-- SHARED: Back to Top injected here by components.js -->
+    <div data-component="back_to_top"></div>
 
-<!-- Feature: Customer Module -->
-<section id="project-feature-2" class="project-feature reveal delay-300">
-  <div class="container">
-    <div class="feature-layout feature-layout-reverse section-card hover-trigger">
-
-      <!-- Left: Screenshot — reversed so image alternates sides -->
-      <div class="feature-image">
-        <div class="app-window glow-float-card reveal delay-400">
-          <img src="../assets/Customer List.png" alt="Customer Module">
-        </div>
-        <p class="image-caption">
-          <i class="fa-solid fa-circle-info"></i>
-          Customer list with real-time search, type filters, and status filters
-        </p>
-      </div>
-
-      <!-- Right: Text -->
-      <div class="feature-text">
-        <span class="label">MODULE 03 — CUSTOMERS</span>
-        <h2 class="section-title">Store Context, Not Just Contacts</h2>
-        <p>
-          A contact list isn't enough for a freelancer. You need a system
-          that understands the nuance of professional relationships —
-          distinguishing a warm lead from a long-term partner and tracking
-          every conversation in between.
-        </p>
-
-        <ul class="feature-list">
-          <li>
-            <i class="fa-solid fa-tags"></i>
-            <div>
-              <strong>Enum-Driven Categorisation</strong>
-              <span>Customers categorised by Industry, Type, and Status
-              using a suite of Enums — allowing the owner to filter their
-              client base with surgical precision.</span>
-            </div>
-          </li>
-          <li>
-            <i class="fa-solid fa-timeline"></i>
-            <div>
-              <strong>Interaction History</strong>
-              <span>A dedicated Interaction model linked to each customer
-              creates a paper trail of every email, call, and meeting —
-              a complete relationship history at a glance.</span>
-            </div>
-          </li>
-          <li>
-            <i class="fa-solid fa-file-invoice-dollar"></i>
-            <div>
-              <strong>Financial Footprint</strong>
-              <span>Customers bridge directly to their Projects and
-              Invoices — so a customer record shows not just a contact,
-              but their entire operational and financial history.</span>
-            </div>
-          </li>
-        </ul>
-
-        <div class="tech-stack" style="margin-top: var(--spacing-lg)">
-          <span class="tech-tag">Laravel</span>
-          <span class="tech-tag">Enums</span>
-          <span class="tech-tag">Eloquent Relationships</span>
-          <span class="tech-tag">MySQL</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-  <!-- SHARED: Footer injected by components.js -->
-  <div id="footer-placeholder"></div>
-  <!-- SHARED: Footer injected by components.js -->
-  <div id="footer-placeholder"></div>
-
-  <!-- Back to Top Button -->
-  <button onclick="topFunction()" id="backToTop" title="Go to top">
-    <i class="fa-solid fa-arrow-up"></i>
-  </button>
-  <!-- Back to Top Button -->
-  <button onclick="topFunction()" id="backToTop" title="Go to top">
-    <i class="fa-solid fa-arrow-up"></i>
-  </button>
-
-  <script src="../js/component.js"></script>
-  <script src="../js//main.js"></script>
-  <script src="../js/project-page.js"></script>
-
-</body>
-
+    <script src="../js/component.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/back-to-top.js"></script>
+  </body>
 </html>
