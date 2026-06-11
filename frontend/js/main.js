@@ -18,8 +18,7 @@ const animationObserverOptions = {
   threshold: 0,
 };
 
-const animationObserver = new IntersectionObserver(
-  (entries) => {
+const animationObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting && entry.target.classList.contains("reveal")) {
       entry.target.classList.add("is-visible");
@@ -43,24 +42,23 @@ const navObserverOptions = {
   threshold: 0,
 };
 
-const navObserver = new IntersectionObserver(
-  (entries) => {
+const navObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.target.tagName !== "SECTION") {
       return;
     }
-      const id = entry.target.getAttribute("id");
-      const link = document.querySelector(`.nav-menu a[href="#${id}"]`);
+    const id = entry.target.getAttribute("id");
+    const link = document.querySelector(`.nav-menu a[href="/#${id}"]`);
 
-      if (!link) {
-        return;
-      }
+    if (!link) {
+      return;
+    }
 
-        if (entry.isIntersecting) {
-          link.classList.add("active");
-        } else {
-          link.classList.remove("active");
-        }
+    if (entry.isIntersecting) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
   });
 }, navObserverOptions);
 
@@ -69,10 +67,10 @@ sections.forEach((section) => navObserver.observe(section));
 // ===================================================
 // MOUSE TRACKING (Gradient spotlight effect on cards)
 // ===================================================
-const cards = document.querySelectorAll('.skill-card, .project-card');
+const cards = document.querySelectorAll(".skill-card, .project-card");
 
-cards.forEach(card => {
-  card.addEventListener('mousemove', (e) => {
+cards.forEach((card) => {
+  card.addEventListener("mousemove", (e) => {
     // Get card's position and size relative to the viewport
     const rect = card.getBoundingClientRect();
 
@@ -85,14 +83,14 @@ cards.forEach(card => {
     const yPercent = (y / rect.height) * 100;
 
     // Feed into CSS variables on that specific card
-    card.style.setProperty('--mouse-x', `${xPercent}%`);
-    card.style.setProperty('--mouse-y', `${yPercent}%`);
+    card.style.setProperty("--mouse-x", `${xPercent}%`);
+    card.style.setProperty("--mouse-y", `${yPercent}%`);
+  });
 
-    // Reset when the mouse leaves
-    card.addEventListener('mouseleave', () => {
-      card.style.setProperty('--mouse-x', '50%');
-      card.style.setProperty('--mouse-y', '50%');
-    });
+  // Moved mouseleave outside mousemove to avoid duplicate listeners
+  card.addEventListener("mouseleave", () => {
+    card.style.setProperty("--mouse-x", "50%");
+    card.style.setProperty("--mouse-y", "50%");
   });
 });
 
@@ -100,54 +98,120 @@ cards.forEach(card => {
 // CONTACT MODAL
 // =============
 
-//  FETCH API
+let modal = null;
+let isModalInitialized = false;
 
-const modal = document.getElementById("contactModal");
-const closeBtn = document.getElementById("modalCloseBtn");
+function initModal() {
+  modal = document.getElementById("contactModal");
 
-//Open Modal
-function openModal() {
-  if (modal) {
+  if (!modal) {
+    console.warn("[Modal] Modal element not found - will retry");
+    return false;
+  }
+
+  // Prevent double initialization
+  if (isModalInitialized) {
+    return true;
+  }
+
+  const closeBtn = document.getElementById("modalCloseBtn");
+  const cancelBtn = modal.querySelector(".btn-cancel");
+
+  // Open function (expose globally)
+  window.openContactModal = function () {
+    if (!modal) return;
     modal.classList.add("is-open");
-  }
-}
+    document.body.style.overflow = "hidden";
 
-//Close Modal
-function closeModal() {
-  if (modal) {
+    // Focus first input for accessibility
+    setTimeout(() => {
+      const firstInput = modal.querySelector("input, textarea");
+      if (firstInput) firstInput.focus();
+    }, 100);
+  };
+
+  window.closeContactModal = function () {
+    if (!modal) return;
     modal.classList.remove("is-open");
-  }
-}
+    document.body.style.overflow = "";
+  };
 
-document.addEventListener("components:loaded", () => {
-    const contactBtn = document.querySelector(".nav-menu a[href='#contact']");
-    if (contactBtn) {
-        contactBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            openModal();
-        });
+  // Close handlers
+  if (closeBtn) {
+    closeBtn.addEventListener("click", window.closeContactModal);
+  }
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", window.closeContactModal);
+  }
+
+  // Outside click
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) window.closeContactModal();
+  });
+
+  // Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && modal.classList.contains("is-open")) {
+      window.closeContactModal();
     }
-});
-if (closeBtn) {
-    closeBtn.addEventListener("click", closeModal);
+  });
+
+  isModalInitialized = true;
+
+  // Hook up all contact triggers
+  setupContactTriggers();
+
+  console.log("[Modal] Initialized successfully");
+  return true;
 }
 
-// Close Modal on Outside Click
-window.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    closeModal();
+function setupContactTriggers() {
+  // Trigger 1: Navbar "Contact me" link
+  const navContactLink = document.querySelector('.nav-menu a[href="#contact"]');
+  if (navContactLink) {
+    const newLink = navContactLink.cloneNode(true);
+    navContactLink.parentNode.replaceChild(newLink, navContactLink);
+    newLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.openContactModal();
+    });
+    console.log("[Modal] Navbar contact link hooked up");
   }
-});
+
+  // Trigger 2: Hero "Get in Touch" button
+  const heroContactBtn = document.querySelector(
+    '.btn-secondary[href="#contact"]',
+  );
+  if (heroContactBtn) {
+    const newBtn = heroContactBtn.cloneNode(true);
+    heroContactBtn.parentNode.replaceChild(newBtn, heroContactBtn);
+    newBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.openContactModal();
+    });
+    console.log("[Modal] Hero contact button hooked up");
+  }
+}
 
 // ======================================
 // CONTACT FORM - VALIDATION & SUBMISSION
 // ======================================
 
-const contactForm = document.getElementById("contactForm");
-const formStatus = document.getElementById("formStatus");
+// Wait for form to exist before initializing
+let contactForm = null;
+let formStatus = null;
 
-// Real Time Validation
-if (contactForm) {
+function initContactForm() {
+  contactForm = document.getElementById("contactForm");
+  formStatus = document.getElementById("formStatus");
+
+  if (!contactForm) {
+    console.warn("[Form] Contact form not found yet");
+    return false;
+  }
+
+  // Real-time validation
   contactForm.querySelectorAll("input, textarea").forEach((field) => {
     field.addEventListener("input", () => {
       if (field.checkValidity()) {
@@ -157,6 +221,8 @@ if (contactForm) {
   });
 
   contactForm.addEventListener("submit", handleFormSubmit);
+  console.log("[Form] Contact form initialized");
+  return true;
 }
 
 // --- Handle Form Submission ---
@@ -164,81 +230,83 @@ async function handleFormSubmit(e) {
   e.preventDefault();
   clearErrors();
 
-   const submitBtn = contactForm.querySelector('button[type="submit"]');
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
 
   if (!validateContactForm()) {
     return;
   }
 
-    // Get Form Data
-   const formData = new FormData(contactForm);
+  // Get Form Data
+  const formData = new FormData(contactForm);
 
-    setSubmittingState(submitBtn, true);
+  setSubmittingState(submitBtn, true);
 
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        body: formData,
-      });
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      body: formData,
+    });
 
-      const result = await response.json();
+    const result = await response.json();
 
-      if(response.ok) {
-        showFormStatus(
-          "success",
-          '<i class="fa-solid fa-check-circle"></i> Message Sent Successfully!'
-        );
-        contactForm.reset();
-        setTimeout(() => hideFormStatus(), 5000);
-      } else if (result.errors) {
-        displayServiceErrors(result.errors);
-        hideFormStatus();
-      } else {
-        throw new Error(result.message || "Server Error");
-      }
-    } catch (error) {
-      console.error("Submission error:", error);
+    if (response.ok) {
       showFormStatus(
-        "error",
-        '<i class="fa-solid fa-circle-exclamation"></i> ' +
-        (error.message || "Network Error. Please try again.")
+        "success",
+        '<i class="fa-solid fa-check-circle"></i> Message Sent Successfully!',
       );
-    } finally {
-      setSubmittingState(submitBtn, false);
+      contactForm.reset();
+      setTimeout(() => hideFormStatus(), 5000);
+      setTimeout(() => window.closeContactModal(), 2000); // Auto-close modal after success
+    } else if (result.errors) {
+      displayServiceErrors(result.errors);
+      hideFormStatus();
+    } else {
+      throw new Error(result.message || "Server Error");
     }
-  
+  } catch (error) {
+    console.error("Submission error:", error);
+    showFormStatus(
+      "error",
+      '<i class="fa-solid fa-circle-exclamation"></i> ' +
+        (error.message || "Network Error. Please try again."),
+    );
+  } finally {
+    setSubmittingState(submitBtn, false);
+  }
 }
 
 // --- Form Helpers ---
-
 function setSubmittingState(btn, isSubmitting) {
   btn.disabled = isSubmitting;
   if (isSubmitting) {
     showFormStatus(
       "",
-      '<i class="fa-solid fa-spinner fa-spin"></i> Sending Email...'
+      '<i class="fa-solid fa-spinner fa-spin"></i> Sending Email...',
     );
   }
 }
 
 function showFormStatus(className, html) {
+  if (!formStatus) return;
   formStatus.style.display = "block";
   formStatus.className = className;
   formStatus.innerHTML = html;
 }
 
 function hideFormStatus() {
+  if (!formStatus) return;
   formStatus.style.display = "none";
   formStatus.className = "";
 }
-//  --- Validation ---
+
+// --- Validation ---
 function validateContactForm() {
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const message = document.getElementById("message").value.trim();
+  const name = document.getElementById("name")?.value.trim() || "";
+  const email = document.getElementById("email")?.value.trim() || "";
+  const message = document.getElementById("message")?.value.trim() || "";
   let isValid = true;
 
-  //validate name
+  // Validate name
   if (!name) {
     showError("name", "Name is required");
     isValid = false;
@@ -250,7 +318,7 @@ function validateContactForm() {
     isValid = false;
   }
 
-  //validate email
+  // Validate email
   if (!email) {
     showError("email", "Email is required");
     isValid = false;
@@ -262,7 +330,7 @@ function validateContactForm() {
     }
   }
 
-  //validate message
+  // Validate message
   if (!message) {
     showError("message", "Message is required");
     isValid = false;
@@ -279,39 +347,85 @@ function validateContactForm() {
 
 function showError(fieldId, message) {
   const input = document.getElementById(fieldId);
-  const span = document.getElementById(fieldId + "Error");
-   console.log('showError called:', fieldId, message, !!input, !!span);
-  input.classList.add("error");
-  span.textContent = message;
+  const errorSpan = document.getElementById(fieldId + "Error");
+
+  if (input) {
+    input.classList.add("error");
+    input.setAttribute("aria-invalid", "true");
+  }
+
+  if (errorSpan) {
+    errorSpan.textContent = message;
+    errorSpan.classList.add("error-text");
+    errorSpan.setAttribute("role", "alert");
+  }
 }
 
 function removeFieldError(fieldId) {
   const input = document.getElementById(fieldId);
-  const errorEl = document.getElementById(fieldId + "Error");
+  const errorSpan = document.getElementById(fieldId + "Error");
+
   if (input) {
     input.classList.remove("error");
+    input.removeAttribute("aria-invalid");
   }
-  if (errorEl) {
-    errorEl.textContent = "";
+
+  if (errorSpan) {
+    errorSpan.textContent = "";
+    errorSpan.classList.remove("error-text");
   }
 }
 
 function clearErrors() {
-    // Only clear error class from inputs and textareas
+  // Clear all input errors
   document.querySelectorAll("input.error, textarea.error").forEach((el) => {
     el.classList.remove("error");
+    el.removeAttribute("aria-invalid");
   });
-  // Clear error span text separately
-  document.querySelectorAll(".error-text").forEach((el) => {
+
+  // Clear all error spans
+  document.querySelectorAll("[id$='Error']").forEach((el) => {
     el.textContent = "";
+    el.classList.remove("error-text");
   });
 }
 
 function displayServiceErrors(errors) {
   for (const [field, message] of Object.entries(errors)) {
-    const errorEl = document.getElementById(`${field}Error`);
-    if (errorEl) {
-      errorEl.textContent = message;
+    const errorSpan = document.getElementById(`${field}Error`);
+    if (errorSpan) {
+      errorSpan.textContent = message;
+      errorSpan.classList.add("error-text");
+
+      const input = document.getElementById(field);
+      if (input) {
+        input.classList.add("error");
+        input.setAttribute("aria-invalid", "true");
+      }
     }
   }
+}
+
+// ======================================
+// INITIALIZATION - WAIT FOR COMPONENTS
+// ======================================
+
+// When components are loaded, initialize everything
+document.addEventListener("components:loaded", () => {
+  console.log("[App] Components loaded, initializing...");
+  initModal();
+  initContactForm();
+});
+
+// Fallback: Try to initialize immediately if components already loaded
+if (document.readyState === "complete") {
+  setTimeout(() => {
+    if (
+      document.getElementById("contactModal") ||
+      document.getElementById("contactForm")
+    ) {
+      initModal();
+      initContactForm();
+    }
+  }, 100);
 }

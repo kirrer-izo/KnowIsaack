@@ -15,7 +15,7 @@
     <div class="mesh-gradient"></div>
 
     <!-- SHARED: Navbar injected here by components.js -->
-    <div id="navbar-placeholder"></div>
+    <div data-component="navbar"></div>
 
     <!-- Hero Section -->
     <section id="about" class="hero-section reveal delay-200">
@@ -260,12 +260,12 @@
     </section>
 
     <!-- SHARED: Footer injected here by components.js -->
-    <div id="footer-placeholder"></div>
+    <div data-component="footer"></div>
+    <!-- SHARED: Contact me modal injected here by components.js -->
+    <div data-component="modal"></div>
 
-    <!-- Back to Top Button -->
-    <button id="backToTop" aria-label="Back to top">
-      <i class="fa-solid fa-arrow-up"></i>
-    </button>
+    <!-- SHARED: Back to Top injected here by components.js -->
+    <div data-component="back_to_top"></div>
 
     <!--
     Script load order:
@@ -274,6 +274,7 @@
   -->
     <script src="../js/component.js"></script>
     <script src="../js/project-loader.js"></script>
+    <script src="../js/back-to-top.js"></script>
     <script src="../js/main.js"></script>
   </body>
 </html>

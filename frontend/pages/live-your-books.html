@@ -22,7 +22,7 @@
     <div class="mesh-gradient"></div>
 
     <!-- SHARED: Navbar injected here by components.js -->
-    <div id="navbar-placeholder"></div>
+    <div data-component="navbar"></div>
 
     <!-- ══════════════════════════════════════════
          PROJECT HEADER
@@ -662,24 +662,14 @@
     </section>
 
     <!-- SHARED: Footer injected here by components.js -->
-    <div id="footer-placeholder"></div>
+    <div data-component="footer"></div>
+    <!-- SHARED: Contact me modal injected here by components.js -->
+    <div data-component="modal"></div>
+    <!-- SHARED: Back to Top injected here by components.js -->
+    <div data-component="back_to_top"></div>
 
     <script src="../js/component.js"></script>
     <script src="../js/main.js"></script>
-    <script>
-      const reveals = document.querySelectorAll(".reveal");
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1 },
-      );
-      reveals.forEach((el) => observer.observe(el));
-    </script>
+    <script src="../js/back-to-top.js"></script>
   </body>
 </html>

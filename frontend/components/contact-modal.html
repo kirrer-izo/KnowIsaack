@@ -1,0 +1,49 @@
+<!-- components/contact-modal.html -->
+<section class="contact-section">
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <span class="label">GET IN TOUCH</span>
+          <h2 class="modal-title">Let's Build Something Together</h2>
+          <p class="modal-description">
+            Have an idea you'd like to discuss? Send me a message and I'll
+            get back to you within 24 hours.
+          </p>
+        </div>
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="contactForm">
+          <div class="form-group">
+            <label class="form-label" for="name">Full Name</label>
+            <input id="name" type="text" name="name" placeholder="e.g. Jane Smith" required />
+            <span class="form-error" id="nameError"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input id="email" type="email" name="email" placeholder="e.g. jane@company.com" required />
+            <span class="form-error" id="emailError"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell me about your project or idea..." rows="5" required></textarea>
+            <span class="form-error" id="messageError"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn-primary">
+              <i class="fa-solid fa-paper-plane"></i>
+              Send Message
+            </button>
+            <button type="button" class="btn-cancel">
+              Cancel
+            </button>
+          </div>
+        </form>
+        <div id="formStatus"></div>
+      </div>
+    </div>
+  </div>
+</section>
