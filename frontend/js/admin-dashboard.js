@@ -163,7 +163,7 @@ function renderProjects(projects) {
                 <td>${tags}</td>
                 <td>${status}</td>
                 <td class="cell-actions">
-                    <a href="/admin/edit?id=${p.id}" class="table-btn">Edit</a>
+                    <a href="/admin/edit?id=${p.id}" class="table-btn admin-action-btn">Edit</a>
                 </td>
             </tr>`;
     }).join('');
@@ -258,3 +258,17 @@ function escapeHtml(str) {
         .replace(/"/g,  '&quot;')
         .replace(/'/g,  '&#39;');
 }
+
+
+// ─── Role-Based UI Restrictions ───────────────────────────────────────────
+
+function applyViewerRestrictions() {
+    if (window.adminRole === "admin") return;
+
+    // Hides both "Add project" header button and "New project" quick action
+    document.querySelectorAll('a[href="/admin/edit"]').forEach(el => {
+        el.style.display = "none";
+    });
+}
+
+document.addEventListener("roleLoaded", applyViewerRestrictions);
