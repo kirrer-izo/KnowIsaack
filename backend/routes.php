@@ -135,6 +135,7 @@ if (in_array($path, $db_routes)) {
             public function sendEmail($to, $subject, $body, $replyTo = null): bool { 
                 return true; 
             }
+
             public function sendVerificationEmail(string $to, string $name, string $token): bool {
                 return true;
             }
@@ -246,7 +247,7 @@ switch ($path) {
     case '/admin/rate-limits':
         require __DIR__ . '/../frontend/pages/admin/rate-limits.html';
         break;
-    case 'admin/profile':
+    case '/admin/profile':
         require __DIR__ . '/../frontend/pages/admin/profile.html';
         break;
 
@@ -282,6 +283,7 @@ switch ($path) {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $adminUserController->index();
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require __DIR__ . '/config/guard_admin.php'; // ADD
             $adminUserController->create();
         } else {
             http_response_code(405);
@@ -296,12 +298,15 @@ switch ($path) {
         $adminUserController->show($adminUserId);
         break;
     case '/api/admin/users/update':
+        require __DIR__ . '/config/guard_admin.php'; // ADD
         $adminUserController->update($adminUserId);
         break;
     case '/api/admin/users/delete':
+        require __DIR__ . '/config/guard_admin.php'; // ADD
         $adminUserController->destroy($adminUserId);
         break;
     case '/api/admin/users/resend-verification':
+        require __DIR__ . '/config/guard_admin.php'; // ADD
         $adminUserController->resendVerification($adminUserId);
         break;
 
@@ -311,6 +316,7 @@ switch ($path) {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $adminProjectController->listProjects();
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require __DIR__ . '/config/guard_admin.php'; // ADD
             $adminProjectController->createProject();
         } else {
             http_response_code(405);
@@ -325,9 +331,11 @@ switch ($path) {
         $adminProjectController->getProject($adminProjectId);
         break;
     case '/api/admin/projects/update':
+        require __DIR__ . '/config/guard_admin.php'; // ADD
         $adminProjectController->updateProject($adminProjectId);
         break;
     case '/api/admin/projects/delete':
+        require __DIR__ . '/config/guard_admin.php'; // ADD
         $adminProjectController->deleteProject($adminProjectId);
         break;
 

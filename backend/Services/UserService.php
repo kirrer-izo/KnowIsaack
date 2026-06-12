@@ -70,10 +70,9 @@ class UserService {
         $this->mailer->sendVerificationEmail($email, $name, $token);
     }
 
-    public function login(string $email, string $password): array
+public function login(string $email, string $password): array
     {
         $user = $this->userRepository->findByEmail($email);
-        // Use same error for both missing user and wrong password — prevents user enumeration
         if (!$user || !password_verify($password, $user['password_hash'])) {
             throw new \Exception("invalid_credentials");
         }
@@ -81,7 +80,8 @@ class UserService {
         return [
             'id' => $user['id'],
             'name' => $user['name'],
-            'email' => $user['email']
+            'email' => $user['email'],
+            'role' => $user['role'] ?? 'viewer'
         ];
     }
 
