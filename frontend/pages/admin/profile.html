@@ -1,164 +1,303 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Profile · KnowIsaack</title>
-  <link rel="stylesheet" href="/frontend/css/main.css">
-  <link rel="stylesheet" href="/frontend/css/admin.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile · KnowIsaack</title>
+    <link rel="stylesheet" href="/frontend/css/main.css" />
+    <link rel="stylesheet" href="/frontend/css/admin.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="admin-navbar-placeholder"></div>
 
-  <div id="admin-navbar-placeholder"></div>
-
-  <div class="admin-page admin-page--narrow">
-
-    <!-- Page header -->
-    <div class="admin-page-header">
-      <div>
-        <h1 class="admin-page-title">My Profile</h1>
-        <p class="admin-page-subtitle">Manage your account details and password</p>
-      </div>
-      <!-- Avatar pill loaded from profile data -->
-      <div class="profile-identity" id="profile-identity" style="display:none">
-        <div class="user-avatar user-avatar--lg" id="profile-avatar">?</div>
+    <div class="admin-page admin-page--narrow">
+      <!-- Page header -->
+      <div class="admin-page-header">
         <div>
-          <div class="profile-identity__name" id="profile-display-name">—</div>
-          <div class="profile-identity__meta" id="profile-display-meta">—</div>
+          <h1 class="admin-page-title">My Profile</h1>
+          <p class="admin-page-subtitle">
+            Manage your account details and password
+          </p>
         </div>
-      </div>
-    </div>
-
-    <!-- Profile information card -->
-    <div class="admin-card" style="margin-bottom:10px">
-      <div class="admin-card__header">
-        <div class="admin-card__title">
-          <i class="fa-solid fa-user admin-card__title-icon"></i>
-          Profile information
-        </div>
-      </div>
-      <div class="admin-card__body">
-
-        <!-- Alert -->
-        <div id="profileAlert" class="profile-alert" style="display:none"></div>
-
-        <form id="profileForm" novalidate>
-          <div class="profile-form-grid">
-            <div class="profile-field">
-              <label class="profile-label" for="name">Full name</label>
-              <input type="text" id="name" name="name" class="profile-input" autocomplete="name" required>
+        <!-- Avatar pill loaded from profile data -->
+        <div
+          class="profile-identity"
+          id="profile-identity"
+          style="display: none"
+        >
+          <div class="user-avatar user-avatar--lg" id="profile-avatar">?</div>
+          <div>
+            <div class="profile-identity__name" id="profile-display-name">
+              —
             </div>
-            <div class="profile-field">
-              <label class="profile-label" for="email">Email address</label>
-              <input type="email" id="email" name="email" class="profile-input" autocomplete="email" required>
-            </div>
-            <div class="profile-field">
-              <label class="profile-label">Email verified</label>
-              <div class="profile-readonly" id="emailVerified">—</div>
-            </div>
-            <div class="profile-field">
-              <label class="profile-label">Member since</label>
-              <div class="profile-readonly" id="createdAt">—</div>
+            <div class="profile-identity__meta" id="profile-display-meta">
+              —
             </div>
           </div>
-          <div class="profile-form-actions">
-            <button type="submit" class="admin-btn-primary" id="saveProfileBtn">
-              Save changes
-            </button>
-            <button type="button" class="admin-btn-ghost" id="cancelProfileBtn">
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Change password card -->
-    <div class="admin-card">
-      <div class="admin-card__header">
-        <div class="admin-card__title">
-          <i class="fa-solid fa-lock admin-card__title-icon"></i>
-          Change password
         </div>
       </div>
-      <div class="admin-card__body">
 
-        <!-- Alert -->
-        <div id="passwordAlert" class="profile-alert" style="display:none"></div>
+      <!-- Profile information card -->
+      <div class="admin-card" style="margin-bottom: 10px">
+        <div class="admin-card__header">
+          <div class="admin-card__title">
+            <i class="fa-solid fa-user admin-card__title-icon"></i>
+            Profile information
+          </div>
+        </div>
+        <div class="admin-card__body">
+          <!-- Alert -->
+          <div
+            id="profileAlert"
+            class="profile-alert"
+            style="display: none"
+          ></div>
 
-        <form id="passwordForm" novalidate>
-          <div class="profile-form-grid profile-form-grid--single">
+          <form id="profileForm" novalidate>
+            <div class="profile-form-grid">
+              <div class="profile-field">
+                <label class="profile-label" for="name">Full name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  class="profile-input"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+              <div class="profile-field">
+                <label class="profile-label" for="email">Email address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="profile-input"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <div class="profile-field">
+                <label class="profile-label">Email verified</label>
+                <div class="profile-readonly" id="emailVerified">—</div>
+              </div>
+              <div class="profile-field">
+                <label class="profile-label">Role</label>
+                <div class="profile-readonly" id="profileRole">—</div>
+              </div>
 
-            <div class="profile-field">
-              <label class="profile-label" for="currentPassword">Current password</label>
-              <div class="profile-password-wrap">
-                <input type="password" id="currentPassword" name="current_password" class="profile-input" autocomplete="current-password" required>
-                <button type="button" class="profile-toggle-pw" data-target="currentPassword" aria-label="Toggle visibility">
-                  <i class="fa-regular fa-eye"></i>
-                </button>
+              <div class="profile-field">
+                <label class="profile-label">Member since</label>
+                <div class="profile-readonly" id="createdAt">—</div>
               </div>
             </div>
+            <div class="profile-form-actions">
+              <button
+                type="submit"
+                class="admin-btn-primary"
+                id="saveProfileBtn"
+              >
+                Save changes
+              </button>
+              <button
+                type="button"
+                class="admin-btn-ghost"
+                id="cancelProfileBtn"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
 
-            <div class="profile-field">
-              <label class="profile-label" for="newPassword">New password</label>
-              <div class="profile-password-wrap">
-                <input type="password" id="newPassword" name="new_password" class="profile-input" autocomplete="new-password" required>
-                <button type="button" class="profile-toggle-pw" data-target="newPassword" aria-label="Toggle visibility">
-                  <i class="fa-regular fa-eye"></i>
-                </button>
-              </div>
-              <!-- Strength meter -->
-                <div id="pw-strength" style="display:none; align-items:center; gap:4px; margin-top:6px;">
-                  <div id="pw-bar-1" style="height:4px;width:40px;border-radius:2px;transition:background 0.2s;"></div>
-                  <div id="pw-bar-2" style="height:4px;width:40px;border-radius:2px;transition:background 0.2s;"></div>
-                  <div id="pw-bar-3" style="height:4px;width:40px;border-radius:2px;transition:background 0.2s;"></div>
-                  <div id="pw-bar-4" style="height:4px;width:40px;border-radius:2px;transition:background 0.2s;"></div>
-                  <span id="pw-strength-label" style="font-size:12px;margin-left:6px;"></span>
+      <!-- Change password card -->
+      <div class="admin-card">
+        <div class="admin-card__header">
+          <div class="admin-card__title">
+            <i class="fa-solid fa-lock admin-card__title-icon"></i>
+            Change password
+          </div>
+        </div>
+        <div class="admin-card__body">
+          <!-- Alert -->
+          <div
+            id="passwordAlert"
+            class="profile-alert"
+            style="display: none"
+          ></div>
+
+          <form id="passwordForm" novalidate>
+            <div class="profile-form-grid profile-form-grid--single">
+              <div class="profile-field">
+                <label class="profile-label" for="currentPassword"
+                  >Current password</label
+                >
+                <div class="profile-password-wrap">
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    name="current_password"
+                    class="profile-input"
+                    autocomplete="current-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="profile-toggle-pw"
+                    data-target="currentPassword"
+                    aria-label="Toggle visibility"
+                  >
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
                 </div>
-            </div>
-
-            <div class="profile-field">
-              <label class="profile-label" for="confirmPassword">Confirm new password</label>
-              <div class="profile-password-wrap">
-                <input type="password" id="confirmPassword" name="confirm_password" class="profile-input" autocomplete="new-password" required>
-                <button type="button" class="profile-toggle-pw" data-target="confirmPassword" aria-label="Toggle visibility">
-                  <i class="fa-regular fa-eye"></i>
-                </button>
               </div>
-              <p class="pw-match-label" id="matchLabel"></p>
-            </div>
 
-          </div>
-          <div class="profile-form-actions">
-            <button type="submit" class="admin-btn-primary" id="changePasswordBtn">
-              Change password
-            </button>
-          </div>
-        </form>
+              <div class="profile-field">
+                <label class="profile-label" for="newPassword"
+                  >New password</label
+                >
+                <div class="profile-password-wrap">
+                  <input
+                    type="password"
+                    id="newPassword"
+                    name="new_password"
+                    class="profile-input"
+                    autocomplete="new-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="profile-toggle-pw"
+                    data-target="newPassword"
+                    aria-label="Toggle visibility"
+                  >
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
+                </div>
+                <!-- Strength meter -->
+                <div
+                  id="pw-strength"
+                  style="
+                    display: none;
+                    align-items: center;
+                    gap: 4px;
+                    margin-top: 6px;
+                  "
+                >
+                  <div
+                    id="pw-bar-1"
+                    style="
+                      height: 4px;
+                      width: 40px;
+                      border-radius: 2px;
+                      transition: background 0.2s;
+                    "
+                  ></div>
+                  <div
+                    id="pw-bar-2"
+                    style="
+                      height: 4px;
+                      width: 40px;
+                      border-radius: 2px;
+                      transition: background 0.2s;
+                    "
+                  ></div>
+                  <div
+                    id="pw-bar-3"
+                    style="
+                      height: 4px;
+                      width: 40px;
+                      border-radius: 2px;
+                      transition: background 0.2s;
+                    "
+                  ></div>
+                  <div
+                    id="pw-bar-4"
+                    style="
+                      height: 4px;
+                      width: 40px;
+                      border-radius: 2px;
+                      transition: background 0.2s;
+                    "
+                  ></div>
+                  <span
+                    id="pw-strength-label"
+                    style="font-size: 12px; margin-left: 6px"
+                  ></span>
+                </div>
+              </div>
+
+              <div class="profile-field">
+                <label class="profile-label" for="confirmPassword"
+                  >Confirm new password</label
+                >
+                <div class="profile-password-wrap">
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirm_password"
+                    class="profile-input"
+                    autocomplete="new-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="profile-toggle-pw"
+                    data-target="confirmPassword"
+                    aria-label="Toggle visibility"
+                  >
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
+                </div>
+                <p class="pw-match-label" id="matchLabel"></p>
+              </div>
+            </div>
+            <div class="profile-form-actions">
+              <button
+                type="submit"
+                class="admin-btn-primary"
+                id="changePasswordBtn"
+              >
+                Change password
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
-  </div>
+    <script src="/frontend/js/admin-component.js"></script>
+    <script src="/frontend/js/profile.js"></script>
+    <script src="/frontend/js/password-strength.js"></script>
+    <script>
+      initPasswordStrength(
+        "password",
+        "pw-bar",
+        "pw-strength-label",
+        "pw-strength",
+      );
+      const checkMatch = initConfirmPassword(
+        "password",
+        "confirm_password",
+        "matchLabel",
+      );
 
-  <script src="/frontend/js/admin-component.js"></script>
-  <script src="/frontend/js/profile.js"></script>
-  <script src="/frontend/js/password-strength.js"></script>
-  <script>
-    initPasswordStrength('password', 'pw-bar', 'pw-strength-label', 'pw-strength');
-    const checkMatch = initConfirmPassword('password', 'confirm_password', 'matchLabel');
-
-    // In your form submit guard:
-    form.addEventListener('submit', (e) => {
-      if (scorePassword(document.getElementById('password').value) < 4) {
-        e.preventDefault();
-        // show error
-      }
-      if (!checkMatch()) {
-        e.preventDefault();
-        // show error
-      }
-    });
-  </script>
-</body>
+      // In your form submit guard:
+      form.addEventListener("submit", (e) => {
+        if (scorePassword(document.getElementById("password").value) < 4) {
+          e.preventDefault();
+          // show error
+        }
+        if (!checkMatch()) {
+          e.preventDefault();
+          // show error
+        }
+      });
+    </script>
+  </body>
 </html>

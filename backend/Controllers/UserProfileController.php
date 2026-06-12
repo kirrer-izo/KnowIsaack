@@ -49,7 +49,8 @@ class UserProfileController
                 'name' => $user['name'],
                 'email' => $user['email'],
                 'email_verified' => $user['email_verified'],
-                'created_at' => $user['created_at']
+                'created_at' => $user['created_at'],
+                'role'           => $user['role'] ?? 'viewer'
             ]
         ]);
         exit;
