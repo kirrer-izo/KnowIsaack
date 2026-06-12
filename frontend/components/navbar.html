@@ -1,15 +1,24 @@
 <nav class="navbar">
   <div class="nav-container">
     <div class="logo">
-      <a href="/"><i class="fa-solid fa-house"></i></a>
-      <span>kirrer</span>
+      <a href="/"><i class="fa-solid fa-code"></i></a>
+      <span>Isaack Muchoki</span>
     </div>
-    <ul class="nav-menu">
-      <li><a href="/#about">About</a></li>
+    
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="/#about">Home</a></li>
+      <li><a href="/#about-me">About</a></li>
+      <li><a href="/#experience">Experience</a></li>
+      <li><a href="/#certifications">Certifications</a></li>
       <li><a href="/#skills">Skills</a></li>
       <li><a href="/#projects">Projects</a></li>
-      <li><a href="#contact">Contact me</a></li>
-      <li><a href="/admin">Admin Panel</a></li>
+      <li><a href="#contact" class="contact-trigger">Contact Me</a></li>
+      <li><a href="/admin">Admin</a></li>
     </ul>
   </div>
 </nav>
+<div class="menu-overlay" id="menuOverlay"></div>
