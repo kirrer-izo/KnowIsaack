@@ -1,3 +1,7 @@
+// ======================================================
+// MAIN.JS - COMPLETE FILE (FIXED - Navbar links now clickable)
+// ======================================================
+
 // ============================
 // SCROLL RESTORATION
 // ============================
@@ -5,13 +9,11 @@ if (history.scrollRestoration) {
   history.scrollRestoration = "manual";
 }
 
-//======================================
+// ======================================
 // REVEAL ANIMATION OBSERVER
 // ======================================
-
 const revealElements = document.querySelectorAll(".reveal");
 
-// Intersection Observer for Reveal Animations
 const animationObserverOptions = {
   root: null,
   rootMargin: "0px 0px -200px 0px",
@@ -30,39 +32,151 @@ const animationObserver = new IntersectionObserver((entries) => {
 
 revealElements.forEach((el) => animationObserver.observe(el));
 
-// ==================================
-// NAVIGATION HIGHLIGHT OBSERVER
-// ==================================
+// ===================================================
+// SMOOTH SCROLLING FUNCTION
+// ===================================================
+function smoothScrollTo(targetId) {
+  const targetElement = document.getElementById(targetId);
+  if (targetElement) {
+    const offset = 80; // Account for fixed navbar height
+    const elementPosition = targetElement.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - offset;
 
-const sections = document.querySelectorAll("section[id]");
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+    return true;
+  }
+  return false;
+}
 
-const navObserverOptions = {
-  root: null,
-  rootMargin: "-40% 0px -40% 0px",
-  threshold: 0,
-};
+// ===================================================
+// NAVIGATION HIGHLIGHT OBSERVER (Updated for new sections)
+// ===================================================
+function initNavHighlightObserver() {
+  const sectionsToWatch = document.querySelectorAll("section[id]");
 
-const navObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.target.tagName !== "SECTION") {
-      return;
-    }
-    const id = entry.target.getAttribute("id");
-    const link = document.querySelector(`.nav-menu a[href="/#${id}"]`);
+  // Check that nav links exist in the DOM at init time
+  if (document.querySelectorAll(".nav-menu a").length === 0) return;
 
-    if (!link) {
-      return;
-    }
+  const navObserverOptions = {
+    root: null,
+    rootMargin: "-30% 0px -50% 0px",
+    threshold: 0,
+  };
 
-    if (entry.isIntersecting) {
-      link.classList.add("active");
-    } else {
-      link.classList.remove("active");
-    }
+  const navObserver = new IntersectionObserver((entries) => {
+    // Query links LIVE each time so we never hold stale references
+    const navLinks = document.querySelectorAll(".nav-menu a");
+    if (navLinks.length === 0) return;
+
+    entries.forEach((entry) => {
+      if (!entry.target || entry.target.tagName !== "SECTION") return;
+
+      const id = entry.target.getAttribute("id");
+
+      let matchingLink = null;
+      navLinks.forEach((link) => {
+        const href = link.getAttribute("href");
+        // Match href to section id across all supported formats
+        if (href === `/?#${id}` || href === `/#${id}` || href === `#${id}`) {
+          matchingLink = link;
+        }
+      });
+
+      if (!matchingLink) return;
+
+      if (entry.isIntersecting) {
+        navLinks.forEach((link) => link.classList.remove("active"));
+        matchingLink.classList.add("active");
+      }
+    });
+  }, navObserverOptions);
+
+  sectionsToWatch.forEach((section) => navObserver.observe(section));
+}
+
+// ===================================================
+// HANDLE NAVIGATION LINKS (FIXED - makes them clickable)
+// ===================================================
+function initNavLinks() {
+  const navLinks = document.querySelectorAll(".nav-menu a");
+
+  navLinks.forEach((link) => {
+    // Skip links that are already initialized to prevent stale references
+    if (link.hasAttribute("data-nav-initialized")) return;
+
+    // Remove any existing listeners by cloning
+    const newLink = link.cloneNode(true);
+    newLink.setAttribute("data-nav-initialized", "true");
+    link.parentNode.replaceChild(newLink, link);
+
+    newLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const href = this.getAttribute("href");
+
+      // Handle contact trigger
+      if (this.classList.contains("contact-trigger") || href === "#contact") {
+        if (typeof window.openContactModal === "function") {
+          window.openContactModal();
+        }
+        // Close mobile menu if open
+        closeMobileMenu();
+        return;
+      }
+
+      // Handle admin panel - let it navigate normally
+      if (href === "/admin") {
+        window.location.href = href;
+        return;
+      }
+
+      // Extract target ID from href
+      let targetId = null;
+      if (href === "/#about") targetId = "about";
+      else if (href === "/#about-me") targetId = "about-me";
+      else if (href === "/#experience") targetId = "experience";
+      else if (href === "/#skills") targetId = "skills";
+      else if (href === "/#certifications") targetId = "certifications";
+      else if (href === "/#projects") targetId = "projects";
+      else if (href.startsWith("#")) targetId = href.substring(1);
+      else if (href.startsWith("/#")) targetId = href.substring(2);
+
+      if (targetId) {
+        smoothScrollTo(targetId);
+      }
+
+      // Close mobile menu after clicking
+      closeMobileMenu();
+    });
   });
-}, navObserverOptions);
+}
 
-sections.forEach((section) => navObserver.observe(section));
+// ===================================================
+// CLOSE MOBILE MENU FUNCTION
+// ===================================================
+function closeMobileMenu() {
+  const navMenu = document.getElementById("navMenu");
+  const navToggle = document.getElementById("navToggle");
+  const body = document.body;
+
+  if (navMenu && navMenu.classList.contains("active")) {
+    navMenu.classList.remove("active");
+    body.classList.remove("menu-open");
+    body.style.overflow = "";
+
+    if (navToggle) {
+      const icon = navToggle.querySelector("i");
+      if (icon) {
+        icon.classList.remove("fa-times");
+        icon.classList.add("fa-bars");
+      }
+    }
+  }
+}
 
 // ===================================================
 // MOUSE TRACKING (Gradient spotlight effect on cards)
@@ -71,33 +185,79 @@ const cards = document.querySelectorAll(".skill-card, .project-card");
 
 cards.forEach((card) => {
   card.addEventListener("mousemove", (e) => {
-    // Get card's position and size relative to the viewport
     const rect = card.getBoundingClientRect();
-
-    // Calculate mouse position relative to the card
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-
-    // Convert to percentage so that it works at any card size
     const xPercent = (x / rect.width) * 100;
     const yPercent = (y / rect.height) * 100;
-
-    // Feed into CSS variables on that specific card
     card.style.setProperty("--mouse-x", `${xPercent}%`);
     card.style.setProperty("--mouse-y", `${yPercent}%`);
   });
 
-  // Moved mouseleave outside mousemove to avoid duplicate listeners
   card.addEventListener("mouseleave", () => {
     card.style.setProperty("--mouse-x", "50%");
     card.style.setProperty("--mouse-y", "50%");
   });
 });
 
-// =============
-// CONTACT MODAL
-// =============
+// ===================================================
+// RESPONSIVE NAVBAR WITH HAMBURGER MENU
+// ===================================================
+function initResponsiveNavbar() {
+  const navToggle = document.getElementById("navToggle");
+  const navMenu = document.getElementById("navMenu");
+  const body = document.body;
 
+  if (!navToggle || !navMenu) {
+    console.warn("[Navbar] Toggle or menu not found");
+    return false;
+  }
+
+  if (navToggle.hasAttribute("data-initialized")) return true;
+  navToggle.setAttribute("data-initialized", "true");
+
+  navToggle.addEventListener("click", function (e) {
+    e.stopPropagation();
+    navMenu.classList.toggle("active");
+    body.classList.toggle("menu-open");
+
+    const icon = navToggle.querySelector("i");
+    if (navMenu.classList.contains("active")) {
+      icon.classList.remove("fa-bars");
+      icon.classList.add("fa-times");
+      body.style.overflow = "hidden";
+    } else {
+      icon.classList.remove("fa-times");
+      icon.classList.add("fa-bars");
+      body.style.overflow = "";
+    }
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", function (e) {
+    if (
+      navMenu.classList.contains("active") &&
+      !navMenu.contains(e.target) &&
+      !navToggle.contains(e.target)
+    ) {
+      closeMobileMenu();
+    }
+  });
+
+  // Close menu on escape key
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && navMenu.classList.contains("active")) {
+      closeMobileMenu();
+    }
+  });
+
+  console.log("[Navbar] Responsive navbar initialized");
+  return true;
+}
+
+// ===================================================
+// CONTACT MODAL
+// ===================================================
 let modal = null;
 let isModalInitialized = false;
 
@@ -105,25 +265,19 @@ function initModal() {
   modal = document.getElementById("contactModal");
 
   if (!modal) {
-    console.warn("[Modal] Modal element not found - will retry");
+    console.warn("[Modal] Modal element not found");
     return false;
   }
 
-  // Prevent double initialization
-  if (isModalInitialized) {
-    return true;
-  }
+  if (isModalInitialized) return true;
 
   const closeBtn = document.getElementById("modalCloseBtn");
   const cancelBtn = modal.querySelector(".btn-cancel");
 
-  // Open function (expose globally)
   window.openContactModal = function () {
     if (!modal) return;
     modal.classList.add("is-open");
     document.body.style.overflow = "hidden";
-
-    // Focus first input for accessibility
     setTimeout(() => {
       const firstInput = modal.querySelector("input, textarea");
       if (firstInput) firstInput.focus();
@@ -136,20 +290,13 @@ function initModal() {
     document.body.style.overflow = "";
   };
 
-  // Close handlers
-  if (closeBtn) {
-    closeBtn.addEventListener("click", window.closeContactModal);
-  }
-  if (cancelBtn) {
-    cancelBtn.addEventListener("click", window.closeContactModal);
-  }
+  if (closeBtn) closeBtn.addEventListener("click", window.closeContactModal);
+  if (cancelBtn) cancelBtn.addEventListener("click", window.closeContactModal);
 
-  // Outside click
   modal.addEventListener("click", (e) => {
     if (e.target === modal) window.closeContactModal();
   });
 
-  // Escape key
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && modal && modal.classList.contains("is-open")) {
       window.closeContactModal();
@@ -157,29 +304,31 @@ function initModal() {
   });
 
   isModalInitialized = true;
-
-  // Hook up all contact triggers
   setupContactTriggers();
 
-  console.log("[Modal] Initialized successfully");
+  console.log("[Modal] Initialized");
   return true;
 }
 
 function setupContactTriggers() {
-  // Trigger 1: Navbar "Contact me" link
-  const navContactLink = document.querySelector('.nav-menu a[href="#contact"]');
-  if (navContactLink) {
-    const newLink = navContactLink.cloneNode(true);
-    navContactLink.parentNode.replaceChild(newLink, navContactLink);
-    newLink.addEventListener("click", (e) => {
+  // Navbar contact triggers
+  const navContactTriggers = document.querySelectorAll(
+    '.contact-trigger, .nav-menu a[href="#contact"]',
+  );
+  navContactTriggers.forEach((trigger) => {
+    const newTrigger = trigger.cloneNode(true);
+    trigger.parentNode.replaceChild(newTrigger, trigger);
+    newTrigger.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      window.openContactModal();
+      closeMobileMenu();
+      if (typeof window.openContactModal === "function") {
+        window.openContactModal();
+      }
     });
-    console.log("[Modal] Navbar contact link hooked up");
-  }
+  });
 
-  // Trigger 2: Hero "Get in Touch" button
+  // Hero "Get in Touch" button
   const heroContactBtn = document.querySelector(
     '.btn-secondary[href="#contact"]',
   );
@@ -188,17 +337,18 @@ function setupContactTriggers() {
     heroContactBtn.parentNode.replaceChild(newBtn, heroContactBtn);
     newBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      window.openContactModal();
+      if (typeof window.openContactModal === "function") {
+        window.openContactModal();
+      }
     });
-    console.log("[Modal] Hero contact button hooked up");
   }
+
+  console.log("[Modal] Contact triggers set up");
 }
 
-// ======================================
+// ===================================================
 // CONTACT FORM - VALIDATION & SUBMISSION
-// ======================================
-
-// Wait for form to exist before initializing
+// ===================================================
 let contactForm = null;
 let formStatus = null;
 
@@ -207,11 +357,10 @@ function initContactForm() {
   formStatus = document.getElementById("formStatus");
 
   if (!contactForm) {
-    console.warn("[Form] Contact form not found yet");
+    console.warn("[Form] Contact form not found");
     return false;
   }
 
-  // Real-time validation
   contactForm.querySelectorAll("input, textarea").forEach((field) => {
     field.addEventListener("input", () => {
       if (field.checkValidity()) {
@@ -225,20 +374,15 @@ function initContactForm() {
   return true;
 }
 
-// --- Handle Form Submission ---
 async function handleFormSubmit(e) {
   e.preventDefault();
   clearErrors();
 
   const submitBtn = contactForm.querySelector('button[type="submit"]');
 
-  if (!validateContactForm()) {
-    return;
-  }
+  if (!validateContactForm()) return;
 
-  // Get Form Data
   const formData = new FormData(contactForm);
-
   setSubmittingState(submitBtn, true);
 
   try {
@@ -256,7 +400,7 @@ async function handleFormSubmit(e) {
       );
       contactForm.reset();
       setTimeout(() => hideFormStatus(), 5000);
-      setTimeout(() => window.closeContactModal(), 2000); // Auto-close modal after success
+      setTimeout(() => window.closeContactModal(), 2000);
     } else if (result.errors) {
       displayServiceErrors(result.errors);
       hideFormStatus();
@@ -275,7 +419,6 @@ async function handleFormSubmit(e) {
   }
 }
 
-// --- Form Helpers ---
 function setSubmittingState(btn, isSubmitting) {
   btn.disabled = isSubmitting;
   if (isSubmitting) {
@@ -299,14 +442,12 @@ function hideFormStatus() {
   formStatus.className = "";
 }
 
-// --- Validation ---
 function validateContactForm() {
   const name = document.getElementById("name")?.value.trim() || "";
   const email = document.getElementById("email")?.value.trim() || "";
   const message = document.getElementById("message")?.value.trim() || "";
   let isValid = true;
 
-  // Validate name
   if (!name) {
     showError("name", "Name is required");
     isValid = false;
@@ -318,7 +459,6 @@ function validateContactForm() {
     isValid = false;
   }
 
-  // Validate email
   if (!email) {
     showError("email", "Email is required");
     isValid = false;
@@ -330,7 +470,6 @@ function validateContactForm() {
     }
   }
 
-  // Validate message
   if (!message) {
     showError("message", "Message is required");
     isValid = false;
@@ -353,7 +492,6 @@ function showError(fieldId, message) {
     input.classList.add("error");
     input.setAttribute("aria-invalid", "true");
   }
-
   if (errorSpan) {
     errorSpan.textContent = message;
     errorSpan.classList.add("error-text");
@@ -369,7 +507,6 @@ function removeFieldError(fieldId) {
     input.classList.remove("error");
     input.removeAttribute("aria-invalid");
   }
-
   if (errorSpan) {
     errorSpan.textContent = "";
     errorSpan.classList.remove("error-text");
@@ -377,13 +514,10 @@ function removeFieldError(fieldId) {
 }
 
 function clearErrors() {
-  // Clear all input errors
   document.querySelectorAll("input.error, textarea.error").forEach((el) => {
     el.classList.remove("error");
     el.removeAttribute("aria-invalid");
   });
-
-  // Clear all error spans
   document.querySelectorAll("[id$='Error']").forEach((el) => {
     el.textContent = "";
     el.classList.remove("error-text");
@@ -396,7 +530,6 @@ function displayServiceErrors(errors) {
     if (errorSpan) {
       errorSpan.textContent = message;
       errorSpan.classList.add("error-text");
-
       const input = document.getElementById(field);
       if (input) {
         input.classList.add("error");
@@ -406,18 +539,20 @@ function displayServiceErrors(errors) {
   }
 }
 
-// ======================================
+// ===================================================
 // INITIALIZATION - WAIT FOR COMPONENTS
-// ======================================
-
-// When components are loaded, initialize everything
+// ===================================================
 document.addEventListener("components:loaded", () => {
   console.log("[App] Components loaded, initializing...");
+
   initModal();
   initContactForm();
+  initResponsiveNavbar();
+  initNavLinks(); // CRITICAL: This makes navbar links clickable
+  initNavHighlightObserver();
 });
 
-// Fallback: Try to initialize immediately if components already loaded
+// Fallback initialization
 if (document.readyState === "complete") {
   setTimeout(() => {
     if (
@@ -427,5 +562,19 @@ if (document.readyState === "complete") {
       initModal();
       initContactForm();
     }
+    initResponsiveNavbar();
+    initNavLinks(); // CRITICAL: This makes navbar links clickable
+    initNavHighlightObserver();
   }, 100);
 }
+
+// Also run when DOM is ready (safety fallback - initNavLinks is now
+// idempotent so duplicate calls are harmless)
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(() => {
+    if (document.querySelector(".nav-menu")) {
+      initNavLinks();
+      initNavHighlightObserver();
+    }
+  }, 500);
+});

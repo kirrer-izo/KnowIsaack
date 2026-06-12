@@ -1,20 +1,57 @@
 <footer id="contact" class="footer">
   <div class="container">
-    <h3 class="footer-title">Building memorable digital experiences.</h3>
-    <a href="mailto:isaackmuchoki55@gmail.com" class="footer-email">
-      isaackmuchoki55@gmail.com
-    </a>
-    <div class="footer-social">
-      <a href="https://github.com/kirrer-izo" class="social-icon" aria-label="GitHub">
-        <i class="fa-brands fa-github"></i>
+    <!-- Animated gradient text for the title -->
+    <h3 class="footer-title">
+      Building <span class="gradient-text">memorable digital experiences</span>.
+    </h3>
+
+    <!-- Email with hover animation and copy feature -->
+    <div class="footer-email-wrapper">
+      <a href="mailto:isaackmuchoki55@gmail.com" class="footer-email" id="footerEmail">
+        <i class="fa-solid fa-envelope"></i>
+        isaackmuchoki55@gmail.com
       </a>
-      <a href="https://discord.com/invite/aJh572WK" class="social-icon" aria-label="Discord">
-        <i class="fa-brands fa-discord"></i>
+      <button class="copy-email-btn" id="copyEmailBtn" aria-label="Copy email">
+        <i class="fa-regular fa-copy"></i>
+      </button>
+    </div>
+
+    <!-- Social links with enhanced hover effects -->
+    <div class="footer-social">
+      <a href="https://github.com/kirrer-izo" class="social-icon" aria-label="GitHub" target="_blank"
+        rel="noopener noreferrer">
+        <i class="fa-brands fa-github"></i>
+        <span class="social-label">GitHub</span>
       </a>
       <a href="mailto:isaackmuchoki55@gmail.com" class="social-icon" aria-label="Email">
         <i class="fa-solid fa-envelope"></i>
+        <span class="social-label">Email</span>
       </a>
     </div>
-    <p class="footer-copyright">© 2026 Isaack Muchoki. Nairobi, Kenya</p>
+
+    <!-- Quick links / navigation -->
+    <div class="footer-links">
+      <a href="#home">Home</a>
+      <span class="footer-divider">•</span>
+      <a href="#projects">Projects</a>
+      <span class="footer-divider">•</span>
+      <a href="#skills">Skills</a>
+      <span class="footer-divider">•</span>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <!-- Copyright with dynamic year -->
+    <p class="footer-copyright">
+      © <span id="currentYear"></span> Isaack Muchoki.
+      <i class="fa-solid fa-location-dot"></i> Nairobi, Kenya
+    </p>
+
+    <!-- Optional: Back to top link -->
+    <div class="footer-back-to-top">
+      <a href="#" class="back-to-top-link" id="footerBackToTop">
+        <i class="fa-solid fa-arrow-up"></i>
+        Back to Top
+      </a>
+    </div>
   </div>
 </footer>
