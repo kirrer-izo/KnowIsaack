@@ -56,9 +56,9 @@ function smoothScrollTo(targetId) {
 // ===================================================
 function initNavHighlightObserver() {
   const sectionsToWatch = document.querySelectorAll("section[id]");
-  const navLinks = document.querySelectorAll(".nav-menu a");
 
-  if (navLinks.length === 0) return;
+  // Check that nav links exist in the DOM at init time
+  if (document.querySelectorAll(".nav-menu a").length === 0) return;
 
   const navObserverOptions = {
     root: null,
@@ -67,6 +67,10 @@ function initNavHighlightObserver() {
   };
 
   const navObserver = new IntersectionObserver((entries) => {
+    // Query links LIVE each time so we never hold stale references
+    const navLinks = document.querySelectorAll(".nav-menu a");
+    if (navLinks.length === 0) return;
+
     entries.forEach((entry) => {
       if (!entry.target || entry.target.tagName !== "SECTION") return;
 
@@ -75,25 +79,8 @@ function initNavHighlightObserver() {
       let matchingLink = null;
       navLinks.forEach((link) => {
         const href = link.getAttribute("href");
-        // Extract the ID from various href formats
-        let linkId = null;
+        // Match href to section id across all supported formats
         if (href === `/?#${id}` || href === `/#${id}` || href === `#${id}`) {
-          linkId = id;
-        } else if (href === "/#about" && id === "about") {
-          linkId = id;
-        } else if (href === "/#about-me" && id === "about-me") {
-          linkId = id;
-        } else if (href === "/#experience" && id === "experience") {
-          linkId = id;
-        } else if (href === "/#certifications" && id === "certifications") {
-          linkId = id;
-        } else if (href === "/#skills" && id === "skills") {
-          linkId = id;
-        } else if (href === "/#projects" && id === "projects") {
-          linkId = id;
-        }
-
-        if (linkId === id) {
           matchingLink = link;
         }
       });
@@ -117,8 +104,12 @@ function initNavLinks() {
   const navLinks = document.querySelectorAll(".nav-menu a");
 
   navLinks.forEach((link) => {
+    // Skip links that are already initialized to prevent stale references
+    if (link.hasAttribute("data-nav-initialized")) return;
+
     // Remove any existing listeners by cloning
     const newLink = link.cloneNode(true);
+    newLink.setAttribute("data-nav-initialized", "true");
     link.parentNode.replaceChild(newLink, link);
 
     newLink.addEventListener("click", function (e) {
@@ -577,12 +568,13 @@ if (document.readyState === "complete") {
   }, 100);
 }
 
-// Also run when DOM is ready
+// Also run when DOM is ready (safety fallback - initNavLinks is now
+// idempotent so duplicate calls are harmless)
 document.addEventListener("DOMContentLoaded", function () {
-  // Additional safety for dynamic content
   setTimeout(() => {
     if (document.querySelector(".nav-menu")) {
       initNavLinks();
+      initNavHighlightObserver();
     }
   }, 500);
 });

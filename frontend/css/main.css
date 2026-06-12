@@ -963,9 +963,24 @@ section {
    CONTACT MODAL - ENHANCED ANIMATIONS
    ======================================== */
 
-/* Component loading states */
-[data-component] {
+/* Component loading states - only for layout components */
+[data-component="navbar"],
+[data-component="footer"] {
   min-height: 60px;
+}
+
+/* Overlay/fixed components should not take up layout space */
+[data-component="modal"],
+[data-component="back_to_top"] {
+  min-height: 0;
+  line-height: 0;
+  font-size: 0;
+}
+
+/* The modal component wraps content in a <section> that should not
+   participate in document flow since everything inside is position:fixed */
+.contact-section {
+  display: contents;
 }
 
 .component-error {
